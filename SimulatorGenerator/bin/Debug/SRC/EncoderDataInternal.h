@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "MockData/EncoderData.h"
-#include "MockData/NotifyDataBase.h"
+#include "MockData/NotifyListenerVector.h"
 
 namespace hal {
 class EncoderData {
@@ -60,21 +60,21 @@ class EncoderData {
   virtual void ResetData();
  private:
   std::atomic<HAL_Bool> m_initialized = false;
-  std::shared_ptr<UidVector<NotifyListener>> m_initializedCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_initializedCallbacks = nullptr;
   std::atomic<int32_t> m_count = 0;
-  std::shared_ptr<UidVector<NotifyListener>> m_countCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_countCallbacks = nullptr;
   std::atomic<double> m_period = std::numeric_limits<double>::max();
-  std::shared_ptr<UidVector<NotifyListener>> m_periodCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_periodCallbacks = nullptr;
   std::atomic<HAL_Bool> m_reset = false;
-  std::shared_ptr<UidVector<NotifyListener>> m_resetCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_resetCallbacks = nullptr;
   std::atomic<double> m_maxPeriod = 0;
-  std::shared_ptr<UidVector<NotifyListener>> m_maxPeriodCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_maxPeriodCallbacks = nullptr;
   std::atomic<HAL_Bool> m_direction = false;
-  std::shared_ptr<UidVector<NotifyListener>> m_directionCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_directionCallbacks = nullptr;
   std::atomic<HAL_Bool> m_reverseDirection = false;
-  std::shared_ptr<UidVector<NotifyListener>> m_reverseDirectionCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_reverseDirectionCallbacks = nullptr;
   std::atomic<int32_t> m_samplesToAverage = 0;
-  std::shared_ptr<UidVector<NotifyListener>> m_samplesToAverageCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_samplesToAverageCallbacks = nullptr;
 };
 extern std::unique_ptr<std::shared_ptr<EncoderData>[]> SimEncoderData;
 }

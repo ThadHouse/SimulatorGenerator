@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "MockData/RelayData.h"
-#include "MockData/NotifyDataBase.h"
+#include "MockData/NotifyListenerVector.h"
 
 namespace hal {
 class RelayData {
@@ -30,11 +30,11 @@ class RelayData {
   virtual void ResetData();
  private:
   std::atomic<HAL_Bool> m_initialized = false;
-  std::shared_ptr<UidVector<NotifyListener>> m_initializedCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_initializedCallbacks = nullptr;
   std::atomic<HAL_Bool> m_forward = false;
-  std::shared_ptr<UidVector<NotifyListener>> m_forwardCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_forwardCallbacks = nullptr;
   std::atomic<HAL_Bool> m_reverse = false;
-  std::shared_ptr<UidVector<NotifyListener>> m_reverseCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_reverseCallbacks = nullptr;
 };
 extern std::unique_ptr<std::shared_ptr<RelayData>[]> SimRelayData;
 }

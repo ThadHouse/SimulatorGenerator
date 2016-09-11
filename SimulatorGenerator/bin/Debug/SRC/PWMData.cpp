@@ -1,5 +1,6 @@
 #include "PWMDataInternal.h"
 
+#include "NotifyCallbackHelpers.h"
 #include "../PortsInternal.h"
 
 using namespace hal;
@@ -21,29 +22,21 @@ void PWMData::ResetData() {
 }
 
 int32_t PWMData::RegisterInitializedCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Initialized";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_initializedCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeEnum(GetInitialized()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeEnum(GetInitialized());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_initializedCallbacks, "Initialized", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_initializedCallbacks = newCallbacks;
+  return newUid;
 }
+
 void PWMData::CancelInitializedCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_initializedCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_initializedCallbacks, uid);
 }
+
 void PWMData::InvokeInitializedCallback(const HAL_Value* value) {
-  auto newCallbacks = m_initializedCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_initializedCallbacks, "Initialized", value);
 }
 
 bool PWMData::GetInitialized() {
@@ -58,29 +51,21 @@ void PWMData::SetInitialized(bool initialized) {
 }
 
 int32_t PWMData::RegisterRawValueCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "RawValue";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_rawValueCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeEnum(GetRawValue()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeEnum(GetRawValue());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_rawValueCallbacks, "RawValue", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_rawValueCallbacks = newCallbacks;
+  return newUid;
 }
+
 void PWMData::CancelRawValueCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_rawValueCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_rawValueCallbacks, uid);
 }
+
 void PWMData::InvokeRawValueCallback(const HAL_Value* value) {
-  auto newCallbacks = m_rawValueCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_rawValueCallbacks, "RawValue", value);
 }
 
 int PWMData::GetRawValue() {
@@ -95,29 +80,21 @@ void PWMData::SetRawValue(int rawValue) {
 }
 
 int32_t PWMData::RegisterSpeedCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Speed";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_speedCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetSpeed()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetSpeed());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_speedCallbacks, "Speed", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_speedCallbacks = newCallbacks;
+  return newUid;
 }
+
 void PWMData::CancelSpeedCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_speedCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_speedCallbacks, uid);
 }
+
 void PWMData::InvokeSpeedCallback(const HAL_Value* value) {
-  auto newCallbacks = m_speedCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_speedCallbacks, "Speed", value);
 }
 
 double PWMData::GetSpeed() {
@@ -132,29 +109,21 @@ void PWMData::SetSpeed(double speed) {
 }
 
 int32_t PWMData::RegisterPositionCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Position";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_positionCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetPosition()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetPosition());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_positionCallbacks, "Position", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_positionCallbacks = newCallbacks;
+  return newUid;
 }
+
 void PWMData::CancelPositionCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_positionCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_positionCallbacks, uid);
 }
+
 void PWMData::InvokePositionCallback(const HAL_Value* value) {
-  auto newCallbacks = m_positionCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_positionCallbacks, "Position", value);
 }
 
 double PWMData::GetPosition() {
@@ -169,29 +138,21 @@ void PWMData::SetPosition(double position) {
 }
 
 int32_t PWMData::RegisterPeriodScaleCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "PeriodScale";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_periodScaleCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeEnum(GetPeriodScale()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeEnum(GetPeriodScale());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_periodScaleCallbacks, "PeriodScale", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_periodScaleCallbacks = newCallbacks;
+  return newUid;
 }
+
 void PWMData::CancelPeriodScaleCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_periodScaleCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_periodScaleCallbacks, uid);
 }
+
 void PWMData::InvokePeriodScaleCallback(const HAL_Value* value) {
-  auto newCallbacks = m_periodScaleCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_periodScaleCallbacks, "PeriodScale", value);
 }
 
 int PWMData::GetPeriodScale() {
@@ -206,29 +167,21 @@ void PWMData::SetPeriodScale(int periodScale) {
 }
 
 int32_t PWMData::RegisterZeroLatchCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ZeroLatch";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_zeroLatchCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeEnum(GetZeroLatch()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeEnum(GetZeroLatch());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_zeroLatchCallbacks, "ZeroLatch", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_zeroLatchCallbacks = newCallbacks;
+  return newUid;
 }
+
 void PWMData::CancelZeroLatchCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_zeroLatchCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_zeroLatchCallbacks, uid);
 }
+
 void PWMData::InvokeZeroLatchCallback(const HAL_Value* value) {
-  auto newCallbacks = m_zeroLatchCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_zeroLatchCallbacks, "ZeroLatch", value);
 }
 
 bool PWMData::GetZeroLatch() {

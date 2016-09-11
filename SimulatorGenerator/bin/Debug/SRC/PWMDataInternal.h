@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "MockData/PWMData.h"
-#include "MockData/NotifyDataBase.h"
+#include "MockData/NotifyListenerVector.h"
 
 namespace hal {
 class PWMData {
@@ -48,17 +48,17 @@ class PWMData {
   virtual void ResetData();
  private:
   std::atomic<bool> m_initialized = false;
-  std::shared_ptr<UidVector<NotifyListener>> m_initializedCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_initializedCallbacks = nullptr;
   std::atomic<int> m_rawValue = 0;
-  std::shared_ptr<UidVector<NotifyListener>> m_rawValueCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_rawValueCallbacks = nullptr;
   std::atomic<double> m_speed = 0;
-  std::shared_ptr<UidVector<NotifyListener>> m_speedCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_speedCallbacks = nullptr;
   std::atomic<double> m_position = 0;
-  std::shared_ptr<UidVector<NotifyListener>> m_positionCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_positionCallbacks = nullptr;
   std::atomic<int> m_periodScale = 0;
-  std::shared_ptr<UidVector<NotifyListener>> m_periodScaleCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_periodScaleCallbacks = nullptr;
   std::atomic<bool> m_zeroLatch = false;
-  std::shared_ptr<UidVector<NotifyListener>> m_zeroLatchCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_zeroLatchCallbacks = nullptr;
 };
 extern std::unique_ptr<std::shared_ptr<PWMData>[]> SimPWMData;
 }

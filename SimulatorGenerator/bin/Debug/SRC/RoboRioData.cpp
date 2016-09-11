@@ -1,5 +1,6 @@
 #include "RoboRioDataInternal.h"
 
+#include "NotifyCallbackHelpers.h"
 #include "../PortsInternal.h"
 
 using namespace hal;
@@ -39,29 +40,21 @@ void RoboRioData::ResetData() {
 }
 
 int32_t RoboRioData::RegisterFPGAButtonCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "FPGAButton";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_fPGAButtonCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetFPGAButton()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetFPGAButton());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_fPGAButtonCallbacks, "FPGAButton", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_fPGAButtonCallbacks = newCallbacks;
+  return newUid;
 }
+
 void RoboRioData::CancelFPGAButtonCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_fPGAButtonCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_fPGAButtonCallbacks, uid);
 }
+
 void RoboRioData::InvokeFPGAButtonCallback(const HAL_Value* value) {
-  auto newCallbacks = m_fPGAButtonCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_fPGAButtonCallbacks, "FPGAButton", value);
 }
 
 HAL_Bool RoboRioData::GetFPGAButton() {
@@ -76,29 +69,21 @@ void RoboRioData::SetFPGAButton(HAL_Bool fPGAButton) {
 }
 
 int32_t RoboRioData::RegisterVInVoltageCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "VInVoltage";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_vInVoltageCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetVInVoltage()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetVInVoltage());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_vInVoltageCallbacks, "VInVoltage", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_vInVoltageCallbacks = newCallbacks;
+  return newUid;
 }
+
 void RoboRioData::CancelVInVoltageCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_vInVoltageCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_vInVoltageCallbacks, uid);
 }
+
 void RoboRioData::InvokeVInVoltageCallback(const HAL_Value* value) {
-  auto newCallbacks = m_vInVoltageCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_vInVoltageCallbacks, "VInVoltage", value);
 }
 
 double RoboRioData::GetVInVoltage() {
@@ -113,29 +98,21 @@ void RoboRioData::SetVInVoltage(double vInVoltage) {
 }
 
 int32_t RoboRioData::RegisterVInCurrentCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "VInCurrent";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_vInCurrentCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetVInCurrent()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetVInCurrent());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_vInCurrentCallbacks, "VInCurrent", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_vInCurrentCallbacks = newCallbacks;
+  return newUid;
 }
+
 void RoboRioData::CancelVInCurrentCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_vInCurrentCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_vInCurrentCallbacks, uid);
 }
+
 void RoboRioData::InvokeVInCurrentCallback(const HAL_Value* value) {
-  auto newCallbacks = m_vInCurrentCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_vInCurrentCallbacks, "VInCurrent", value);
 }
 
 double RoboRioData::GetVInCurrent() {
@@ -150,29 +127,21 @@ void RoboRioData::SetVInCurrent(double vInCurrent) {
 }
 
 int32_t RoboRioData::RegisterUserVoltage6VCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "UserVoltage6V";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userVoltage6VCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetUserVoltage6V()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetUserVoltage6V());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_userVoltage6VCallbacks, "UserVoltage6V", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_userVoltage6VCallbacks = newCallbacks;
+  return newUid;
 }
+
 void RoboRioData::CancelUserVoltage6VCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userVoltage6VCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_userVoltage6VCallbacks, uid);
 }
+
 void RoboRioData::InvokeUserVoltage6VCallback(const HAL_Value* value) {
-  auto newCallbacks = m_userVoltage6VCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_userVoltage6VCallbacks, "UserVoltage6V", value);
 }
 
 double RoboRioData::GetUserVoltage6V() {
@@ -187,29 +156,21 @@ void RoboRioData::SetUserVoltage6V(double userVoltage6V) {
 }
 
 int32_t RoboRioData::RegisterUserCurrent6VCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "UserCurrent6V";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userCurrent6VCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetUserCurrent6V()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetUserCurrent6V());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_userCurrent6VCallbacks, "UserCurrent6V", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_userCurrent6VCallbacks = newCallbacks;
+  return newUid;
 }
+
 void RoboRioData::CancelUserCurrent6VCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userCurrent6VCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_userCurrent6VCallbacks, uid);
 }
+
 void RoboRioData::InvokeUserCurrent6VCallback(const HAL_Value* value) {
-  auto newCallbacks = m_userCurrent6VCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_userCurrent6VCallbacks, "UserCurrent6V", value);
 }
 
 double RoboRioData::GetUserCurrent6V() {
@@ -224,29 +185,21 @@ void RoboRioData::SetUserCurrent6V(double userCurrent6V) {
 }
 
 int32_t RoboRioData::RegisterUserActive6VCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "UserActive6V";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userActive6VCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetUserActive6V()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetUserActive6V());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_userActive6VCallbacks, "UserActive6V", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_userActive6VCallbacks = newCallbacks;
+  return newUid;
 }
+
 void RoboRioData::CancelUserActive6VCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userActive6VCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_userActive6VCallbacks, uid);
 }
+
 void RoboRioData::InvokeUserActive6VCallback(const HAL_Value* value) {
-  auto newCallbacks = m_userActive6VCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_userActive6VCallbacks, "UserActive6V", value);
 }
 
 HAL_Bool RoboRioData::GetUserActive6V() {
@@ -261,29 +214,21 @@ void RoboRioData::SetUserActive6V(HAL_Bool userActive6V) {
 }
 
 int32_t RoboRioData::RegisterUserVoltage5VCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "UserVoltage5V";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userVoltage5VCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetUserVoltage5V()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetUserVoltage5V());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_userVoltage5VCallbacks, "UserVoltage5V", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_userVoltage5VCallbacks = newCallbacks;
+  return newUid;
 }
+
 void RoboRioData::CancelUserVoltage5VCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userVoltage5VCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_userVoltage5VCallbacks, uid);
 }
+
 void RoboRioData::InvokeUserVoltage5VCallback(const HAL_Value* value) {
-  auto newCallbacks = m_userVoltage5VCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_userVoltage5VCallbacks, "UserVoltage5V", value);
 }
 
 double RoboRioData::GetUserVoltage5V() {
@@ -298,29 +243,21 @@ void RoboRioData::SetUserVoltage5V(double userVoltage5V) {
 }
 
 int32_t RoboRioData::RegisterUserCurrent5VCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "UserCurrent5V";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userCurrent5VCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetUserCurrent5V()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetUserCurrent5V());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_userCurrent5VCallbacks, "UserCurrent5V", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_userCurrent5VCallbacks = newCallbacks;
+  return newUid;
 }
+
 void RoboRioData::CancelUserCurrent5VCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userCurrent5VCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_userCurrent5VCallbacks, uid);
 }
+
 void RoboRioData::InvokeUserCurrent5VCallback(const HAL_Value* value) {
-  auto newCallbacks = m_userCurrent5VCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_userCurrent5VCallbacks, "UserCurrent5V", value);
 }
 
 double RoboRioData::GetUserCurrent5V() {
@@ -335,29 +272,21 @@ void RoboRioData::SetUserCurrent5V(double userCurrent5V) {
 }
 
 int32_t RoboRioData::RegisterUserActive5VCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "UserActive5V";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userActive5VCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetUserActive5V()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetUserActive5V());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_userActive5VCallbacks, "UserActive5V", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_userActive5VCallbacks = newCallbacks;
+  return newUid;
 }
+
 void RoboRioData::CancelUserActive5VCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userActive5VCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_userActive5VCallbacks, uid);
 }
+
 void RoboRioData::InvokeUserActive5VCallback(const HAL_Value* value) {
-  auto newCallbacks = m_userActive5VCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_userActive5VCallbacks, "UserActive5V", value);
 }
 
 HAL_Bool RoboRioData::GetUserActive5V() {
@@ -372,29 +301,21 @@ void RoboRioData::SetUserActive5V(HAL_Bool userActive5V) {
 }
 
 int32_t RoboRioData::RegisterUserVoltage3V3Callback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "UserVoltage3V3";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userVoltage3V3Callbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetUserVoltage3V3()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetUserVoltage3V3());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_userVoltage3V3Callbacks, "UserVoltage3V3", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_userVoltage3V3Callbacks = newCallbacks;
+  return newUid;
 }
+
 void RoboRioData::CancelUserVoltage3V3Callback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userVoltage3V3Callbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_userVoltage3V3Callbacks, uid);
 }
+
 void RoboRioData::InvokeUserVoltage3V3Callback(const HAL_Value* value) {
-  auto newCallbacks = m_userVoltage3V3Callbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_userVoltage3V3Callbacks, "UserVoltage3V3", value);
 }
 
 double RoboRioData::GetUserVoltage3V3() {
@@ -409,29 +330,21 @@ void RoboRioData::SetUserVoltage3V3(double userVoltage3V3) {
 }
 
 int32_t RoboRioData::RegisterUserCurrent3V3Callback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "UserCurrent3V3";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userCurrent3V3Callbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetUserCurrent3V3()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetUserCurrent3V3());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_userCurrent3V3Callbacks, "UserCurrent3V3", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_userCurrent3V3Callbacks = newCallbacks;
+  return newUid;
 }
+
 void RoboRioData::CancelUserCurrent3V3Callback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userCurrent3V3Callbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_userCurrent3V3Callbacks, uid);
 }
+
 void RoboRioData::InvokeUserCurrent3V3Callback(const HAL_Value* value) {
-  auto newCallbacks = m_userCurrent3V3Callbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_userCurrent3V3Callbacks, "UserCurrent3V3", value);
 }
 
 double RoboRioData::GetUserCurrent3V3() {
@@ -446,29 +359,21 @@ void RoboRioData::SetUserCurrent3V3(double userCurrent3V3) {
 }
 
 int32_t RoboRioData::RegisterUserActive3V3Callback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "UserActive3V3";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userActive3V3Callbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetUserActive3V3()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetUserActive3V3());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_userActive3V3Callbacks, "UserActive3V3", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_userActive3V3Callbacks = newCallbacks;
+  return newUid;
 }
+
 void RoboRioData::CancelUserActive3V3Callback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userActive3V3Callbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_userActive3V3Callbacks, uid);
 }
+
 void RoboRioData::InvokeUserActive3V3Callback(const HAL_Value* value) {
-  auto newCallbacks = m_userActive3V3Callbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_userActive3V3Callbacks, "UserActive3V3", value);
 }
 
 HAL_Bool RoboRioData::GetUserActive3V3() {
@@ -483,29 +388,21 @@ void RoboRioData::SetUserActive3V3(HAL_Bool userActive3V3) {
 }
 
 int32_t RoboRioData::RegisterUserFaults6VCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "UserFaults6V";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userFaults6VCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeInt(GetUserFaults6V()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeInt(GetUserFaults6V());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_userFaults6VCallbacks, "UserFaults6V", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_userFaults6VCallbacks = newCallbacks;
+  return newUid;
 }
+
 void RoboRioData::CancelUserFaults6VCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userFaults6VCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_userFaults6VCallbacks, uid);
 }
+
 void RoboRioData::InvokeUserFaults6VCallback(const HAL_Value* value) {
-  auto newCallbacks = m_userFaults6VCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_userFaults6VCallbacks, "UserFaults6V", value);
 }
 
 int32_t RoboRioData::GetUserFaults6V() {
@@ -520,29 +417,21 @@ void RoboRioData::SetUserFaults6V(int32_t userFaults6V) {
 }
 
 int32_t RoboRioData::RegisterUserFaults5VCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "UserFaults5V";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userFaults5VCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeInt(GetUserFaults5V()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeInt(GetUserFaults5V());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_userFaults5VCallbacks, "UserFaults5V", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_userFaults5VCallbacks = newCallbacks;
+  return newUid;
 }
+
 void RoboRioData::CancelUserFaults5VCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userFaults5VCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_userFaults5VCallbacks, uid);
 }
+
 void RoboRioData::InvokeUserFaults5VCallback(const HAL_Value* value) {
-  auto newCallbacks = m_userFaults5VCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_userFaults5VCallbacks, "UserFaults5V", value);
 }
 
 int32_t RoboRioData::GetUserFaults5V() {
@@ -557,29 +446,21 @@ void RoboRioData::SetUserFaults5V(int32_t userFaults5V) {
 }
 
 int32_t RoboRioData::RegisterUserFaults3V3Callback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "UserFaults3V3";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userFaults3V3Callbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeInt(GetUserFaults3V3()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeInt(GetUserFaults3V3());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_userFaults3V3Callbacks, "UserFaults3V3", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_userFaults3V3Callbacks = newCallbacks;
+  return newUid;
 }
+
 void RoboRioData::CancelUserFaults3V3Callback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_userFaults3V3Callbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_userFaults3V3Callbacks, uid);
 }
+
 void RoboRioData::InvokeUserFaults3V3Callback(const HAL_Value* value) {
-  auto newCallbacks = m_userFaults3V3Callbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_userFaults3V3Callbacks, "UserFaults3V3", value);
 }
 
 int32_t RoboRioData::GetUserFaults3V3() {

@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "MockData/RoboRioData.h"
-#include "MockData/DataBase.h"
+#include "MockData/NotifyListenerVector.h"
 
 namespace hal {
 class RoboRioData {
@@ -102,35 +102,35 @@ class RoboRioData {
   virtual void ResetData();
  private:
   std::atomic<HAL_Bool> m_fPGAButton = false;
-  std::shared_ptr<UidVector<NotifyListener>> m_fPGAButtonCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_fPGAButtonCallbacks = nullptr;
   std::atomic<double> m_vInVoltage = 0.0;
-  std::shared_ptr<UidVector<NotifyListener>> m_vInVoltageCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_vInVoltageCallbacks = nullptr;
   std::atomic<double> m_vInCurrent = 0.0;
-  std::shared_ptr<UidVector<NotifyListener>> m_vInCurrentCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_vInCurrentCallbacks = nullptr;
   std::atomic<double> m_userVoltage6V = 6.0;
-  std::shared_ptr<UidVector<NotifyListener>> m_userVoltage6VCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_userVoltage6VCallbacks = nullptr;
   std::atomic<double> m_userCurrent6V = 0.0;
-  std::shared_ptr<UidVector<NotifyListener>> m_userCurrent6VCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_userCurrent6VCallbacks = nullptr;
   std::atomic<HAL_Bool> m_userActive6V = false;
-  std::shared_ptr<UidVector<NotifyListener>> m_userActive6VCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_userActive6VCallbacks = nullptr;
   std::atomic<double> m_userVoltage5V = 5.0;
-  std::shared_ptr<UidVector<NotifyListener>> m_userVoltage5VCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_userVoltage5VCallbacks = nullptr;
   std::atomic<double> m_userCurrent5V = 0.0;
-  std::shared_ptr<UidVector<NotifyListener>> m_userCurrent5VCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_userCurrent5VCallbacks = nullptr;
   std::atomic<HAL_Bool> m_userActive5V = false;
-  std::shared_ptr<UidVector<NotifyListener>> m_userActive5VCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_userActive5VCallbacks = nullptr;
   std::atomic<double> m_userVoltage3V3 = 3.3;
-  std::shared_ptr<UidVector<NotifyListener>> m_userVoltage3V3Callbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_userVoltage3V3Callbacks = nullptr;
   std::atomic<double> m_userCurrent3V3 = 0.0;
-  std::shared_ptr<UidVector<NotifyListener>> m_userCurrent3V3Callbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_userCurrent3V3Callbacks = nullptr;
   std::atomic<HAL_Bool> m_userActive3V3 = false;
-  std::shared_ptr<UidVector<NotifyListener>> m_userActive3V3Callbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_userActive3V3Callbacks = nullptr;
   std::atomic<int32_t> m_userFaults6V = 0;
-  std::shared_ptr<UidVector<NotifyListener>> m_userFaults6VCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_userFaults6VCallbacks = nullptr;
   std::atomic<int32_t> m_userFaults5V = 0;
-  std::shared_ptr<UidVector<NotifyListener>> m_userFaults5VCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_userFaults5VCallbacks = nullptr;
   std::atomic<int32_t> m_userFaults3V3 = 0;
-  std::shared_ptr<UidVector<NotifyListener>> m_userFaults3V3Callbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_userFaults3V3Callbacks = nullptr;
 };
 extern std::unique_ptr<std::shared_ptr<RoboRioData>[]> SimRoboRioData;
 }

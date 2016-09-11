@@ -1,5 +1,6 @@
 #include "AnalogGyroDataInternal.h"
 
+#include "NotifyCallbackHelpers.h"
 #include "../PortsInternal.h"
 
 using namespace hal;
@@ -15,29 +16,21 @@ void AnalogGyroData::ResetData() {
 }
 
 int32_t AnalogGyroData::RegisterAngleCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Angle";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_angleCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetAngle()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetAngle());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_angleCallbacks, "Angle", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_angleCallbacks = newCallbacks;
+  return newUid;
 }
+
 void AnalogGyroData::CancelAngleCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_angleCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_angleCallbacks, uid);
 }
+
 void AnalogGyroData::InvokeAngleCallback(const HAL_Value* value) {
-  auto newCallbacks = m_angleCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_angleCallbacks, "Angle", value);
 }
 
 double AnalogGyroData::GetAngle() {
@@ -52,29 +45,21 @@ void AnalogGyroData::SetAngle(double angle) {
 }
 
 int32_t AnalogGyroData::RegisterRateCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Rate";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_rateCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetRate()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetRate());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_rateCallbacks, "Rate", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_rateCallbacks = newCallbacks;
+  return newUid;
 }
+
 void AnalogGyroData::CancelRateCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_rateCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_rateCallbacks, uid);
 }
+
 void AnalogGyroData::InvokeRateCallback(const HAL_Value* value) {
-  auto newCallbacks = m_rateCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_rateCallbacks, "Rate", value);
 }
 
 double AnalogGyroData::GetRate() {
@@ -89,29 +74,21 @@ void AnalogGyroData::SetRate(double rate) {
 }
 
 int32_t AnalogGyroData::RegisterInitializedCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Initialized";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_initializedCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetInitialized()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetInitialized());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_initializedCallbacks, "Initialized", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_initializedCallbacks = newCallbacks;
+  return newUid;
 }
+
 void AnalogGyroData::CancelInitializedCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_initializedCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_initializedCallbacks, uid);
 }
+
 void AnalogGyroData::InvokeInitializedCallback(const HAL_Value* value) {
-  auto newCallbacks = m_initializedCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_initializedCallbacks, "Initialized", value);
 }
 
 HAL_Bool AnalogGyroData::GetInitialized() {

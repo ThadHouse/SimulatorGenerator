@@ -1,5 +1,6 @@
 #include "DIODataInternal.h"
 
+#include "NotifyCallbackHelpers.h"
 #include "../PortsInternal.h"
 
 using namespace hal;
@@ -19,29 +20,21 @@ void DIOData::ResetData() {
 }
 
 int32_t DIOData::RegisterInitializedCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Initialized";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_initializedCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetInitialized()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetInitialized());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_initializedCallbacks, "Initialized", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_initializedCallbacks = newCallbacks;
+  return newUid;
 }
+
 void DIOData::CancelInitializedCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_initializedCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_initializedCallbacks, uid);
 }
+
 void DIOData::InvokeInitializedCallback(const HAL_Value* value) {
-  auto newCallbacks = m_initializedCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_initializedCallbacks, "Initialized", value);
 }
 
 HAL_Bool DIOData::GetInitialized() {
@@ -56,29 +49,21 @@ void DIOData::SetInitialized(HAL_Bool initialized) {
 }
 
 int32_t DIOData::RegisterValueCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Value";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_valueCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetValue()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetValue());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_valueCallbacks, "Value", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_valueCallbacks = newCallbacks;
+  return newUid;
 }
+
 void DIOData::CancelValueCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_valueCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_valueCallbacks, uid);
 }
+
 void DIOData::InvokeValueCallback(const HAL_Value* value) {
-  auto newCallbacks = m_valueCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_valueCallbacks, "Value", value);
 }
 
 HAL_Bool DIOData::GetValue() {
@@ -93,29 +78,21 @@ void DIOData::SetValue(HAL_Bool value) {
 }
 
 int32_t DIOData::RegisterPulseLengthCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "PulseLength";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_pulseLengthCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetPulseLength()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetPulseLength());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_pulseLengthCallbacks, "PulseLength", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_pulseLengthCallbacks = newCallbacks;
+  return newUid;
 }
+
 void DIOData::CancelPulseLengthCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_pulseLengthCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_pulseLengthCallbacks, uid);
 }
+
 void DIOData::InvokePulseLengthCallback(const HAL_Value* value) {
-  auto newCallbacks = m_pulseLengthCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_pulseLengthCallbacks, "PulseLength", value);
 }
 
 double DIOData::GetPulseLength() {
@@ -130,29 +107,21 @@ void DIOData::SetPulseLength(double pulseLength) {
 }
 
 int32_t DIOData::RegisterIsInputCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "IsInput";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_isInputCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetIsInput()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetIsInput());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_isInputCallbacks, "IsInput", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_isInputCallbacks = newCallbacks;
+  return newUid;
 }
+
 void DIOData::CancelIsInputCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_isInputCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_isInputCallbacks, uid);
 }
+
 void DIOData::InvokeIsInputCallback(const HAL_Value* value) {
-  auto newCallbacks = m_isInputCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_isInputCallbacks, "IsInput", value);
 }
 
 HAL_Bool DIOData::GetIsInput() {
@@ -167,29 +136,21 @@ void DIOData::SetIsInput(HAL_Bool isInput) {
 }
 
 int32_t DIOData::RegisterFilterIndexCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "FilterIndex";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_filterIndexCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeInt(GetFilterIndex()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeInt(GetFilterIndex());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_filterIndexCallbacks, "FilterIndex", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_filterIndexCallbacks = newCallbacks;
+  return newUid;
 }
+
 void DIOData::CancelFilterIndexCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_filterIndexCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_filterIndexCallbacks, uid);
 }
+
 void DIOData::InvokeFilterIndexCallback(const HAL_Value* value) {
-  auto newCallbacks = m_filterIndexCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_filterIndexCallbacks, "FilterIndex", value);
 }
 
 int32_t DIOData::GetFilterIndex() {

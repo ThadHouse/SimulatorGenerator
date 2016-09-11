@@ -1,5 +1,6 @@
 #include "AnalogInDataInternal.h"
 
+#include "NotifyCallbackHelpers.h"
 #include "../PortsInternal.h"
 
 using namespace hal;
@@ -27,29 +28,21 @@ void AnalogInData::ResetData() {
 }
 
 int32_t AnalogInData::RegisterInitializedCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Initialized";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_initializedCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetInitialized()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetInitialized());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_initializedCallbacks, "Initialized", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_initializedCallbacks = newCallbacks;
+  return newUid;
 }
+
 void AnalogInData::CancelInitializedCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_initializedCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_initializedCallbacks, uid);
 }
+
 void AnalogInData::InvokeInitializedCallback(const HAL_Value* value) {
-  auto newCallbacks = m_initializedCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_initializedCallbacks, "Initialized", value);
 }
 
 HAL_Bool AnalogInData::GetInitialized() {
@@ -64,29 +57,21 @@ void AnalogInData::SetInitialized(HAL_Bool initialized) {
 }
 
 int32_t AnalogInData::RegisterAverageBitsCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "AverageBits";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_averageBitsCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeInt(GetAverageBits()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeInt(GetAverageBits());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_averageBitsCallbacks, "AverageBits", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_averageBitsCallbacks = newCallbacks;
+  return newUid;
 }
+
 void AnalogInData::CancelAverageBitsCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_averageBitsCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_averageBitsCallbacks, uid);
 }
+
 void AnalogInData::InvokeAverageBitsCallback(const HAL_Value* value) {
-  auto newCallbacks = m_averageBitsCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_averageBitsCallbacks, "AverageBits", value);
 }
 
 int32_t AnalogInData::GetAverageBits() {
@@ -101,29 +86,21 @@ void AnalogInData::SetAverageBits(int32_t averageBits) {
 }
 
 int32_t AnalogInData::RegisterOversampleBitsCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "OversampleBits";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_oversampleBitsCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeInt(GetOversampleBits()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeInt(GetOversampleBits());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_oversampleBitsCallbacks, "OversampleBits", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_oversampleBitsCallbacks = newCallbacks;
+  return newUid;
 }
+
 void AnalogInData::CancelOversampleBitsCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_oversampleBitsCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_oversampleBitsCallbacks, uid);
 }
+
 void AnalogInData::InvokeOversampleBitsCallback(const HAL_Value* value) {
-  auto newCallbacks = m_oversampleBitsCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_oversampleBitsCallbacks, "OversampleBits", value);
 }
 
 int32_t AnalogInData::GetOversampleBits() {
@@ -138,29 +115,21 @@ void AnalogInData::SetOversampleBits(int32_t oversampleBits) {
 }
 
 int32_t AnalogInData::RegisterVoltageCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Voltage";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_voltageCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetVoltage()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetVoltage());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_voltageCallbacks, "Voltage", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_voltageCallbacks = newCallbacks;
+  return newUid;
 }
+
 void AnalogInData::CancelVoltageCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_voltageCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_voltageCallbacks, uid);
 }
+
 void AnalogInData::InvokeVoltageCallback(const HAL_Value* value) {
-  auto newCallbacks = m_voltageCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_voltageCallbacks, "Voltage", value);
 }
 
 double AnalogInData::GetVoltage() {
@@ -175,29 +144,21 @@ void AnalogInData::SetVoltage(double voltage) {
 }
 
 int32_t AnalogInData::RegisterAccumulatorInitializedCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "AccumulatorInitialized";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_accumulatorInitializedCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetAccumulatorInitialized()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetAccumulatorInitialized());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_accumulatorInitializedCallbacks, "AccumulatorInitialized", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_accumulatorInitializedCallbacks = newCallbacks;
+  return newUid;
 }
+
 void AnalogInData::CancelAccumulatorInitializedCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_accumulatorInitializedCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_accumulatorInitializedCallbacks, uid);
 }
+
 void AnalogInData::InvokeAccumulatorInitializedCallback(const HAL_Value* value) {
-  auto newCallbacks = m_accumulatorInitializedCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_accumulatorInitializedCallbacks, "AccumulatorInitialized", value);
 }
 
 HAL_Bool AnalogInData::GetAccumulatorInitialized() {
@@ -212,29 +173,21 @@ void AnalogInData::SetAccumulatorInitialized(HAL_Bool accumulatorInitialized) {
 }
 
 int32_t AnalogInData::RegisterAccumulatorValueCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "AccumulatorValue";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_accumulatorValueCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeLong(GetAccumulatorValue()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeLong(GetAccumulatorValue());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_accumulatorValueCallbacks, "AccumulatorValue", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_accumulatorValueCallbacks = newCallbacks;
+  return newUid;
 }
+
 void AnalogInData::CancelAccumulatorValueCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_accumulatorValueCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_accumulatorValueCallbacks, uid);
 }
+
 void AnalogInData::InvokeAccumulatorValueCallback(const HAL_Value* value) {
-  auto newCallbacks = m_accumulatorValueCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_accumulatorValueCallbacks, "AccumulatorValue", value);
 }
 
 int64_t AnalogInData::GetAccumulatorValue() {
@@ -249,29 +202,21 @@ void AnalogInData::SetAccumulatorValue(int64_t accumulatorValue) {
 }
 
 int32_t AnalogInData::RegisterAccumulatorCountCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "AccumulatorCount";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_accumulatorCountCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeLong(GetAccumulatorCount()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeLong(GetAccumulatorCount());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_accumulatorCountCallbacks, "AccumulatorCount", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_accumulatorCountCallbacks = newCallbacks;
+  return newUid;
 }
+
 void AnalogInData::CancelAccumulatorCountCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_accumulatorCountCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_accumulatorCountCallbacks, uid);
 }
+
 void AnalogInData::InvokeAccumulatorCountCallback(const HAL_Value* value) {
-  auto newCallbacks = m_accumulatorCountCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_accumulatorCountCallbacks, "AccumulatorCount", value);
 }
 
 int64_t AnalogInData::GetAccumulatorCount() {
@@ -286,29 +231,21 @@ void AnalogInData::SetAccumulatorCount(int64_t accumulatorCount) {
 }
 
 int32_t AnalogInData::RegisterAccumlatorCenterCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "AccumlatorCenter";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_accumlatorCenterCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeInt(GetAccumlatorCenter()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeInt(GetAccumlatorCenter());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_accumlatorCenterCallbacks, "AccumlatorCenter", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_accumlatorCenterCallbacks = newCallbacks;
+  return newUid;
 }
+
 void AnalogInData::CancelAccumlatorCenterCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_accumlatorCenterCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_accumlatorCenterCallbacks, uid);
 }
+
 void AnalogInData::InvokeAccumlatorCenterCallback(const HAL_Value* value) {
-  auto newCallbacks = m_accumlatorCenterCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_accumlatorCenterCallbacks, "AccumlatorCenter", value);
 }
 
 int32_t AnalogInData::GetAccumlatorCenter() {
@@ -323,29 +260,21 @@ void AnalogInData::SetAccumlatorCenter(int32_t accumlatorCenter) {
 }
 
 int32_t AnalogInData::RegisterAccumlatorDeadbandCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "AccumlatorDeadband";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_accumlatorDeadbandCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeInt(GetAccumlatorDeadband()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeInt(GetAccumlatorDeadband());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_accumlatorDeadbandCallbacks, "AccumlatorDeadband", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_accumlatorDeadbandCallbacks = newCallbacks;
+  return newUid;
 }
+
 void AnalogInData::CancelAccumlatorDeadbandCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_accumlatorDeadbandCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_accumlatorDeadbandCallbacks, uid);
 }
+
 void AnalogInData::InvokeAccumlatorDeadbandCallback(const HAL_Value* value) {
-  auto newCallbacks = m_accumlatorDeadbandCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_accumlatorDeadbandCallbacks, "AccumlatorDeadband", value);
 }
 
 int32_t AnalogInData::GetAccumlatorDeadband() {

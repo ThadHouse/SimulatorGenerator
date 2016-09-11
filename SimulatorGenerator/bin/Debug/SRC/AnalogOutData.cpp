@@ -1,5 +1,6 @@
 #include "AnalogOutDataInternal.h"
 
+#include "NotifyCallbackHelpers.h"
 #include "../PortsInternal.h"
 
 using namespace hal;
@@ -13,29 +14,21 @@ void AnalogOutData::ResetData() {
 }
 
 int32_t AnalogOutData::RegisterVoltageCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Voltage";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_voltageCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetVoltage()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetVoltage());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_voltageCallbacks, "Voltage", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_voltageCallbacks = newCallbacks;
+  return newUid;
 }
+
 void AnalogOutData::CancelVoltageCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_voltageCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_voltageCallbacks, uid);
 }
+
 void AnalogOutData::InvokeVoltageCallback(const HAL_Value* value) {
-  auto newCallbacks = m_voltageCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_voltageCallbacks, "Voltage", value);
 }
 
 double AnalogOutData::GetVoltage() {
@@ -50,29 +43,21 @@ void AnalogOutData::SetVoltage(double voltage) {
 }
 
 int32_t AnalogOutData::RegisterInitializedCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Initialized";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_initializedCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetInitialized()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetInitialized());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_initializedCallbacks, "Initialized", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_initializedCallbacks = newCallbacks;
+  return newUid;
 }
+
 void AnalogOutData::CancelInitializedCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_initializedCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_initializedCallbacks, uid);
 }
+
 void AnalogOutData::InvokeInitializedCallback(const HAL_Value* value) {
-  auto newCallbacks = m_initializedCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_initializedCallbacks, "Initialized", value);
 }
 
 HAL_Bool AnalogOutData::GetInitialized() {

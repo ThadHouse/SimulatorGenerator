@@ -1,5 +1,6 @@
 #include "CanTalonDataInternal.h"
 
+#include "NotifyCallbackHelpers.h"
 #include "../PortsInternal.h"
 
 using namespace hal;
@@ -159,29 +160,21 @@ void CanTalonData::ResetData() {
 }
 
 int32_t CanTalonData::RegisterProfileParamSlot0_PCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ProfileParamSlot0_P";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot0_PCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetProfileParamSlot0_P()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetProfileParamSlot0_P());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_profileParamSlot0_PCallbacks, "ProfileParamSlot0_P", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_profileParamSlot0_PCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelProfileParamSlot0_PCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot0_PCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_profileParamSlot0_PCallbacks, uid);
 }
+
 void CanTalonData::InvokeProfileParamSlot0_PCallback(const HAL_Value* value) {
-  auto newCallbacks = m_profileParamSlot0_PCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_profileParamSlot0_PCallbacks, "ProfileParamSlot0_P", value);
 }
 
 double CanTalonData::GetProfileParamSlot0_P() {
@@ -196,29 +189,21 @@ void CanTalonData::SetProfileParamSlot0_P(double profileParamSlot0_P) {
 }
 
 int32_t CanTalonData::RegisterProfileParamSlot0_ICallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ProfileParamSlot0_I";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot0_ICallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetProfileParamSlot0_I()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetProfileParamSlot0_I());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_profileParamSlot0_ICallbacks, "ProfileParamSlot0_I", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_profileParamSlot0_ICallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelProfileParamSlot0_ICallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot0_ICallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_profileParamSlot0_ICallbacks, uid);
 }
+
 void CanTalonData::InvokeProfileParamSlot0_ICallback(const HAL_Value* value) {
-  auto newCallbacks = m_profileParamSlot0_ICallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_profileParamSlot0_ICallbacks, "ProfileParamSlot0_I", value);
 }
 
 double CanTalonData::GetProfileParamSlot0_I() {
@@ -233,29 +218,21 @@ void CanTalonData::SetProfileParamSlot0_I(double profileParamSlot0_I) {
 }
 
 int32_t CanTalonData::RegisterProfileParamSlot0_DCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ProfileParamSlot0_D";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot0_DCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetProfileParamSlot0_D()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetProfileParamSlot0_D());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_profileParamSlot0_DCallbacks, "ProfileParamSlot0_D", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_profileParamSlot0_DCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelProfileParamSlot0_DCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot0_DCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_profileParamSlot0_DCallbacks, uid);
 }
+
 void CanTalonData::InvokeProfileParamSlot0_DCallback(const HAL_Value* value) {
-  auto newCallbacks = m_profileParamSlot0_DCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_profileParamSlot0_DCallbacks, "ProfileParamSlot0_D", value);
 }
 
 double CanTalonData::GetProfileParamSlot0_D() {
@@ -270,29 +247,21 @@ void CanTalonData::SetProfileParamSlot0_D(double profileParamSlot0_D) {
 }
 
 int32_t CanTalonData::RegisterProfileParamSlot0_FCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ProfileParamSlot0_F";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot0_FCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetProfileParamSlot0_F()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetProfileParamSlot0_F());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_profileParamSlot0_FCallbacks, "ProfileParamSlot0_F", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_profileParamSlot0_FCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelProfileParamSlot0_FCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot0_FCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_profileParamSlot0_FCallbacks, uid);
 }
+
 void CanTalonData::InvokeProfileParamSlot0_FCallback(const HAL_Value* value) {
-  auto newCallbacks = m_profileParamSlot0_FCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_profileParamSlot0_FCallbacks, "ProfileParamSlot0_F", value);
 }
 
 double CanTalonData::GetProfileParamSlot0_F() {
@@ -307,29 +276,21 @@ void CanTalonData::SetProfileParamSlot0_F(double profileParamSlot0_F) {
 }
 
 int32_t CanTalonData::RegisterProfileParamSlot0_IZoneCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ProfileParamSlot0_IZone";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot0_IZoneCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeInt(GetProfileParamSlot0_IZone()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeInt(GetProfileParamSlot0_IZone());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_profileParamSlot0_IZoneCallbacks, "ProfileParamSlot0_IZone", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_profileParamSlot0_IZoneCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelProfileParamSlot0_IZoneCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot0_IZoneCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_profileParamSlot0_IZoneCallbacks, uid);
 }
+
 void CanTalonData::InvokeProfileParamSlot0_IZoneCallback(const HAL_Value* value) {
-  auto newCallbacks = m_profileParamSlot0_IZoneCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_profileParamSlot0_IZoneCallbacks, "ProfileParamSlot0_IZone", value);
 }
 
 int32_t CanTalonData::GetProfileParamSlot0_IZone() {
@@ -344,29 +305,21 @@ void CanTalonData::SetProfileParamSlot0_IZone(int32_t profileParamSlot0_IZone) {
 }
 
 int32_t CanTalonData::RegisterProfileParamSlot0_CloseLoopRampRateCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ProfileParamSlot0_CloseLoopRampRate";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot0_CloseLoopRampRateCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeInt(GetProfileParamSlot0_CloseLoopRampRate()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeInt(GetProfileParamSlot0_CloseLoopRampRate());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_profileParamSlot0_CloseLoopRampRateCallbacks, "ProfileParamSlot0_CloseLoopRampRate", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_profileParamSlot0_CloseLoopRampRateCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelProfileParamSlot0_CloseLoopRampRateCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot0_CloseLoopRampRateCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_profileParamSlot0_CloseLoopRampRateCallbacks, uid);
 }
+
 void CanTalonData::InvokeProfileParamSlot0_CloseLoopRampRateCallback(const HAL_Value* value) {
-  auto newCallbacks = m_profileParamSlot0_CloseLoopRampRateCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_profileParamSlot0_CloseLoopRampRateCallbacks, "ProfileParamSlot0_CloseLoopRampRate", value);
 }
 
 int32_t CanTalonData::GetProfileParamSlot0_CloseLoopRampRate() {
@@ -381,29 +334,21 @@ void CanTalonData::SetProfileParamSlot0_CloseLoopRampRate(int32_t profileParamSl
 }
 
 int32_t CanTalonData::RegisterProfileParamSlot1_PCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ProfileParamSlot1_P";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot1_PCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetProfileParamSlot1_P()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetProfileParamSlot1_P());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_profileParamSlot1_PCallbacks, "ProfileParamSlot1_P", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_profileParamSlot1_PCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelProfileParamSlot1_PCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot1_PCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_profileParamSlot1_PCallbacks, uid);
 }
+
 void CanTalonData::InvokeProfileParamSlot1_PCallback(const HAL_Value* value) {
-  auto newCallbacks = m_profileParamSlot1_PCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_profileParamSlot1_PCallbacks, "ProfileParamSlot1_P", value);
 }
 
 double CanTalonData::GetProfileParamSlot1_P() {
@@ -418,29 +363,21 @@ void CanTalonData::SetProfileParamSlot1_P(double profileParamSlot1_P) {
 }
 
 int32_t CanTalonData::RegisterProfileParamSlot1_ICallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ProfileParamSlot1_I";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot1_ICallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetProfileParamSlot1_I()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetProfileParamSlot1_I());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_profileParamSlot1_ICallbacks, "ProfileParamSlot1_I", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_profileParamSlot1_ICallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelProfileParamSlot1_ICallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot1_ICallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_profileParamSlot1_ICallbacks, uid);
 }
+
 void CanTalonData::InvokeProfileParamSlot1_ICallback(const HAL_Value* value) {
-  auto newCallbacks = m_profileParamSlot1_ICallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_profileParamSlot1_ICallbacks, "ProfileParamSlot1_I", value);
 }
 
 double CanTalonData::GetProfileParamSlot1_I() {
@@ -455,29 +392,21 @@ void CanTalonData::SetProfileParamSlot1_I(double profileParamSlot1_I) {
 }
 
 int32_t CanTalonData::RegisterProfileParamSlot1_DCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ProfileParamSlot1_D";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot1_DCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetProfileParamSlot1_D()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetProfileParamSlot1_D());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_profileParamSlot1_DCallbacks, "ProfileParamSlot1_D", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_profileParamSlot1_DCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelProfileParamSlot1_DCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot1_DCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_profileParamSlot1_DCallbacks, uid);
 }
+
 void CanTalonData::InvokeProfileParamSlot1_DCallback(const HAL_Value* value) {
-  auto newCallbacks = m_profileParamSlot1_DCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_profileParamSlot1_DCallbacks, "ProfileParamSlot1_D", value);
 }
 
 double CanTalonData::GetProfileParamSlot1_D() {
@@ -492,29 +421,21 @@ void CanTalonData::SetProfileParamSlot1_D(double profileParamSlot1_D) {
 }
 
 int32_t CanTalonData::RegisterProfileParamSlot1_FCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ProfileParamSlot1_F";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot1_FCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetProfileParamSlot1_F()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetProfileParamSlot1_F());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_profileParamSlot1_FCallbacks, "ProfileParamSlot1_F", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_profileParamSlot1_FCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelProfileParamSlot1_FCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot1_FCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_profileParamSlot1_FCallbacks, uid);
 }
+
 void CanTalonData::InvokeProfileParamSlot1_FCallback(const HAL_Value* value) {
-  auto newCallbacks = m_profileParamSlot1_FCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_profileParamSlot1_FCallbacks, "ProfileParamSlot1_F", value);
 }
 
 double CanTalonData::GetProfileParamSlot1_F() {
@@ -529,29 +450,21 @@ void CanTalonData::SetProfileParamSlot1_F(double profileParamSlot1_F) {
 }
 
 int32_t CanTalonData::RegisterProfileParamSlot1_IZoneCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ProfileParamSlot1_IZone";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot1_IZoneCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeInt(GetProfileParamSlot1_IZone()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeInt(GetProfileParamSlot1_IZone());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_profileParamSlot1_IZoneCallbacks, "ProfileParamSlot1_IZone", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_profileParamSlot1_IZoneCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelProfileParamSlot1_IZoneCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot1_IZoneCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_profileParamSlot1_IZoneCallbacks, uid);
 }
+
 void CanTalonData::InvokeProfileParamSlot1_IZoneCallback(const HAL_Value* value) {
-  auto newCallbacks = m_profileParamSlot1_IZoneCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_profileParamSlot1_IZoneCallbacks, "ProfileParamSlot1_IZone", value);
 }
 
 int32_t CanTalonData::GetProfileParamSlot1_IZone() {
@@ -566,29 +479,21 @@ void CanTalonData::SetProfileParamSlot1_IZone(int32_t profileParamSlot1_IZone) {
 }
 
 int32_t CanTalonData::RegisterProfileParamSlot1_CloseLoopRampRateCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ProfileParamSlot1_CloseLoopRampRate";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot1_CloseLoopRampRateCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeInt(GetProfileParamSlot1_CloseLoopRampRate()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeInt(GetProfileParamSlot1_CloseLoopRampRate());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_profileParamSlot1_CloseLoopRampRateCallbacks, "ProfileParamSlot1_CloseLoopRampRate", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_profileParamSlot1_CloseLoopRampRateCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelProfileParamSlot1_CloseLoopRampRateCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot1_CloseLoopRampRateCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_profileParamSlot1_CloseLoopRampRateCallbacks, uid);
 }
+
 void CanTalonData::InvokeProfileParamSlot1_CloseLoopRampRateCallback(const HAL_Value* value) {
-  auto newCallbacks = m_profileParamSlot1_CloseLoopRampRateCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_profileParamSlot1_CloseLoopRampRateCallbacks, "ProfileParamSlot1_CloseLoopRampRate", value);
 }
 
 int32_t CanTalonData::GetProfileParamSlot1_CloseLoopRampRate() {
@@ -603,29 +508,21 @@ void CanTalonData::SetProfileParamSlot1_CloseLoopRampRate(int32_t profileParamSl
 }
 
 int32_t CanTalonData::RegisterProfileParamSoftLimitForThresholdCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ProfileParamSoftLimitForThreshold";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSoftLimitForThresholdCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetProfileParamSoftLimitForThreshold()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetProfileParamSoftLimitForThreshold());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_profileParamSoftLimitForThresholdCallbacks, "ProfileParamSoftLimitForThreshold", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_profileParamSoftLimitForThresholdCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelProfileParamSoftLimitForThresholdCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSoftLimitForThresholdCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_profileParamSoftLimitForThresholdCallbacks, uid);
 }
+
 void CanTalonData::InvokeProfileParamSoftLimitForThresholdCallback(const HAL_Value* value) {
-  auto newCallbacks = m_profileParamSoftLimitForThresholdCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_profileParamSoftLimitForThresholdCallbacks, "ProfileParamSoftLimitForThreshold", value);
 }
 
 double CanTalonData::GetProfileParamSoftLimitForThreshold() {
@@ -640,29 +537,21 @@ void CanTalonData::SetProfileParamSoftLimitForThreshold(double profileParamSoftL
 }
 
 int32_t CanTalonData::RegisterProfileParamSoftLimitRevThresholdCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ProfileParamSoftLimitRevThreshold";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSoftLimitRevThresholdCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetProfileParamSoftLimitRevThreshold()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetProfileParamSoftLimitRevThreshold());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_profileParamSoftLimitRevThresholdCallbacks, "ProfileParamSoftLimitRevThreshold", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_profileParamSoftLimitRevThresholdCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelProfileParamSoftLimitRevThresholdCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSoftLimitRevThresholdCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_profileParamSoftLimitRevThresholdCallbacks, uid);
 }
+
 void CanTalonData::InvokeProfileParamSoftLimitRevThresholdCallback(const HAL_Value* value) {
-  auto newCallbacks = m_profileParamSoftLimitRevThresholdCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_profileParamSoftLimitRevThresholdCallbacks, "ProfileParamSoftLimitRevThreshold", value);
 }
 
 double CanTalonData::GetProfileParamSoftLimitRevThreshold() {
@@ -677,29 +566,21 @@ void CanTalonData::SetProfileParamSoftLimitRevThreshold(double profileParamSoftL
 }
 
 int32_t CanTalonData::RegisterProfileParamSoftLimitForEnableCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ProfileParamSoftLimitForEnable";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSoftLimitForEnableCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetProfileParamSoftLimitForEnable()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetProfileParamSoftLimitForEnable());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_profileParamSoftLimitForEnableCallbacks, "ProfileParamSoftLimitForEnable", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_profileParamSoftLimitForEnableCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelProfileParamSoftLimitForEnableCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSoftLimitForEnableCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_profileParamSoftLimitForEnableCallbacks, uid);
 }
+
 void CanTalonData::InvokeProfileParamSoftLimitForEnableCallback(const HAL_Value* value) {
-  auto newCallbacks = m_profileParamSoftLimitForEnableCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_profileParamSoftLimitForEnableCallbacks, "ProfileParamSoftLimitForEnable", value);
 }
 
 double CanTalonData::GetProfileParamSoftLimitForEnable() {
@@ -714,29 +595,21 @@ void CanTalonData::SetProfileParamSoftLimitForEnable(double profileParamSoftLimi
 }
 
 int32_t CanTalonData::RegisterProfileParamSoftLimitRevEnableCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ProfileParamSoftLimitRevEnable";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSoftLimitRevEnableCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetProfileParamSoftLimitRevEnable()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetProfileParamSoftLimitRevEnable());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_profileParamSoftLimitRevEnableCallbacks, "ProfileParamSoftLimitRevEnable", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_profileParamSoftLimitRevEnableCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelProfileParamSoftLimitRevEnableCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSoftLimitRevEnableCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_profileParamSoftLimitRevEnableCallbacks, uid);
 }
+
 void CanTalonData::InvokeProfileParamSoftLimitRevEnableCallback(const HAL_Value* value) {
-  auto newCallbacks = m_profileParamSoftLimitRevEnableCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_profileParamSoftLimitRevEnableCallbacks, "ProfileParamSoftLimitRevEnable", value);
 }
 
 double CanTalonData::GetProfileParamSoftLimitRevEnable() {
@@ -751,29 +624,21 @@ void CanTalonData::SetProfileParamSoftLimitRevEnable(double profileParamSoftLimi
 }
 
 int32_t CanTalonData::RegisterOnBoot_BrakeModeCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "OnBoot_BrakeMode";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_onBoot_BrakeModeCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetOnBoot_BrakeMode()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetOnBoot_BrakeMode());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_onBoot_BrakeModeCallbacks, "OnBoot_BrakeMode", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_onBoot_BrakeModeCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelOnBoot_BrakeModeCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_onBoot_BrakeModeCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_onBoot_BrakeModeCallbacks, uid);
 }
+
 void CanTalonData::InvokeOnBoot_BrakeModeCallback(const HAL_Value* value) {
-  auto newCallbacks = m_onBoot_BrakeModeCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_onBoot_BrakeModeCallbacks, "OnBoot_BrakeMode", value);
 }
 
 double CanTalonData::GetOnBoot_BrakeMode() {
@@ -788,29 +653,21 @@ void CanTalonData::SetOnBoot_BrakeMode(double onBoot_BrakeMode) {
 }
 
 int32_t CanTalonData::RegisterOnBoot_LimitSwitch_Forward_NormallyClosedCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "OnBoot_LimitSwitch_Forward_NormallyClosed";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_onBoot_LimitSwitch_Forward_NormallyClosedCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetOnBoot_LimitSwitch_Forward_NormallyClosed()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetOnBoot_LimitSwitch_Forward_NormallyClosed());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_onBoot_LimitSwitch_Forward_NormallyClosedCallbacks, "OnBoot_LimitSwitch_Forward_NormallyClosed", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_onBoot_LimitSwitch_Forward_NormallyClosedCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelOnBoot_LimitSwitch_Forward_NormallyClosedCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_onBoot_LimitSwitch_Forward_NormallyClosedCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_onBoot_LimitSwitch_Forward_NormallyClosedCallbacks, uid);
 }
+
 void CanTalonData::InvokeOnBoot_LimitSwitch_Forward_NormallyClosedCallback(const HAL_Value* value) {
-  auto newCallbacks = m_onBoot_LimitSwitch_Forward_NormallyClosedCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_onBoot_LimitSwitch_Forward_NormallyClosedCallbacks, "OnBoot_LimitSwitch_Forward_NormallyClosed", value);
 }
 
 double CanTalonData::GetOnBoot_LimitSwitch_Forward_NormallyClosed() {
@@ -825,29 +682,21 @@ void CanTalonData::SetOnBoot_LimitSwitch_Forward_NormallyClosed(double onBoot_Li
 }
 
 int32_t CanTalonData::RegisterOnBoot_LimitSwitch_Reverse_NormallyClosedCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "OnBoot_LimitSwitch_Reverse_NormallyClosed";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_onBoot_LimitSwitch_Reverse_NormallyClosedCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetOnBoot_LimitSwitch_Reverse_NormallyClosed()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetOnBoot_LimitSwitch_Reverse_NormallyClosed());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_onBoot_LimitSwitch_Reverse_NormallyClosedCallbacks, "OnBoot_LimitSwitch_Reverse_NormallyClosed", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_onBoot_LimitSwitch_Reverse_NormallyClosedCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelOnBoot_LimitSwitch_Reverse_NormallyClosedCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_onBoot_LimitSwitch_Reverse_NormallyClosedCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_onBoot_LimitSwitch_Reverse_NormallyClosedCallbacks, uid);
 }
+
 void CanTalonData::InvokeOnBoot_LimitSwitch_Reverse_NormallyClosedCallback(const HAL_Value* value) {
-  auto newCallbacks = m_onBoot_LimitSwitch_Reverse_NormallyClosedCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_onBoot_LimitSwitch_Reverse_NormallyClosedCallbacks, "OnBoot_LimitSwitch_Reverse_NormallyClosed", value);
 }
 
 double CanTalonData::GetOnBoot_LimitSwitch_Reverse_NormallyClosed() {
@@ -862,29 +711,21 @@ void CanTalonData::SetOnBoot_LimitSwitch_Reverse_NormallyClosed(double onBoot_Li
 }
 
 int32_t CanTalonData::RegisterOnBoot_LimitSwitch_Forward_DisableCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "OnBoot_LimitSwitch_Forward_Disable";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_onBoot_LimitSwitch_Forward_DisableCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetOnBoot_LimitSwitch_Forward_Disable()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetOnBoot_LimitSwitch_Forward_Disable());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_onBoot_LimitSwitch_Forward_DisableCallbacks, "OnBoot_LimitSwitch_Forward_Disable", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_onBoot_LimitSwitch_Forward_DisableCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelOnBoot_LimitSwitch_Forward_DisableCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_onBoot_LimitSwitch_Forward_DisableCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_onBoot_LimitSwitch_Forward_DisableCallbacks, uid);
 }
+
 void CanTalonData::InvokeOnBoot_LimitSwitch_Forward_DisableCallback(const HAL_Value* value) {
-  auto newCallbacks = m_onBoot_LimitSwitch_Forward_DisableCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_onBoot_LimitSwitch_Forward_DisableCallbacks, "OnBoot_LimitSwitch_Forward_Disable", value);
 }
 
 double CanTalonData::GetOnBoot_LimitSwitch_Forward_Disable() {
@@ -899,29 +740,21 @@ void CanTalonData::SetOnBoot_LimitSwitch_Forward_Disable(double onBoot_LimitSwit
 }
 
 int32_t CanTalonData::RegisterOnBoot_LimitSwitch_Reverse_DisableCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "OnBoot_LimitSwitch_Reverse_Disable";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_onBoot_LimitSwitch_Reverse_DisableCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetOnBoot_LimitSwitch_Reverse_Disable()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetOnBoot_LimitSwitch_Reverse_Disable());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_onBoot_LimitSwitch_Reverse_DisableCallbacks, "OnBoot_LimitSwitch_Reverse_Disable", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_onBoot_LimitSwitch_Reverse_DisableCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelOnBoot_LimitSwitch_Reverse_DisableCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_onBoot_LimitSwitch_Reverse_DisableCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_onBoot_LimitSwitch_Reverse_DisableCallbacks, uid);
 }
+
 void CanTalonData::InvokeOnBoot_LimitSwitch_Reverse_DisableCallback(const HAL_Value* value) {
-  auto newCallbacks = m_onBoot_LimitSwitch_Reverse_DisableCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_onBoot_LimitSwitch_Reverse_DisableCallbacks, "OnBoot_LimitSwitch_Reverse_Disable", value);
 }
 
 double CanTalonData::GetOnBoot_LimitSwitch_Reverse_Disable() {
@@ -936,29 +769,21 @@ void CanTalonData::SetOnBoot_LimitSwitch_Reverse_Disable(double onBoot_LimitSwit
 }
 
 int32_t CanTalonData::RegisterFault_OverTempCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Fault_OverTemp";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_fault_OverTempCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetFault_OverTemp()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetFault_OverTemp());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_fault_OverTempCallbacks, "Fault_OverTemp", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_fault_OverTempCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelFault_OverTempCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_fault_OverTempCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_fault_OverTempCallbacks, uid);
 }
+
 void CanTalonData::InvokeFault_OverTempCallback(const HAL_Value* value) {
-  auto newCallbacks = m_fault_OverTempCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_fault_OverTempCallbacks, "Fault_OverTemp", value);
 }
 
 double CanTalonData::GetFault_OverTemp() {
@@ -973,29 +798,21 @@ void CanTalonData::SetFault_OverTemp(double fault_OverTemp) {
 }
 
 int32_t CanTalonData::RegisterFault_UnderVoltageCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Fault_UnderVoltage";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_fault_UnderVoltageCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetFault_UnderVoltage()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetFault_UnderVoltage());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_fault_UnderVoltageCallbacks, "Fault_UnderVoltage", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_fault_UnderVoltageCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelFault_UnderVoltageCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_fault_UnderVoltageCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_fault_UnderVoltageCallbacks, uid);
 }
+
 void CanTalonData::InvokeFault_UnderVoltageCallback(const HAL_Value* value) {
-  auto newCallbacks = m_fault_UnderVoltageCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_fault_UnderVoltageCallbacks, "Fault_UnderVoltage", value);
 }
 
 double CanTalonData::GetFault_UnderVoltage() {
@@ -1010,29 +827,21 @@ void CanTalonData::SetFault_UnderVoltage(double fault_UnderVoltage) {
 }
 
 int32_t CanTalonData::RegisterFault_ForLimCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Fault_ForLim";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_fault_ForLimCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetFault_ForLim()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetFault_ForLim());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_fault_ForLimCallbacks, "Fault_ForLim", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_fault_ForLimCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelFault_ForLimCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_fault_ForLimCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_fault_ForLimCallbacks, uid);
 }
+
 void CanTalonData::InvokeFault_ForLimCallback(const HAL_Value* value) {
-  auto newCallbacks = m_fault_ForLimCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_fault_ForLimCallbacks, "Fault_ForLim", value);
 }
 
 double CanTalonData::GetFault_ForLim() {
@@ -1047,29 +856,21 @@ void CanTalonData::SetFault_ForLim(double fault_ForLim) {
 }
 
 int32_t CanTalonData::RegisterFault_RevLimCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Fault_RevLim";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_fault_RevLimCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetFault_RevLim()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetFault_RevLim());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_fault_RevLimCallbacks, "Fault_RevLim", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_fault_RevLimCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelFault_RevLimCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_fault_RevLimCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_fault_RevLimCallbacks, uid);
 }
+
 void CanTalonData::InvokeFault_RevLimCallback(const HAL_Value* value) {
-  auto newCallbacks = m_fault_RevLimCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_fault_RevLimCallbacks, "Fault_RevLim", value);
 }
 
 double CanTalonData::GetFault_RevLim() {
@@ -1084,29 +885,21 @@ void CanTalonData::SetFault_RevLim(double fault_RevLim) {
 }
 
 int32_t CanTalonData::RegisterFault_HardwareFailureCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Fault_HardwareFailure";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_fault_HardwareFailureCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetFault_HardwareFailure()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetFault_HardwareFailure());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_fault_HardwareFailureCallbacks, "Fault_HardwareFailure", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_fault_HardwareFailureCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelFault_HardwareFailureCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_fault_HardwareFailureCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_fault_HardwareFailureCallbacks, uid);
 }
+
 void CanTalonData::InvokeFault_HardwareFailureCallback(const HAL_Value* value) {
-  auto newCallbacks = m_fault_HardwareFailureCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_fault_HardwareFailureCallbacks, "Fault_HardwareFailure", value);
 }
 
 double CanTalonData::GetFault_HardwareFailure() {
@@ -1121,29 +914,21 @@ void CanTalonData::SetFault_HardwareFailure(double fault_HardwareFailure) {
 }
 
 int32_t CanTalonData::RegisterFault_ForSoftLimCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Fault_ForSoftLim";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_fault_ForSoftLimCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetFault_ForSoftLim()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetFault_ForSoftLim());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_fault_ForSoftLimCallbacks, "Fault_ForSoftLim", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_fault_ForSoftLimCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelFault_ForSoftLimCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_fault_ForSoftLimCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_fault_ForSoftLimCallbacks, uid);
 }
+
 void CanTalonData::InvokeFault_ForSoftLimCallback(const HAL_Value* value) {
-  auto newCallbacks = m_fault_ForSoftLimCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_fault_ForSoftLimCallbacks, "Fault_ForSoftLim", value);
 }
 
 double CanTalonData::GetFault_ForSoftLim() {
@@ -1158,29 +943,21 @@ void CanTalonData::SetFault_ForSoftLim(double fault_ForSoftLim) {
 }
 
 int32_t CanTalonData::RegisterFault_RevSoftLimCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Fault_RevSoftLim";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_fault_RevSoftLimCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetFault_RevSoftLim()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetFault_RevSoftLim());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_fault_RevSoftLimCallbacks, "Fault_RevSoftLim", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_fault_RevSoftLimCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelFault_RevSoftLimCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_fault_RevSoftLimCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_fault_RevSoftLimCallbacks, uid);
 }
+
 void CanTalonData::InvokeFault_RevSoftLimCallback(const HAL_Value* value) {
-  auto newCallbacks = m_fault_RevSoftLimCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_fault_RevSoftLimCallbacks, "Fault_RevSoftLim", value);
 }
 
 double CanTalonData::GetFault_RevSoftLim() {
@@ -1195,29 +972,21 @@ void CanTalonData::SetFault_RevSoftLim(double fault_RevSoftLim) {
 }
 
 int32_t CanTalonData::RegisterStckyFault_OverTempCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "StckyFault_OverTemp";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_stckyFault_OverTempCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetStckyFault_OverTemp()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetStckyFault_OverTemp());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_stckyFault_OverTempCallbacks, "StckyFault_OverTemp", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_stckyFault_OverTempCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelStckyFault_OverTempCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_stckyFault_OverTempCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_stckyFault_OverTempCallbacks, uid);
 }
+
 void CanTalonData::InvokeStckyFault_OverTempCallback(const HAL_Value* value) {
-  auto newCallbacks = m_stckyFault_OverTempCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_stckyFault_OverTempCallbacks, "StckyFault_OverTemp", value);
 }
 
 double CanTalonData::GetStckyFault_OverTemp() {
@@ -1232,29 +1001,21 @@ void CanTalonData::SetStckyFault_OverTemp(double stckyFault_OverTemp) {
 }
 
 int32_t CanTalonData::RegisterStckyFault_UnderVoltageCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "StckyFault_UnderVoltage";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_stckyFault_UnderVoltageCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetStckyFault_UnderVoltage()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetStckyFault_UnderVoltage());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_stckyFault_UnderVoltageCallbacks, "StckyFault_UnderVoltage", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_stckyFault_UnderVoltageCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelStckyFault_UnderVoltageCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_stckyFault_UnderVoltageCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_stckyFault_UnderVoltageCallbacks, uid);
 }
+
 void CanTalonData::InvokeStckyFault_UnderVoltageCallback(const HAL_Value* value) {
-  auto newCallbacks = m_stckyFault_UnderVoltageCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_stckyFault_UnderVoltageCallbacks, "StckyFault_UnderVoltage", value);
 }
 
 double CanTalonData::GetStckyFault_UnderVoltage() {
@@ -1269,29 +1030,21 @@ void CanTalonData::SetStckyFault_UnderVoltage(double stckyFault_UnderVoltage) {
 }
 
 int32_t CanTalonData::RegisterStckyFault_ForLimCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "StckyFault_ForLim";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_stckyFault_ForLimCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetStckyFault_ForLim()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetStckyFault_ForLim());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_stckyFault_ForLimCallbacks, "StckyFault_ForLim", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_stckyFault_ForLimCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelStckyFault_ForLimCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_stckyFault_ForLimCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_stckyFault_ForLimCallbacks, uid);
 }
+
 void CanTalonData::InvokeStckyFault_ForLimCallback(const HAL_Value* value) {
-  auto newCallbacks = m_stckyFault_ForLimCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_stckyFault_ForLimCallbacks, "StckyFault_ForLim", value);
 }
 
 double CanTalonData::GetStckyFault_ForLim() {
@@ -1306,29 +1059,21 @@ void CanTalonData::SetStckyFault_ForLim(double stckyFault_ForLim) {
 }
 
 int32_t CanTalonData::RegisterStckyFault_RevLimCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "StckyFault_RevLim";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_stckyFault_RevLimCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetStckyFault_RevLim()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetStckyFault_RevLim());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_stckyFault_RevLimCallbacks, "StckyFault_RevLim", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_stckyFault_RevLimCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelStckyFault_RevLimCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_stckyFault_RevLimCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_stckyFault_RevLimCallbacks, uid);
 }
+
 void CanTalonData::InvokeStckyFault_RevLimCallback(const HAL_Value* value) {
-  auto newCallbacks = m_stckyFault_RevLimCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_stckyFault_RevLimCallbacks, "StckyFault_RevLim", value);
 }
 
 double CanTalonData::GetStckyFault_RevLim() {
@@ -1343,29 +1088,21 @@ void CanTalonData::SetStckyFault_RevLim(double stckyFault_RevLim) {
 }
 
 int32_t CanTalonData::RegisterStckyFault_ForSoftLimCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "StckyFault_ForSoftLim";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_stckyFault_ForSoftLimCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetStckyFault_ForSoftLim()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetStckyFault_ForSoftLim());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_stckyFault_ForSoftLimCallbacks, "StckyFault_ForSoftLim", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_stckyFault_ForSoftLimCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelStckyFault_ForSoftLimCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_stckyFault_ForSoftLimCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_stckyFault_ForSoftLimCallbacks, uid);
 }
+
 void CanTalonData::InvokeStckyFault_ForSoftLimCallback(const HAL_Value* value) {
-  auto newCallbacks = m_stckyFault_ForSoftLimCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_stckyFault_ForSoftLimCallbacks, "StckyFault_ForSoftLim", value);
 }
 
 double CanTalonData::GetStckyFault_ForSoftLim() {
@@ -1380,29 +1117,21 @@ void CanTalonData::SetStckyFault_ForSoftLim(double stckyFault_ForSoftLim) {
 }
 
 int32_t CanTalonData::RegisterStckyFault_RevSoftLimCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "StckyFault_RevSoftLim";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_stckyFault_RevSoftLimCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetStckyFault_RevSoftLim()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetStckyFault_RevSoftLim());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_stckyFault_RevSoftLimCallbacks, "StckyFault_RevSoftLim", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_stckyFault_RevSoftLimCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelStckyFault_RevSoftLimCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_stckyFault_RevSoftLimCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_stckyFault_RevSoftLimCallbacks, uid);
 }
+
 void CanTalonData::InvokeStckyFault_RevSoftLimCallback(const HAL_Value* value) {
-  auto newCallbacks = m_stckyFault_RevSoftLimCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_stckyFault_RevSoftLimCallbacks, "StckyFault_RevSoftLim", value);
 }
 
 double CanTalonData::GetStckyFault_RevSoftLim() {
@@ -1417,29 +1146,21 @@ void CanTalonData::SetStckyFault_RevSoftLim(double stckyFault_RevSoftLim) {
 }
 
 int32_t CanTalonData::RegisterAppliedThrottleCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "AppliedThrottle";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_appliedThrottleCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetAppliedThrottle()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetAppliedThrottle());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_appliedThrottleCallbacks, "AppliedThrottle", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_appliedThrottleCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelAppliedThrottleCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_appliedThrottleCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_appliedThrottleCallbacks, uid);
 }
+
 void CanTalonData::InvokeAppliedThrottleCallback(const HAL_Value* value) {
-  auto newCallbacks = m_appliedThrottleCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_appliedThrottleCallbacks, "AppliedThrottle", value);
 }
 
 double CanTalonData::GetAppliedThrottle() {
@@ -1454,29 +1175,21 @@ void CanTalonData::SetAppliedThrottle(double appliedThrottle) {
 }
 
 int32_t CanTalonData::RegisterCloseLoopErrCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "CloseLoopErr";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_closeLoopErrCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetCloseLoopErr()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetCloseLoopErr());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_closeLoopErrCallbacks, "CloseLoopErr", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_closeLoopErrCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelCloseLoopErrCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_closeLoopErrCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_closeLoopErrCallbacks, uid);
 }
+
 void CanTalonData::InvokeCloseLoopErrCallback(const HAL_Value* value) {
-  auto newCallbacks = m_closeLoopErrCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_closeLoopErrCallbacks, "CloseLoopErr", value);
 }
 
 double CanTalonData::GetCloseLoopErr() {
@@ -1491,29 +1204,21 @@ void CanTalonData::SetCloseLoopErr(double closeLoopErr) {
 }
 
 int32_t CanTalonData::RegisterFeedbackDeviceSelectCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "FeedbackDeviceSelect";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_feedbackDeviceSelectCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetFeedbackDeviceSelect()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetFeedbackDeviceSelect());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_feedbackDeviceSelectCallbacks, "FeedbackDeviceSelect", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_feedbackDeviceSelectCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelFeedbackDeviceSelectCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_feedbackDeviceSelectCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_feedbackDeviceSelectCallbacks, uid);
 }
+
 void CanTalonData::InvokeFeedbackDeviceSelectCallback(const HAL_Value* value) {
-  auto newCallbacks = m_feedbackDeviceSelectCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_feedbackDeviceSelectCallbacks, "FeedbackDeviceSelect", value);
 }
 
 double CanTalonData::GetFeedbackDeviceSelect() {
@@ -1528,29 +1233,21 @@ void CanTalonData::SetFeedbackDeviceSelect(double feedbackDeviceSelect) {
 }
 
 int32_t CanTalonData::RegisterRevMotDuringCloseLoopEnCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "RevMotDuringCloseLoopEn";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_revMotDuringCloseLoopEnCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetRevMotDuringCloseLoopEn()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetRevMotDuringCloseLoopEn());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_revMotDuringCloseLoopEnCallbacks, "RevMotDuringCloseLoopEn", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_revMotDuringCloseLoopEnCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelRevMotDuringCloseLoopEnCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_revMotDuringCloseLoopEnCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_revMotDuringCloseLoopEnCallbacks, uid);
 }
+
 void CanTalonData::InvokeRevMotDuringCloseLoopEnCallback(const HAL_Value* value) {
-  auto newCallbacks = m_revMotDuringCloseLoopEnCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_revMotDuringCloseLoopEnCallbacks, "RevMotDuringCloseLoopEn", value);
 }
 
 HAL_Bool CanTalonData::GetRevMotDuringCloseLoopEn() {
@@ -1565,29 +1262,21 @@ void CanTalonData::SetRevMotDuringCloseLoopEn(HAL_Bool revMotDuringCloseLoopEn) 
 }
 
 int32_t CanTalonData::RegisterModeSelectCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ModeSelect";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_modeSelectCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetModeSelect()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetModeSelect());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_modeSelectCallbacks, "ModeSelect", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_modeSelectCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelModeSelectCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_modeSelectCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_modeSelectCallbacks, uid);
 }
+
 void CanTalonData::InvokeModeSelectCallback(const HAL_Value* value) {
-  auto newCallbacks = m_modeSelectCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_modeSelectCallbacks, "ModeSelect", value);
 }
 
 double CanTalonData::GetModeSelect() {
@@ -1602,29 +1291,21 @@ void CanTalonData::SetModeSelect(double modeSelect) {
 }
 
 int32_t CanTalonData::RegisterProfileSlotSelectCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ProfileSlotSelect";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileSlotSelectCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetProfileSlotSelect()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetProfileSlotSelect());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_profileSlotSelectCallbacks, "ProfileSlotSelect", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_profileSlotSelectCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelProfileSlotSelectCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileSlotSelectCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_profileSlotSelectCallbacks, uid);
 }
+
 void CanTalonData::InvokeProfileSlotSelectCallback(const HAL_Value* value) {
-  auto newCallbacks = m_profileSlotSelectCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_profileSlotSelectCallbacks, "ProfileSlotSelect", value);
 }
 
 double CanTalonData::GetProfileSlotSelect() {
@@ -1639,29 +1320,21 @@ void CanTalonData::SetProfileSlotSelect(double profileSlotSelect) {
 }
 
 int32_t CanTalonData::RegisterRampThrottleCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "RampThrottle";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_rampThrottleCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetRampThrottle()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetRampThrottle());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_rampThrottleCallbacks, "RampThrottle", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_rampThrottleCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelRampThrottleCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_rampThrottleCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_rampThrottleCallbacks, uid);
 }
+
 void CanTalonData::InvokeRampThrottleCallback(const HAL_Value* value) {
-  auto newCallbacks = m_rampThrottleCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_rampThrottleCallbacks, "RampThrottle", value);
 }
 
 double CanTalonData::GetRampThrottle() {
@@ -1676,29 +1349,21 @@ void CanTalonData::SetRampThrottle(double rampThrottle) {
 }
 
 int32_t CanTalonData::RegisterRevFeedbackSensorCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "RevFeedbackSensor";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_revFeedbackSensorCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetRevFeedbackSensor()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetRevFeedbackSensor());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_revFeedbackSensorCallbacks, "RevFeedbackSensor", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_revFeedbackSensorCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelRevFeedbackSensorCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_revFeedbackSensorCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_revFeedbackSensorCallbacks, uid);
 }
+
 void CanTalonData::InvokeRevFeedbackSensorCallback(const HAL_Value* value) {
-  auto newCallbacks = m_revFeedbackSensorCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_revFeedbackSensorCallbacks, "RevFeedbackSensor", value);
 }
 
 HAL_Bool CanTalonData::GetRevFeedbackSensor() {
@@ -1713,29 +1378,21 @@ void CanTalonData::SetRevFeedbackSensor(HAL_Bool revFeedbackSensor) {
 }
 
 int32_t CanTalonData::RegisterLimitSwitchEnCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "LimitSwitchEn";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_limitSwitchEnCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetLimitSwitchEn()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetLimitSwitchEn());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_limitSwitchEnCallbacks, "LimitSwitchEn", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_limitSwitchEnCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelLimitSwitchEnCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_limitSwitchEnCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_limitSwitchEnCallbacks, uid);
 }
+
 void CanTalonData::InvokeLimitSwitchEnCallback(const HAL_Value* value) {
-  auto newCallbacks = m_limitSwitchEnCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_limitSwitchEnCallbacks, "LimitSwitchEn", value);
 }
 
 double CanTalonData::GetLimitSwitchEn() {
@@ -1750,29 +1407,21 @@ void CanTalonData::SetLimitSwitchEn(double limitSwitchEn) {
 }
 
 int32_t CanTalonData::RegisterLimitSwitchClosedForCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "LimitSwitchClosedFor";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_limitSwitchClosedForCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetLimitSwitchClosedFor()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetLimitSwitchClosedFor());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_limitSwitchClosedForCallbacks, "LimitSwitchClosedFor", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_limitSwitchClosedForCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelLimitSwitchClosedForCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_limitSwitchClosedForCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_limitSwitchClosedForCallbacks, uid);
 }
+
 void CanTalonData::InvokeLimitSwitchClosedForCallback(const HAL_Value* value) {
-  auto newCallbacks = m_limitSwitchClosedForCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_limitSwitchClosedForCallbacks, "LimitSwitchClosedFor", value);
 }
 
 HAL_Bool CanTalonData::GetLimitSwitchClosedFor() {
@@ -1787,29 +1436,21 @@ void CanTalonData::SetLimitSwitchClosedFor(HAL_Bool limitSwitchClosedFor) {
 }
 
 int32_t CanTalonData::RegisterLimitSwitchClosedRevCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "LimitSwitchClosedRev";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_limitSwitchClosedRevCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetLimitSwitchClosedRev()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetLimitSwitchClosedRev());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_limitSwitchClosedRevCallbacks, "LimitSwitchClosedRev", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_limitSwitchClosedRevCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelLimitSwitchClosedRevCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_limitSwitchClosedRevCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_limitSwitchClosedRevCallbacks, uid);
 }
+
 void CanTalonData::InvokeLimitSwitchClosedRevCallback(const HAL_Value* value) {
-  auto newCallbacks = m_limitSwitchClosedRevCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_limitSwitchClosedRevCallbacks, "LimitSwitchClosedRev", value);
 }
 
 HAL_Bool CanTalonData::GetLimitSwitchClosedRev() {
@@ -1824,29 +1465,21 @@ void CanTalonData::SetLimitSwitchClosedRev(HAL_Bool limitSwitchClosedRev) {
 }
 
 int32_t CanTalonData::RegisterSensorPositionCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "SensorPosition";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_sensorPositionCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetSensorPosition()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetSensorPosition());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_sensorPositionCallbacks, "SensorPosition", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_sensorPositionCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelSensorPositionCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_sensorPositionCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_sensorPositionCallbacks, uid);
 }
+
 void CanTalonData::InvokeSensorPositionCallback(const HAL_Value* value) {
-  auto newCallbacks = m_sensorPositionCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_sensorPositionCallbacks, "SensorPosition", value);
 }
 
 double CanTalonData::GetSensorPosition() {
@@ -1861,29 +1494,21 @@ void CanTalonData::SetSensorPosition(double sensorPosition) {
 }
 
 int32_t CanTalonData::RegisterSensorVelocityCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "SensorVelocity";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_sensorVelocityCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetSensorVelocity()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetSensorVelocity());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_sensorVelocityCallbacks, "SensorVelocity", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_sensorVelocityCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelSensorVelocityCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_sensorVelocityCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_sensorVelocityCallbacks, uid);
 }
+
 void CanTalonData::InvokeSensorVelocityCallback(const HAL_Value* value) {
-  auto newCallbacks = m_sensorVelocityCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_sensorVelocityCallbacks, "SensorVelocity", value);
 }
 
 double CanTalonData::GetSensorVelocity() {
@@ -1898,29 +1523,21 @@ void CanTalonData::SetSensorVelocity(double sensorVelocity) {
 }
 
 int32_t CanTalonData::RegisterCurrentCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Current";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_currentCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetCurrent()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetCurrent());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_currentCallbacks, "Current", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_currentCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelCurrentCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_currentCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_currentCallbacks, uid);
 }
+
 void CanTalonData::InvokeCurrentCallback(const HAL_Value* value) {
-  auto newCallbacks = m_currentCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_currentCallbacks, "Current", value);
 }
 
 double CanTalonData::GetCurrent() {
@@ -1935,29 +1552,21 @@ void CanTalonData::SetCurrent(double current) {
 }
 
 int32_t CanTalonData::RegisterBrakeIsEnabledCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "BrakeIsEnabled";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_brakeIsEnabledCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetBrakeIsEnabled()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetBrakeIsEnabled());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_brakeIsEnabledCallbacks, "BrakeIsEnabled", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_brakeIsEnabledCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelBrakeIsEnabledCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_brakeIsEnabledCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_brakeIsEnabledCallbacks, uid);
 }
+
 void CanTalonData::InvokeBrakeIsEnabledCallback(const HAL_Value* value) {
-  auto newCallbacks = m_brakeIsEnabledCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_brakeIsEnabledCallbacks, "BrakeIsEnabled", value);
 }
 
 HAL_Bool CanTalonData::GetBrakeIsEnabled() {
@@ -1972,29 +1581,21 @@ void CanTalonData::SetBrakeIsEnabled(HAL_Bool brakeIsEnabled) {
 }
 
 int32_t CanTalonData::RegisterEncPositionCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "EncPosition";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_encPositionCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetEncPosition()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetEncPosition());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_encPositionCallbacks, "EncPosition", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_encPositionCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelEncPositionCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_encPositionCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_encPositionCallbacks, uid);
 }
+
 void CanTalonData::InvokeEncPositionCallback(const HAL_Value* value) {
-  auto newCallbacks = m_encPositionCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_encPositionCallbacks, "EncPosition", value);
 }
 
 double CanTalonData::GetEncPosition() {
@@ -2009,29 +1610,21 @@ void CanTalonData::SetEncPosition(double encPosition) {
 }
 
 int32_t CanTalonData::RegisterEncVelCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "EncVel";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_encVelCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetEncVel()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetEncVel());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_encVelCallbacks, "EncVel", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_encVelCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelEncVelCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_encVelCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_encVelCallbacks, uid);
 }
+
 void CanTalonData::InvokeEncVelCallback(const HAL_Value* value) {
-  auto newCallbacks = m_encVelCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_encVelCallbacks, "EncVel", value);
 }
 
 double CanTalonData::GetEncVel() {
@@ -2046,29 +1639,21 @@ void CanTalonData::SetEncVel(double encVel) {
 }
 
 int32_t CanTalonData::RegisterEncIndexRiseEventsCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "EncIndexRiseEvents";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_encIndexRiseEventsCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetEncIndexRiseEvents()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetEncIndexRiseEvents());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_encIndexRiseEventsCallbacks, "EncIndexRiseEvents", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_encIndexRiseEventsCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelEncIndexRiseEventsCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_encIndexRiseEventsCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_encIndexRiseEventsCallbacks, uid);
 }
+
 void CanTalonData::InvokeEncIndexRiseEventsCallback(const HAL_Value* value) {
-  auto newCallbacks = m_encIndexRiseEventsCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_encIndexRiseEventsCallbacks, "EncIndexRiseEvents", value);
 }
 
 double CanTalonData::GetEncIndexRiseEvents() {
@@ -2083,29 +1668,21 @@ void CanTalonData::SetEncIndexRiseEvents(double encIndexRiseEvents) {
 }
 
 int32_t CanTalonData::RegisterQuadApinCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "QuadApin";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_quadApinCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetQuadApin()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetQuadApin());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_quadApinCallbacks, "QuadApin", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_quadApinCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelQuadApinCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_quadApinCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_quadApinCallbacks, uid);
 }
+
 void CanTalonData::InvokeQuadApinCallback(const HAL_Value* value) {
-  auto newCallbacks = m_quadApinCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_quadApinCallbacks, "QuadApin", value);
 }
 
 double CanTalonData::GetQuadApin() {
@@ -2120,29 +1697,21 @@ void CanTalonData::SetQuadApin(double quadApin) {
 }
 
 int32_t CanTalonData::RegisterQuadBpinCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "QuadBpin";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_quadBpinCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetQuadBpin()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetQuadBpin());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_quadBpinCallbacks, "QuadBpin", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_quadBpinCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelQuadBpinCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_quadBpinCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_quadBpinCallbacks, uid);
 }
+
 void CanTalonData::InvokeQuadBpinCallback(const HAL_Value* value) {
-  auto newCallbacks = m_quadBpinCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_quadBpinCallbacks, "QuadBpin", value);
 }
 
 double CanTalonData::GetQuadBpin() {
@@ -2157,29 +1726,21 @@ void CanTalonData::SetQuadBpin(double quadBpin) {
 }
 
 int32_t CanTalonData::RegisterQuadIdxpinCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "QuadIdxpin";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_quadIdxpinCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetQuadIdxpin()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetQuadIdxpin());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_quadIdxpinCallbacks, "QuadIdxpin", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_quadIdxpinCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelQuadIdxpinCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_quadIdxpinCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_quadIdxpinCallbacks, uid);
 }
+
 void CanTalonData::InvokeQuadIdxpinCallback(const HAL_Value* value) {
-  auto newCallbacks = m_quadIdxpinCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_quadIdxpinCallbacks, "QuadIdxpin", value);
 }
 
 double CanTalonData::GetQuadIdxpin() {
@@ -2194,29 +1755,21 @@ void CanTalonData::SetQuadIdxpin(double quadIdxpin) {
 }
 
 int32_t CanTalonData::RegisterAnalogInWithOvCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "AnalogInWithOv";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_analogInWithOvCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetAnalogInWithOv()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetAnalogInWithOv());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_analogInWithOvCallbacks, "AnalogInWithOv", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_analogInWithOvCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelAnalogInWithOvCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_analogInWithOvCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_analogInWithOvCallbacks, uid);
 }
+
 void CanTalonData::InvokeAnalogInWithOvCallback(const HAL_Value* value) {
-  auto newCallbacks = m_analogInWithOvCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_analogInWithOvCallbacks, "AnalogInWithOv", value);
 }
 
 double CanTalonData::GetAnalogInWithOv() {
@@ -2231,29 +1784,21 @@ void CanTalonData::SetAnalogInWithOv(double analogInWithOv) {
 }
 
 int32_t CanTalonData::RegisterAnalogInVelCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "AnalogInVel";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_analogInVelCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetAnalogInVel()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetAnalogInVel());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_analogInVelCallbacks, "AnalogInVel", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_analogInVelCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelAnalogInVelCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_analogInVelCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_analogInVelCallbacks, uid);
 }
+
 void CanTalonData::InvokeAnalogInVelCallback(const HAL_Value* value) {
-  auto newCallbacks = m_analogInVelCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_analogInVelCallbacks, "AnalogInVel", value);
 }
 
 double CanTalonData::GetAnalogInVel() {
@@ -2268,29 +1813,21 @@ void CanTalonData::SetAnalogInVel(double analogInVel) {
 }
 
 int32_t CanTalonData::RegisterTempCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Temp";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_tempCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetTemp()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetTemp());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_tempCallbacks, "Temp", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_tempCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelTempCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_tempCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_tempCallbacks, uid);
 }
+
 void CanTalonData::InvokeTempCallback(const HAL_Value* value) {
-  auto newCallbacks = m_tempCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_tempCallbacks, "Temp", value);
 }
 
 double CanTalonData::GetTemp() {
@@ -2305,29 +1842,21 @@ void CanTalonData::SetTemp(double temp) {
 }
 
 int32_t CanTalonData::RegisterBatteryVCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "BatteryV";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_batteryVCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetBatteryV()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetBatteryV());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_batteryVCallbacks, "BatteryV", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_batteryVCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelBatteryVCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_batteryVCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_batteryVCallbacks, uid);
 }
+
 void CanTalonData::InvokeBatteryVCallback(const HAL_Value* value) {
-  auto newCallbacks = m_batteryVCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_batteryVCallbacks, "BatteryV", value);
 }
 
 double CanTalonData::GetBatteryV() {
@@ -2342,29 +1871,21 @@ void CanTalonData::SetBatteryV(double batteryV) {
 }
 
 int32_t CanTalonData::RegisterResetCountCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ResetCount";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_resetCountCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetResetCount()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetResetCount());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_resetCountCallbacks, "ResetCount", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_resetCountCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelResetCountCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_resetCountCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_resetCountCallbacks, uid);
 }
+
 void CanTalonData::InvokeResetCountCallback(const HAL_Value* value) {
-  auto newCallbacks = m_resetCountCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_resetCountCallbacks, "ResetCount", value);
 }
 
 double CanTalonData::GetResetCount() {
@@ -2379,29 +1900,21 @@ void CanTalonData::SetResetCount(double resetCount) {
 }
 
 int32_t CanTalonData::RegisterResetFlagsCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ResetFlags";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_resetFlagsCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetResetFlags()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetResetFlags());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_resetFlagsCallbacks, "ResetFlags", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_resetFlagsCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelResetFlagsCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_resetFlagsCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_resetFlagsCallbacks, uid);
 }
+
 void CanTalonData::InvokeResetFlagsCallback(const HAL_Value* value) {
-  auto newCallbacks = m_resetFlagsCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_resetFlagsCallbacks, "ResetFlags", value);
 }
 
 double CanTalonData::GetResetFlags() {
@@ -2416,29 +1929,21 @@ void CanTalonData::SetResetFlags(double resetFlags) {
 }
 
 int32_t CanTalonData::RegisterFirmVersCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "FirmVers";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_firmVersCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetFirmVers()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetFirmVers());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_firmVersCallbacks, "FirmVers", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_firmVersCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelFirmVersCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_firmVersCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_firmVersCallbacks, uid);
 }
+
 void CanTalonData::InvokeFirmVersCallback(const HAL_Value* value) {
-  auto newCallbacks = m_firmVersCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_firmVersCallbacks, "FirmVers", value);
 }
 
 double CanTalonData::GetFirmVers() {
@@ -2453,29 +1958,21 @@ void CanTalonData::SetFirmVers(double firmVers) {
 }
 
 int32_t CanTalonData::RegisterSettingsChangedCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "SettingsChanged";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_settingsChangedCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetSettingsChanged()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetSettingsChanged());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_settingsChangedCallbacks, "SettingsChanged", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_settingsChangedCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelSettingsChangedCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_settingsChangedCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_settingsChangedCallbacks, uid);
 }
+
 void CanTalonData::InvokeSettingsChangedCallback(const HAL_Value* value) {
-  auto newCallbacks = m_settingsChangedCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_settingsChangedCallbacks, "SettingsChanged", value);
 }
 
 double CanTalonData::GetSettingsChanged() {
@@ -2490,29 +1987,21 @@ void CanTalonData::SetSettingsChanged(double settingsChanged) {
 }
 
 int32_t CanTalonData::RegisterQuadFilterEnCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "QuadFilterEn";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_quadFilterEnCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetQuadFilterEn()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetQuadFilterEn());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_quadFilterEnCallbacks, "QuadFilterEn", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_quadFilterEnCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelQuadFilterEnCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_quadFilterEnCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_quadFilterEnCallbacks, uid);
 }
+
 void CanTalonData::InvokeQuadFilterEnCallback(const HAL_Value* value) {
-  auto newCallbacks = m_quadFilterEnCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_quadFilterEnCallbacks, "QuadFilterEn", value);
 }
 
 double CanTalonData::GetQuadFilterEn() {
@@ -2527,29 +2016,21 @@ void CanTalonData::SetQuadFilterEn(double quadFilterEn) {
 }
 
 int32_t CanTalonData::RegisterPidIaccumCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "PidIaccum";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_pidIaccumCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetPidIaccum()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetPidIaccum());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_pidIaccumCallbacks, "PidIaccum", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_pidIaccumCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelPidIaccumCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_pidIaccumCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_pidIaccumCallbacks, uid);
 }
+
 void CanTalonData::InvokePidIaccumCallback(const HAL_Value* value) {
-  auto newCallbacks = m_pidIaccumCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_pidIaccumCallbacks, "PidIaccum", value);
 }
 
 double CanTalonData::GetPidIaccum() {
@@ -2564,29 +2045,21 @@ void CanTalonData::SetPidIaccum(double pidIaccum) {
 }
 
 int32_t CanTalonData::RegisterAinPositionCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "AinPosition";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_ainPositionCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetAinPosition()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetAinPosition());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_ainPositionCallbacks, "AinPosition", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_ainPositionCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelAinPositionCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_ainPositionCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_ainPositionCallbacks, uid);
 }
+
 void CanTalonData::InvokeAinPositionCallback(const HAL_Value* value) {
-  auto newCallbacks = m_ainPositionCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_ainPositionCallbacks, "AinPosition", value);
 }
 
 double CanTalonData::GetAinPosition() {
@@ -2601,29 +2074,21 @@ void CanTalonData::SetAinPosition(double ainPosition) {
 }
 
 int32_t CanTalonData::RegisterProfileParamSlot0_AllowableClosedLoopErrCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ProfileParamSlot0_AllowableClosedLoopErr";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot0_AllowableClosedLoopErrCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetProfileParamSlot0_AllowableClosedLoopErr()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetProfileParamSlot0_AllowableClosedLoopErr());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_profileParamSlot0_AllowableClosedLoopErrCallbacks, "ProfileParamSlot0_AllowableClosedLoopErr", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_profileParamSlot0_AllowableClosedLoopErrCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelProfileParamSlot0_AllowableClosedLoopErrCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot0_AllowableClosedLoopErrCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_profileParamSlot0_AllowableClosedLoopErrCallbacks, uid);
 }
+
 void CanTalonData::InvokeProfileParamSlot0_AllowableClosedLoopErrCallback(const HAL_Value* value) {
-  auto newCallbacks = m_profileParamSlot0_AllowableClosedLoopErrCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_profileParamSlot0_AllowableClosedLoopErrCallbacks, "ProfileParamSlot0_AllowableClosedLoopErr", value);
 }
 
 double CanTalonData::GetProfileParamSlot0_AllowableClosedLoopErr() {
@@ -2638,29 +2103,21 @@ void CanTalonData::SetProfileParamSlot0_AllowableClosedLoopErr(double profilePar
 }
 
 int32_t CanTalonData::RegisterProfileParamSlot1_AllowableClosedLoopErrCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ProfileParamSlot1_AllowableClosedLoopErr";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot1_AllowableClosedLoopErrCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetProfileParamSlot1_AllowableClosedLoopErr()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetProfileParamSlot1_AllowableClosedLoopErr());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_profileParamSlot1_AllowableClosedLoopErrCallbacks, "ProfileParamSlot1_AllowableClosedLoopErr", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_profileParamSlot1_AllowableClosedLoopErrCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelProfileParamSlot1_AllowableClosedLoopErrCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_profileParamSlot1_AllowableClosedLoopErrCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_profileParamSlot1_AllowableClosedLoopErrCallbacks, uid);
 }
+
 void CanTalonData::InvokeProfileParamSlot1_AllowableClosedLoopErrCallback(const HAL_Value* value) {
-  auto newCallbacks = m_profileParamSlot1_AllowableClosedLoopErrCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_profileParamSlot1_AllowableClosedLoopErrCallbacks, "ProfileParamSlot1_AllowableClosedLoopErr", value);
 }
 
 double CanTalonData::GetProfileParamSlot1_AllowableClosedLoopErr() {
@@ -2675,29 +2132,21 @@ void CanTalonData::SetProfileParamSlot1_AllowableClosedLoopErr(double profilePar
 }
 
 int32_t CanTalonData::RegisterNumberEncoderCPRCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "NumberEncoderCPR";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_numberEncoderCPRCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetNumberEncoderCPR()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetNumberEncoderCPR());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_numberEncoderCPRCallbacks, "NumberEncoderCPR", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_numberEncoderCPRCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelNumberEncoderCPRCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_numberEncoderCPRCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_numberEncoderCPRCallbacks, uid);
 }
+
 void CanTalonData::InvokeNumberEncoderCPRCallback(const HAL_Value* value) {
-  auto newCallbacks = m_numberEncoderCPRCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_numberEncoderCPRCallbacks, "NumberEncoderCPR", value);
 }
 
 double CanTalonData::GetNumberEncoderCPR() {
@@ -2712,29 +2161,21 @@ void CanTalonData::SetNumberEncoderCPR(double numberEncoderCPR) {
 }
 
 int32_t CanTalonData::RegisterNumberPotTurnsCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "NumberPotTurns";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_numberPotTurnsCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetNumberPotTurns()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetNumberPotTurns());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_numberPotTurnsCallbacks, "NumberPotTurns", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_numberPotTurnsCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::CancelNumberPotTurnsCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_numberPotTurnsCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_numberPotTurnsCallbacks, uid);
 }
+
 void CanTalonData::InvokeNumberPotTurnsCallback(const HAL_Value* value) {
-  auto newCallbacks = m_numberPotTurnsCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_numberPotTurnsCallbacks, "NumberPotTurns", value);
 }
 
 double CanTalonData::GetNumberPotTurns() {
@@ -2749,29 +2190,21 @@ void CanTalonData::SetNumberPotTurns(double numberPotTurns) {
 }
 
 int32_t CanTalonData::Registerm_overrideLimitSwitchCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "m_overrideLimitSwitch";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_m_overrideLimitSwitchCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(Getm_overrideLimitSwitch()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(Getm_overrideLimitSwitch());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_m_overrideLimitSwitchCallbacks, "m_overrideLimitSwitch", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_m_overrideLimitSwitchCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::Cancelm_overrideLimitSwitchCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_m_overrideLimitSwitchCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_m_overrideLimitSwitchCallbacks, uid);
 }
+
 void CanTalonData::Invokem_overrideLimitSwitchCallback(const HAL_Value* value) {
-  auto newCallbacks = m_m_overrideLimitSwitchCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_m_overrideLimitSwitchCallbacks, "m_overrideLimitSwitch", value);
 }
 
 double CanTalonData::Getm_overrideLimitSwitch() {
@@ -2786,29 +2219,21 @@ void CanTalonData::Setm_overrideLimitSwitch(double m_overrideLimitSwitch) {
 }
 
 int32_t CanTalonData::Registerm_overrideBrakeTypeCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "m_overrideBrakeType";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_m_overrideBrakeTypeCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(Getm_overrideBrakeType()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(Getm_overrideBrakeType());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_m_overrideBrakeTypeCallbacks, "m_overrideBrakeType", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_m_overrideBrakeTypeCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::Cancelm_overrideBrakeTypeCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_m_overrideBrakeTypeCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_m_overrideBrakeTypeCallbacks, uid);
 }
+
 void CanTalonData::Invokem_overrideBrakeTypeCallback(const HAL_Value* value) {
-  auto newCallbacks = m_m_overrideBrakeTypeCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_m_overrideBrakeTypeCallbacks, "m_overrideBrakeType", value);
 }
 
 double CanTalonData::Getm_overrideBrakeType() {
@@ -2823,29 +2248,21 @@ void CanTalonData::Setm_overrideBrakeType(double m_overrideBrakeType) {
 }
 
 int32_t CanTalonData::Registerm_demandCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "m_demand";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_m_demandCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(Getm_demand()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(Getm_demand());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_m_demandCallbacks, "m_demand", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_m_demandCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::Cancelm_demandCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_m_demandCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_m_demandCallbacks, uid);
 }
+
 void CanTalonData::Invokem_demandCallback(const HAL_Value* value) {
-  auto newCallbacks = m_m_demandCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_m_demandCallbacks, "m_demand", value);
 }
 
 double CanTalonData::Getm_demand() {
@@ -2860,29 +2277,21 @@ void CanTalonData::Setm_demand(double m_demand) {
 }
 
 int32_t CanTalonData::Registerm_percentVBusValueCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "m_percentVBusValue";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_m_percentVBusValueCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(Getm_percentVBusValue()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(Getm_percentVBusValue());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_m_percentVBusValueCallbacks, "m_percentVBusValue", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_m_percentVBusValueCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::Cancelm_percentVBusValueCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_m_percentVBusValueCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_m_percentVBusValueCallbacks, uid);
 }
+
 void CanTalonData::Invokem_percentVBusValueCallback(const HAL_Value* value) {
-  auto newCallbacks = m_m_percentVBusValueCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_m_percentVBusValueCallbacks, "m_percentVBusValue", value);
 }
 
 double CanTalonData::Getm_percentVBusValue() {
@@ -2897,29 +2306,21 @@ void CanTalonData::Setm_percentVBusValue(double m_percentVBusValue) {
 }
 
 int32_t CanTalonData::Registerm_voltageCompensationRateCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "m_voltageCompensationRate";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_m_voltageCompensationRateCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(Getm_voltageCompensationRate()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(Getm_voltageCompensationRate());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_m_voltageCompensationRateCallbacks, "m_voltageCompensationRate", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_m_voltageCompensationRateCallbacks = newCallbacks;
+  return newUid;
 }
+
 void CanTalonData::Cancelm_voltageCompensationRateCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_m_voltageCompensationRateCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_m_voltageCompensationRateCallbacks, uid);
 }
+
 void CanTalonData::Invokem_voltageCompensationRateCallback(const HAL_Value* value) {
-  auto newCallbacks = m_m_voltageCompensationRateCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_m_voltageCompensationRateCallbacks, "m_voltageCompensationRate", value);
 }
 
 double CanTalonData::Getm_voltageCompensationRate() {

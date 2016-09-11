@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "MockData/DigitalPWMData.h"
-#include "MockData/DataBase.h"
+#include "MockData/NotifyListenerVector.h"
 
 namespace hal {
 class DigitalPWMData {
@@ -30,11 +30,11 @@ class DigitalPWMData {
   virtual void ResetData();
  private:
   std::atomic<HAL_Bool> m_initialized = false;
-  std::shared_ptr<UidVector<NotifyListener>> m_initializedCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_initializedCallbacks = nullptr;
   std::atomic<double> m_dutyCycle = false;
-  std::shared_ptr<UidVector<NotifyListener>> m_dutyCycleCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_dutyCycleCallbacks = nullptr;
   std::atomic<int32_t> m_pin = 0;
-  std::shared_ptr<UidVector<NotifyListener>> m_pinCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_pinCallbacks = nullptr;
 };
 extern std::unique_ptr<std::shared_ptr<DigitalPWMData>[]> SimDigitalPWMData;
 }

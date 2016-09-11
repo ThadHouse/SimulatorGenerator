@@ -25,7 +25,7 @@ namespace SimulatorGenerator
                 builder.AppendLine("#pragma once");
                 builder.AppendLine();
                 builder.AppendLine("#include \"HAL/HAL.h\"");
-                builder.AppendLine("#include \"NotifyDataBase.h\"");
+                builder.AppendLine("#include \"NotifyListener.h\"");
                 builder.AppendLine();
                 builder.AppendLine("#ifdef __cplusplus\nextern \"C\" {\n#endif\n");
                 foreach (var variable in dataFile.Variables)

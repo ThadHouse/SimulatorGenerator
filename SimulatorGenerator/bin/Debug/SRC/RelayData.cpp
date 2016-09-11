@@ -1,5 +1,6 @@
 #include "RelayDataInternal.h"
 
+#include "NotifyCallbackHelpers.h"
 #include "../PortsInternal.h"
 
 using namespace hal;
@@ -15,29 +16,21 @@ void RelayData::ResetData() {
 }
 
 int32_t RelayData::RegisterInitializedCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Initialized";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_initializedCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetInitialized()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetInitialized());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_initializedCallbacks, "Initialized", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_initializedCallbacks = newCallbacks;
+  return newUid;
 }
+
 void RelayData::CancelInitializedCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_initializedCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_initializedCallbacks, uid);
 }
+
 void RelayData::InvokeInitializedCallback(const HAL_Value* value) {
-  auto newCallbacks = m_initializedCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_initializedCallbacks, "Initialized", value);
 }
 
 HAL_Bool RelayData::GetInitialized() {
@@ -52,29 +45,21 @@ void RelayData::SetInitialized(HAL_Bool initialized) {
 }
 
 int32_t RelayData::RegisterForwardCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Forward";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_forwardCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetForward()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetForward());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_forwardCallbacks, "Forward", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_forwardCallbacks = newCallbacks;
+  return newUid;
 }
+
 void RelayData::CancelForwardCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_forwardCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_forwardCallbacks, uid);
 }
+
 void RelayData::InvokeForwardCallback(const HAL_Value* value) {
-  auto newCallbacks = m_forwardCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_forwardCallbacks, "Forward", value);
 }
 
 HAL_Bool RelayData::GetForward() {
@@ -89,29 +74,21 @@ void RelayData::SetForward(HAL_Bool forward) {
 }
 
 int32_t RelayData::RegisterReverseCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Reverse";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_reverseCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetReverse()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetReverse());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_reverseCallbacks, "Reverse", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_reverseCallbacks = newCallbacks;
+  return newUid;
 }
+
 void RelayData::CancelReverseCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_reverseCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_reverseCallbacks, uid);
 }
+
 void RelayData::InvokeReverseCallback(const HAL_Value* value) {
-  auto newCallbacks = m_reverseCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_reverseCallbacks, "Reverse", value);
 }
 
 HAL_Bool RelayData::GetReverse() {

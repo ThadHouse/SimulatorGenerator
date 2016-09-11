@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "MockData/AnalogInData.h"
-#include "MockData/NotifyDataBase.h"
+#include "MockData/NotifyListenerVector.h"
 
 namespace hal {
 class AnalogInData {
@@ -66,23 +66,23 @@ class AnalogInData {
   virtual void ResetData();
  private:
   std::atomic<HAL_Bool> m_initialized = false;
-  std::shared_ptr<UidVector<NotifyListener>> m_initializedCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_initializedCallbacks = nullptr;
   std::atomic<int32_t> m_averageBits = 7;
-  std::shared_ptr<UidVector<NotifyListener>> m_averageBitsCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_averageBitsCallbacks = nullptr;
   std::atomic<int32_t> m_oversampleBits = 0;
-  std::shared_ptr<UidVector<NotifyListener>> m_oversampleBitsCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_oversampleBitsCallbacks = nullptr;
   std::atomic<double> m_voltage = 0.0;
-  std::shared_ptr<UidVector<NotifyListener>> m_voltageCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_voltageCallbacks = nullptr;
   std::atomic<HAL_Bool> m_accumulatorInitialized = false;
-  std::shared_ptr<UidVector<NotifyListener>> m_accumulatorInitializedCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_accumulatorInitializedCallbacks = nullptr;
   std::atomic<int64_t> m_accumulatorValue = 0;
-  std::shared_ptr<UidVector<NotifyListener>> m_accumulatorValueCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_accumulatorValueCallbacks = nullptr;
   std::atomic<int64_t> m_accumulatorCount = 0;
-  std::shared_ptr<UidVector<NotifyListener>> m_accumulatorCountCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_accumulatorCountCallbacks = nullptr;
   std::atomic<int32_t> m_accumlatorCenter = 0;
-  std::shared_ptr<UidVector<NotifyListener>> m_accumlatorCenterCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_accumlatorCenterCallbacks = nullptr;
   std::atomic<int32_t> m_accumlatorDeadband = 0;
-  std::shared_ptr<UidVector<NotifyListener>> m_accumlatorDeadbandCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_accumlatorDeadbandCallbacks = nullptr;
 };
 extern std::unique_ptr<std::shared_ptr<AnalogInData>[]> SimAnalogInData;
 }

@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "MockData/DIOData.h"
-#include "MockData/NotifyDataBase.h"
+#include "MockData/NotifyListenerVector.h"
 
 namespace hal {
 class DIOData {
@@ -42,15 +42,15 @@ class DIOData {
   virtual void ResetData();
  private:
   std::atomic<HAL_Bool> m_initialized = false;
-  std::shared_ptr<UidVector<NotifyListener>> m_initializedCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_initializedCallbacks = nullptr;
   std::atomic<HAL_Bool> m_value = true;
-  std::shared_ptr<UidVector<NotifyListener>> m_valueCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_valueCallbacks = nullptr;
   std::atomic<double> m_pulseLength = 0.0;
-  std::shared_ptr<UidVector<NotifyListener>> m_pulseLengthCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_pulseLengthCallbacks = nullptr;
   std::atomic<HAL_Bool> m_isInput = true;
-  std::shared_ptr<UidVector<NotifyListener>> m_isInputCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_isInputCallbacks = nullptr;
   std::atomic<int32_t> m_filterIndex = -1;
-  std::shared_ptr<UidVector<NotifyListener>> m_filterIndexCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_filterIndexCallbacks = nullptr;
 };
 extern std::unique_ptr<std::shared_ptr<DIOData>[]> SimDIOData;
 }

@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "MockData/AnalogGyroData.h"
-#include "MockData/NotifyDataBase.h"
+#include "MockData/NotifyListenerVector.h"
 
 namespace hal {
 class AnalogGyroData {
@@ -30,11 +30,11 @@ class AnalogGyroData {
   virtual void ResetData();
  private:
   std::atomic<double> m_angle = 0.0;
-  std::shared_ptr<UidVector<NotifyListener>> m_angleCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_angleCallbacks = nullptr;
   std::atomic<double> m_rate = 0.0;
-  std::shared_ptr<UidVector<NotifyListener>> m_rateCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_rateCallbacks = nullptr;
   std::atomic<HAL_Bool> m_initialized = false;
-  std::shared_ptr<UidVector<NotifyListener>> m_initializedCallbacks = nullptr;
+  std::shared_ptr<NotifyListenerVector> m_initializedCallbacks = nullptr;
 };
 extern std::unique_ptr<std::shared_ptr<AnalogGyroData>[]> SimAnalogGyroData;
 }

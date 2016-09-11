@@ -1,5 +1,6 @@
 #include "EncoderDataInternal.h"
 
+#include "NotifyCallbackHelpers.h"
 #include "../PortsInternal.h"
 
 using namespace hal;
@@ -25,29 +26,21 @@ void EncoderData::ResetData() {
 }
 
 int32_t EncoderData::RegisterInitializedCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Initialized";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_initializedCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetInitialized()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetInitialized());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_initializedCallbacks, "Initialized", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_initializedCallbacks = newCallbacks;
+  return newUid;
 }
+
 void EncoderData::CancelInitializedCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_initializedCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_initializedCallbacks, uid);
 }
+
 void EncoderData::InvokeInitializedCallback(const HAL_Value* value) {
-  auto newCallbacks = m_initializedCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_initializedCallbacks, "Initialized", value);
 }
 
 HAL_Bool EncoderData::GetInitialized() {
@@ -62,29 +55,21 @@ void EncoderData::SetInitialized(HAL_Bool initialized) {
 }
 
 int32_t EncoderData::RegisterCountCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Count";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_countCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeInt(GetCount()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeInt(GetCount());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_countCallbacks, "Count", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_countCallbacks = newCallbacks;
+  return newUid;
 }
+
 void EncoderData::CancelCountCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_countCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_countCallbacks, uid);
 }
+
 void EncoderData::InvokeCountCallback(const HAL_Value* value) {
-  auto newCallbacks = m_countCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_countCallbacks, "Count", value);
 }
 
 int32_t EncoderData::GetCount() {
@@ -99,29 +84,21 @@ void EncoderData::SetCount(int32_t count) {
 }
 
 int32_t EncoderData::RegisterPeriodCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Period";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_periodCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetPeriod()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetPeriod());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_periodCallbacks, "Period", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_periodCallbacks = newCallbacks;
+  return newUid;
 }
+
 void EncoderData::CancelPeriodCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_periodCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_periodCallbacks, uid);
 }
+
 void EncoderData::InvokePeriodCallback(const HAL_Value* value) {
-  auto newCallbacks = m_periodCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_periodCallbacks, "Period", value);
 }
 
 double EncoderData::GetPeriod() {
@@ -136,29 +113,21 @@ void EncoderData::SetPeriod(double period) {
 }
 
 int32_t EncoderData::RegisterResetCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Reset";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_resetCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetReset()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetReset());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_resetCallbacks, "Reset", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_resetCallbacks = newCallbacks;
+  return newUid;
 }
+
 void EncoderData::CancelResetCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_resetCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_resetCallbacks, uid);
 }
+
 void EncoderData::InvokeResetCallback(const HAL_Value* value) {
-  auto newCallbacks = m_resetCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_resetCallbacks, "Reset", value);
 }
 
 HAL_Bool EncoderData::GetReset() {
@@ -173,29 +142,21 @@ void EncoderData::SetReset(HAL_Bool reset) {
 }
 
 int32_t EncoderData::RegisterMaxPeriodCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "MaxPeriod";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_maxPeriodCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeDouble(GetMaxPeriod()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeDouble(GetMaxPeriod());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_maxPeriodCallbacks, "MaxPeriod", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_maxPeriodCallbacks = newCallbacks;
+  return newUid;
 }
+
 void EncoderData::CancelMaxPeriodCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_maxPeriodCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_maxPeriodCallbacks, uid);
 }
+
 void EncoderData::InvokeMaxPeriodCallback(const HAL_Value* value) {
-  auto newCallbacks = m_maxPeriodCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_maxPeriodCallbacks, "MaxPeriod", value);
 }
 
 double EncoderData::GetMaxPeriod() {
@@ -210,29 +171,21 @@ void EncoderData::SetMaxPeriod(double maxPeriod) {
 }
 
 int32_t EncoderData::RegisterDirectionCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "Direction";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_directionCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetDirection()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetDirection());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_directionCallbacks, "Direction", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_directionCallbacks = newCallbacks;
+  return newUid;
 }
+
 void EncoderData::CancelDirectionCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_directionCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_directionCallbacks, uid);
 }
+
 void EncoderData::InvokeDirectionCallback(const HAL_Value* value) {
-  auto newCallbacks = m_directionCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_directionCallbacks, "Direction", value);
 }
 
 HAL_Bool EncoderData::GetDirection() {
@@ -247,29 +200,21 @@ void EncoderData::SetDirection(HAL_Bool direction) {
 }
 
 int32_t EncoderData::RegisterReverseDirectionCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "ReverseDirection";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_reverseDirectionCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeBoolean(GetReverseDirection()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeBoolean(GetReverseDirection());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_reverseDirectionCallbacks, "ReverseDirection", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_reverseDirectionCallbacks = newCallbacks;
+  return newUid;
 }
+
 void EncoderData::CancelReverseDirectionCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_reverseDirectionCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_reverseDirectionCallbacks, uid);
 }
+
 void EncoderData::InvokeReverseDirectionCallback(const HAL_Value* value) {
-  auto newCallbacks = m_reverseDirectionCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_reverseDirectionCallbacks, "ReverseDirection", value);
 }
 
 HAL_Bool EncoderData::GetReverseDirection() {
@@ -284,29 +229,21 @@ void EncoderData::SetReverseDirection(HAL_Bool reverseDirection) {
 }
 
 int32_t EncoderData::RegisterSamplesToAverageCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  // Return an invalid value on a null callback
-  if (callback == nullptr) return -1;
-  const char* variableName = "SamplesToAverage";
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_samplesToAverageCallbacks);
-  int uid = newCallbacks->emplace_back(variableName, param, callback);
-  if (initialNotify) {
-    callback(variableName, param, &MakeInt(GetSamplesToAverage()));
-  }
-  m_activeCallbacks = newCallbacks;
-  return uid;
+  HAL_Value* value = nullptr;
+  if (initialNotify) value = &MakeInt(GetSamplesToAverage());
+  int32_t newUid = 0;
+  auto newCallbacks = RegisterCallback(m_samplesToAverageCallbacks, "SamplesToAverage", callback, param, value, &newUid);
+  if (newCallbacks == nullptr) return newUid;
+  m_samplesToAverageCallbacks = newCallbacks;
+  return newUid;
 }
+
 void EncoderData::CancelSamplesToAverageCallback(int32_t uid) {
-  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*m_samplesToAverageCallbacks);
-  newCallbacks->erase(uid);
-  m_activeCallbacks = newCallbacks;
+  m_activeCallbacks = CancelCallback(m_samplesToAverageCallbacks, uid);
 }
+
 void EncoderData::InvokeSamplesToAverageCallback(const HAL_Value* value) {
-  auto newCallbacks = m_samplesToAverageCallbacks;
-  for (std::size_t i=0; i<newCallbacks->size(); ++i) {
-    if (!(*newCallbacks)[i]) continue; //removed
-    auto listener = (*newCallbacks)[i];
-    listener.callback(listener.key.c_str(), listener.param, value);
-  }
+  InvokeCallback(m_samplesToAverageCallbacks, "SamplesToAverage", value);
 }
 
 int32_t EncoderData::GetSamplesToAverage() {

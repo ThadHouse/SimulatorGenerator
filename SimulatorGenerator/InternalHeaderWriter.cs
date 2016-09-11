@@ -26,7 +26,7 @@ namespace SimulatorGenerator
                 builder.AppendLine();
                 builder.AppendLine("#include <atomic>\n#include <memory>\n");
                 builder.AppendLine($"#include \"MockData/{dataFile.Name}.h\"");
-                builder.AppendLine($"#include \"MockData/{dataFile.Base}.h\"");
+                builder.AppendLine($"#include \"MockData/NotifyListenerVector.h\"");
                 builder.AppendLine();
                 builder.AppendLine("namespace hal {");
                 builder.AppendLine($"class {dataFile.Name} {{\n public:");
@@ -51,7 +51,7 @@ namespace SimulatorGenerator
 
                     string nameWithLowerCase = "m_" + variable.Name[0].ToString().ToLower() + variable.Name.Substring(1);
                     builder.AppendLine($"  std::atomic<{variable.RetType}> {nameWithLowerCase} = {variable.DefaultValue};");
-                    builder.AppendLine($"  std::shared_ptr<UidVector<NotifyListener>> {nameWithLowerCase}Callbacks = nullptr;");
+                    builder.AppendLine($"  std::shared_ptr<NotifyListenerVector> {nameWithLowerCase}Callbacks = nullptr;");
                 }
 
                 builder.AppendLine("};");

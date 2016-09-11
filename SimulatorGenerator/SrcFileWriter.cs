@@ -31,6 +31,7 @@ namespace SimulatorGenerator
 
                 StringBuilder builder = new StringBuilder();
                 builder.AppendLine($"#include \"{dataFile.Name}Internal.h\"\n");
+                builder.AppendLine("#include \"NotifyCallbackHelpers.h\"");
                 builder.AppendLine("#include \"../PortsInternal.h\"\n");
 
                 builder.AppendLine("using namespace hal;\n");
@@ -64,36 +65,29 @@ namespace SimulatorGenerator
 
                     builder.AppendLine(
                         $"int32_t {dataFile.Name}::Register{variable.Name}Callback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {{");
-                    builder.AppendLine(
-                        "  // Return an invalid value on a null callback\n  if (callback == nullptr) return -1;");
-                    builder.AppendLine($"  const char* variableName = \"{variable.Name}\";");
-                    builder.AppendLine(copyCallbacks);
 
-                    builder.AppendLine("  int uid = newCallbacks->emplace_back(variableName, param, callback);");
-
+                    builder.AppendLine("  HAL_Value* value = nullptr;");
+                    builder.AppendLine($"  if (initialNotify) value = {propChangedMaker}Get{variable.Name}());");
+                    builder.AppendLine("  int32_t newUid = 0;");
                     builder.AppendLine(
-                        $"  if (initialNotify) {{\n    callback(variableName, param, {propChangedMaker}Get{variable.Name}()));\n  }}");
-                    builder.AppendLine("  m_activeCallbacks = newCallbacks;");
-                    builder.AppendLine("  return uid;\n}");
+                        $"  auto newCallbacks = RegisterCallback({nameWithM_}Callbacks, \"{variable.Name}\", callback, param, value, &newUid);");
+                    builder.AppendLine("  if (newCallbacks == nullptr) return newUid;");
+                    builder.AppendLine($"  {nameWithM_}Callbacks = newCallbacks;");
+                    builder.AppendLine("  return newUid;\n}\n");
 
 
                     builder.AppendLine(
                         $"void {dataFile.Name}::Cancel{variable.Name}Callback(int32_t uid) {{");
-                    builder.AppendLine(copyCallbacks);
-                    builder.AppendLine("  newCallbacks->erase(uid);");
-                    builder.AppendLine("  m_activeCallbacks = newCallbacks;\n}");
+                    builder.AppendLine($"  m_activeCallbacks = CancelCallback({nameWithM_}Callbacks, uid);\n}}\n");
 
                     builder.AppendLine(
                         $"void {dataFile.Name}::Invoke{variable.Name}Callback(const HAL_Value* value) {{");
-                    builder.AppendLine($"  auto newCallbacks = {nameWithM_}Callbacks;");
-                    builder.AppendLine("  for (std::size_t i=0; i<newCallbacks->size(); ++i) {");
-                    builder.AppendLine("    if (!(*newCallbacks)[i]) continue; //removed");
-                    builder.AppendLine("    auto listener = (*newCallbacks)[i];");
-                    builder.AppendLine("    listener.callback(listener.key.c_str(), listener.param, value);\n  }\n}\n");
+                    builder.AppendLine($"  InvokeCallback({nameWithM_}Callbacks, \"{variable.Name}\", value);\n}}\n");
 
                     builder.AppendLine($"{variable.RetType} {dataFile.Name}::Get{variable.Name}() {{");
                     builder.AppendLine($"  return {nameWithM_};");
                     builder.AppendLine("}\n");
+
 
                     builder.AppendLine(
                         $"void {dataFile.Name}::Set{variable.Name}({variable.RetType} {nameWithLowerCase}) {{");
