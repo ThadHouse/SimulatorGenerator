@@ -5,7 +5,7 @@
 
 using namespace hal;
 
-std::unique_ptr<std::shared_ptr<DIOData>[]> hal::SimDIOData = std::make_unique<std::shared_ptr<DIOData>[]>(SIZEINHERE);
+DIOData hal::SimDIOData[SIZEINHERE];
 void DIOData::ResetData() {
   m_initialized = false;
   m_initializedCallbacks = nullptr;
@@ -20,21 +20,27 @@ void DIOData::ResetData() {
 }
 
 int32_t DIOData::RegisterInitializedCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  HAL_Value* value = nullptr;
-  if (initialNotify) value = &MakeBoolean(GetInitialized());
+  // Must return -1 on a null callback for error handling
+  if (callback == nullptr) return -1;
   int32_t newUid = 0;
-  auto newCallbacks = RegisterCallback(m_initializedCallbacks, "Initialized", callback, param, value, &newUid);
-  if (newCallbacks == nullptr) return newUid;
-  m_initializedCallbacks = newCallbacks;
+ {
+    std::lock_guard<std::mutex> lock(m_registerMutex);
+    m_initializedCallbacks = RegisterCallback(m_initializedCallbacks, "Initialized", callback, param, &newUid);
+  }
+  if (initialNotify) {
+    // We know that the callback is not null because of earlier null check
+    HAL_Value value = MakeBoolean(GetInitialized());
+    callback("Initialized", param, &value);
+  }
   return newUid;
 }
 
 void DIOData::CancelInitializedCallback(int32_t uid) {
-  m_activeCallbacks = CancelCallback(m_initializedCallbacks, uid);
+  m_initializedCallbacks = CancelCallback(m_initializedCallbacks, uid);
 }
 
-void DIOData::InvokeInitializedCallback(const HAL_Value* value) {
-  InvokeCallback(m_initializedCallbacks, "Initialized", value);
+void DIOData::InvokeInitializedCallback(HAL_Value value) {
+  InvokeCallback(m_initializedCallbacks, "Initialized", &value);
 }
 
 HAL_Bool DIOData::GetInitialized() {
@@ -44,26 +50,32 @@ HAL_Bool DIOData::GetInitialized() {
 void DIOData::SetInitialized(HAL_Bool initialized) {
   HAL_Bool oldValue = m_initialized.exchange(initialized);
   if (oldValue != initialized) {
-    InvokeInitializedCallback(&MakeBoolean(initialized));
+    InvokeInitializedCallback(MakeBoolean(initialized));
   }
 }
 
 int32_t DIOData::RegisterValueCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  HAL_Value* value = nullptr;
-  if (initialNotify) value = &MakeBoolean(GetValue());
+  // Must return -1 on a null callback for error handling
+  if (callback == nullptr) return -1;
   int32_t newUid = 0;
-  auto newCallbacks = RegisterCallback(m_valueCallbacks, "Value", callback, param, value, &newUid);
-  if (newCallbacks == nullptr) return newUid;
-  m_valueCallbacks = newCallbacks;
+ {
+    std::lock_guard<std::mutex> lock(m_registerMutex);
+    m_valueCallbacks = RegisterCallback(m_valueCallbacks, "Value", callback, param, &newUid);
+  }
+  if (initialNotify) {
+    // We know that the callback is not null because of earlier null check
+    HAL_Value value = MakeBoolean(GetValue());
+    callback("Value", param, &value);
+  }
   return newUid;
 }
 
 void DIOData::CancelValueCallback(int32_t uid) {
-  m_activeCallbacks = CancelCallback(m_valueCallbacks, uid);
+  m_valueCallbacks = CancelCallback(m_valueCallbacks, uid);
 }
 
-void DIOData::InvokeValueCallback(const HAL_Value* value) {
-  InvokeCallback(m_valueCallbacks, "Value", value);
+void DIOData::InvokeValueCallback(HAL_Value value) {
+  InvokeCallback(m_valueCallbacks, "Value", &value);
 }
 
 HAL_Bool DIOData::GetValue() {
@@ -73,26 +85,32 @@ HAL_Bool DIOData::GetValue() {
 void DIOData::SetValue(HAL_Bool value) {
   HAL_Bool oldValue = m_value.exchange(value);
   if (oldValue != value) {
-    InvokeValueCallback(&MakeBoolean(value));
+    InvokeValueCallback(MakeBoolean(value));
   }
 }
 
 int32_t DIOData::RegisterPulseLengthCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  HAL_Value* value = nullptr;
-  if (initialNotify) value = &MakeDouble(GetPulseLength());
+  // Must return -1 on a null callback for error handling
+  if (callback == nullptr) return -1;
   int32_t newUid = 0;
-  auto newCallbacks = RegisterCallback(m_pulseLengthCallbacks, "PulseLength", callback, param, value, &newUid);
-  if (newCallbacks == nullptr) return newUid;
-  m_pulseLengthCallbacks = newCallbacks;
+ {
+    std::lock_guard<std::mutex> lock(m_registerMutex);
+    m_pulseLengthCallbacks = RegisterCallback(m_pulseLengthCallbacks, "PulseLength", callback, param, &newUid);
+  }
+  if (initialNotify) {
+    // We know that the callback is not null because of earlier null check
+    HAL_Value value = MakeDouble(GetPulseLength());
+    callback("PulseLength", param, &value);
+  }
   return newUid;
 }
 
 void DIOData::CancelPulseLengthCallback(int32_t uid) {
-  m_activeCallbacks = CancelCallback(m_pulseLengthCallbacks, uid);
+  m_pulseLengthCallbacks = CancelCallback(m_pulseLengthCallbacks, uid);
 }
 
-void DIOData::InvokePulseLengthCallback(const HAL_Value* value) {
-  InvokeCallback(m_pulseLengthCallbacks, "PulseLength", value);
+void DIOData::InvokePulseLengthCallback(HAL_Value value) {
+  InvokeCallback(m_pulseLengthCallbacks, "PulseLength", &value);
 }
 
 double DIOData::GetPulseLength() {
@@ -102,26 +120,32 @@ double DIOData::GetPulseLength() {
 void DIOData::SetPulseLength(double pulseLength) {
   double oldValue = m_pulseLength.exchange(pulseLength);
   if (oldValue != pulseLength) {
-    InvokePulseLengthCallback(&MakeDouble(pulseLength));
+    InvokePulseLengthCallback(MakeDouble(pulseLength));
   }
 }
 
 int32_t DIOData::RegisterIsInputCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  HAL_Value* value = nullptr;
-  if (initialNotify) value = &MakeBoolean(GetIsInput());
+  // Must return -1 on a null callback for error handling
+  if (callback == nullptr) return -1;
   int32_t newUid = 0;
-  auto newCallbacks = RegisterCallback(m_isInputCallbacks, "IsInput", callback, param, value, &newUid);
-  if (newCallbacks == nullptr) return newUid;
-  m_isInputCallbacks = newCallbacks;
+ {
+    std::lock_guard<std::mutex> lock(m_registerMutex);
+    m_isInputCallbacks = RegisterCallback(m_isInputCallbacks, "IsInput", callback, param, &newUid);
+  }
+  if (initialNotify) {
+    // We know that the callback is not null because of earlier null check
+    HAL_Value value = MakeBoolean(GetIsInput());
+    callback("IsInput", param, &value);
+  }
   return newUid;
 }
 
 void DIOData::CancelIsInputCallback(int32_t uid) {
-  m_activeCallbacks = CancelCallback(m_isInputCallbacks, uid);
+  m_isInputCallbacks = CancelCallback(m_isInputCallbacks, uid);
 }
 
-void DIOData::InvokeIsInputCallback(const HAL_Value* value) {
-  InvokeCallback(m_isInputCallbacks, "IsInput", value);
+void DIOData::InvokeIsInputCallback(HAL_Value value) {
+  InvokeCallback(m_isInputCallbacks, "IsInput", &value);
 }
 
 HAL_Bool DIOData::GetIsInput() {
@@ -131,26 +155,32 @@ HAL_Bool DIOData::GetIsInput() {
 void DIOData::SetIsInput(HAL_Bool isInput) {
   HAL_Bool oldValue = m_isInput.exchange(isInput);
   if (oldValue != isInput) {
-    InvokeIsInputCallback(&MakeBoolean(isInput));
+    InvokeIsInputCallback(MakeBoolean(isInput));
   }
 }
 
 int32_t DIOData::RegisterFilterIndexCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  HAL_Value* value = nullptr;
-  if (initialNotify) value = &MakeInt(GetFilterIndex());
+  // Must return -1 on a null callback for error handling
+  if (callback == nullptr) return -1;
   int32_t newUid = 0;
-  auto newCallbacks = RegisterCallback(m_filterIndexCallbacks, "FilterIndex", callback, param, value, &newUid);
-  if (newCallbacks == nullptr) return newUid;
-  m_filterIndexCallbacks = newCallbacks;
+ {
+    std::lock_guard<std::mutex> lock(m_registerMutex);
+    m_filterIndexCallbacks = RegisterCallback(m_filterIndexCallbacks, "FilterIndex", callback, param, &newUid);
+  }
+  if (initialNotify) {
+    // We know that the callback is not null because of earlier null check
+    HAL_Value value = MakeInt(GetFilterIndex());
+    callback("FilterIndex", param, &value);
+  }
   return newUid;
 }
 
 void DIOData::CancelFilterIndexCallback(int32_t uid) {
-  m_activeCallbacks = CancelCallback(m_filterIndexCallbacks, uid);
+  m_filterIndexCallbacks = CancelCallback(m_filterIndexCallbacks, uid);
 }
 
-void DIOData::InvokeFilterIndexCallback(const HAL_Value* value) {
-  InvokeCallback(m_filterIndexCallbacks, "FilterIndex", value);
+void DIOData::InvokeFilterIndexCallback(HAL_Value value) {
+  InvokeCallback(m_filterIndexCallbacks, "FilterIndex", &value);
 }
 
 int32_t DIOData::GetFilterIndex() {
@@ -160,73 +190,77 @@ int32_t DIOData::GetFilterIndex() {
 void DIOData::SetFilterIndex(int32_t filterIndex) {
   int32_t oldValue = m_filterIndex.exchange(filterIndex);
   if (oldValue != filterIndex) {
-    InvokeFilterIndexCallback(&MakeInt(filterIndex));
+    InvokeFilterIndexCallback(MakeInt(filterIndex));
   }
 }
 
 extern "C" {
+void HALSIM_ResetDIOData(int32_t index) {
+  SimDIOData[index].ResetData();
+}
+
 int32_t HALSIM_RegisterDIOInitializedCallback(int32_t index, HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  return SimDIOData[index]->RegisterInitializedCallback(callback, param, initialNotify);
+  return SimDIOData[index].RegisterInitializedCallback(callback, param, initialNotify);
 }
 
 void HALSIM_CancelDIOInitializedCallback(int32_t index, int32_t uid) {
-  SimDIOData[index]->CancelInitializedCallback(uid);
+  SimDIOData[index].CancelInitializedCallback(uid);
 }
 
 HAL_Bool HALSIM_GetDIOInitialized(int32_t index) {
-  return SimDIOData[index]->GetInitialized();
+  return SimDIOData[index].GetInitialized();
 }
 
 int32_t HALSIM_RegisterDIOValueCallback(int32_t index, HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  return SimDIOData[index]->RegisterValueCallback(callback, param, initialNotify);
+  return SimDIOData[index].RegisterValueCallback(callback, param, initialNotify);
 }
 
 void HALSIM_CancelDIOValueCallback(int32_t index, int32_t uid) {
-  SimDIOData[index]->CancelValueCallback(uid);
+  SimDIOData[index].CancelValueCallback(uid);
 }
 
 HAL_Bool HALSIM_GetDIOValue(int32_t index) {
-  return SimDIOData[index]->GetValue();
+  return SimDIOData[index].GetValue();
 }
 
 void HALSIM_SetDIOValue(int32_t index, HAL_Bool value) {
-  SimDIOData[index]->SetValue(value);
+  SimDIOData[index].SetValue(value);
 }
 
 int32_t HALSIM_RegisterDIOPulseLengthCallback(int32_t index, HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  return SimDIOData[index]->RegisterPulseLengthCallback(callback, param, initialNotify);
+  return SimDIOData[index].RegisterPulseLengthCallback(callback, param, initialNotify);
 }
 
 void HALSIM_CancelDIOPulseLengthCallback(int32_t index, int32_t uid) {
-  SimDIOData[index]->CancelPulseLengthCallback(uid);
+  SimDIOData[index].CancelPulseLengthCallback(uid);
 }
 
 double HALSIM_GetDIOPulseLength(int32_t index) {
-  return SimDIOData[index]->GetPulseLength();
+  return SimDIOData[index].GetPulseLength();
 }
 
 int32_t HALSIM_RegisterDIOIsInputCallback(int32_t index, HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  return SimDIOData[index]->RegisterIsInputCallback(callback, param, initialNotify);
+  return SimDIOData[index].RegisterIsInputCallback(callback, param, initialNotify);
 }
 
 void HALSIM_CancelDIOIsInputCallback(int32_t index, int32_t uid) {
-  SimDIOData[index]->CancelIsInputCallback(uid);
+  SimDIOData[index].CancelIsInputCallback(uid);
 }
 
 HAL_Bool HALSIM_GetDIOIsInput(int32_t index) {
-  return SimDIOData[index]->GetIsInput();
+  return SimDIOData[index].GetIsInput();
 }
 
 int32_t HALSIM_RegisterDIOFilterIndexCallback(int32_t index, HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  return SimDIOData[index]->RegisterFilterIndexCallback(callback, param, initialNotify);
+  return SimDIOData[index].RegisterFilterIndexCallback(callback, param, initialNotify);
 }
 
 void HALSIM_CancelDIOFilterIndexCallback(int32_t index, int32_t uid) {
-  SimDIOData[index]->CancelFilterIndexCallback(uid);
+  SimDIOData[index].CancelFilterIndexCallback(uid);
 }
 
 int32_t HALSIM_GetDIOFilterIndex(int32_t index) {
-  return SimDIOData[index]->GetFilterIndex();
+  return SimDIOData[index].GetFilterIndex();
 }
 
 }

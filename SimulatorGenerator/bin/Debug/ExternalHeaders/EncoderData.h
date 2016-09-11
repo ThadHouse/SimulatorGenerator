@@ -7,6 +7,7 @@
 extern "C" {
 #endif
 
+void HALSIM_ResetEncoderData(int32_t index);
 int32_t HALSIM_RegisterEncoderInitializedCallback(int32_t index, HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify);
 void HALSIM_CancelEncoderInitializedCallback(int32_t index, int32_t uid);
 HAL_Bool HALSIM_GetEncoderInitialized(int32_t index);

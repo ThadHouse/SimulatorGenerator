@@ -7,6 +7,7 @@
 extern "C" {
 #endif
 
+void HALSIM_ResetAnalogGyroData(int32_t index);
 int32_t HALSIM_RegisterAnalogGyroAngleCallback(int32_t index, HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify);
 void HALSIM_CancelAnalogGyroAngleCallback(int32_t index, int32_t uid);
 double HALSIM_GetAnalogGyroAngle(int32_t index);

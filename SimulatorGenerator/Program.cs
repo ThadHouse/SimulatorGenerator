@@ -22,6 +22,7 @@ namespace SimulatorGenerator
             ExternalHeaderWriter.Write(files);
             InternalHeaderWriter.Write(files);
             SrcFileWriter.Write(files);
+            DefFileWriter.Write(files);
         }
     }
 }

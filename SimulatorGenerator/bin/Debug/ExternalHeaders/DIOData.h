@@ -7,6 +7,7 @@
 extern "C" {
 #endif
 
+void HALSIM_ResetDIOData(int32_t index);
 int32_t HALSIM_RegisterDIOInitializedCallback(int32_t index, HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify);
 void HALSIM_CancelDIOInitializedCallback(int32_t index, int32_t uid);
 HAL_Bool HALSIM_GetDIOInitialized(int32_t index);

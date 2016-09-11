@@ -28,6 +28,9 @@ namespace SimulatorGenerator
                 builder.AppendLine("#include \"NotifyListener.h\"");
                 builder.AppendLine();
                 builder.AppendLine("#ifdef __cplusplus\nextern \"C\" {\n#endif\n");
+                // ResetDataFunctions
+                builder.AppendLine($"void HALSIM_Reset{nameWithoutData}Data(int32_t index);");
+
                 foreach (var variable in dataFile.Variables)
                 {
                     // Write Register and cancel functions

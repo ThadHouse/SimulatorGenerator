@@ -11,10 +11,10 @@ namespace SimulatorGenerator
     {
         private static Dictionary<string, string> make = new Dictionary<string, string>
         {
-            ["HAL_Bool"] = "&MakeBoolean(",
-            ["int32_t"] = "&MakeInt(",
-            ["int64_t"] = "&MakeLong(",
-            ["double"] = "&MakeDouble("
+            ["HAL_Bool"] = "MakeBoolean(",
+            ["int32_t"] = "MakeInt(",
+            ["int64_t"] = "MakeLong(",
+            ["double"] = "MakeDouble("
         };
 
         public static void Write(List<DataFile> files)
@@ -36,7 +36,9 @@ namespace SimulatorGenerator
 
                 builder.AppendLine("using namespace hal;\n");
 
-                builder.AppendLine($"std::unique_ptr<std::shared_ptr<{dataFile.Name}>[]> hal::Sim{dataFile.Name} = std::make_unique<std::shared_ptr<{dataFile.Name}>[]>(SIZEINHERE);");
+
+                builder.AppendLine($"{dataFile.Name} hal::Sim{dataFile.Name}[SIZEINHERE];");
+                //builder.AppendLine($"std::unique_ptr<std::shared_ptr<{dataFile.Name}>[]> hal::Sim{dataFile.Name} = std::make_unique<std::shared_ptr<{dataFile.Name}>[]>(SIZEINHERE);");
 
                 builder.AppendLine($"void {dataFile.Name}::ResetData() {{");
                 foreach (var variable in dataFile.Variables)
@@ -57,32 +59,33 @@ namespace SimulatorGenerator
                 {
                     string nameWithLowerCase = variable.Name[0].ToString().ToLower() + variable.Name.Substring(1);
                     string nameWithM_ = "m_" + variable.Name[0].ToString().ToLower() + variable.Name.Substring(1);
-                    string propChangedMaker = "&MakeEnum(";
+                    string propChangedMaker = "MakeEnum(";
                     if (make.ContainsKey(variable.RetType)) propChangedMaker = make[variable.RetType];
-
-                    string copyCallbacks =
-                        $"  auto newCallbacks = std::make_shared<UidVector<NotifyListener>>(*{nameWithM_}Callbacks);";
 
                     builder.AppendLine(
                         $"int32_t {dataFile.Name}::Register{variable.Name}Callback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {{");
 
-                    builder.AppendLine("  HAL_Value* value = nullptr;");
-                    builder.AppendLine($"  if (initialNotify) value = {propChangedMaker}Get{variable.Name}());");
-                    builder.AppendLine("  int32_t newUid = 0;");
+                    builder.AppendLine("  // Must return -1 on a null callback for error handling");
+                    builder.AppendLine("  if (callback == nullptr) return -1;");
+                    builder.AppendLine("  int32_t newUid = 0;\n {");
+                    builder.AppendLine("    std::lock_guard<std::mutex> lock(m_registerMutex);");
                     builder.AppendLine(
-                        $"  auto newCallbacks = RegisterCallback({nameWithM_}Callbacks, \"{variable.Name}\", callback, param, value, &newUid);");
-                    builder.AppendLine("  if (newCallbacks == nullptr) return newUid;");
-                    builder.AppendLine($"  {nameWithM_}Callbacks = newCallbacks;");
+                        $"    {nameWithM_}Callbacks = RegisterCallback({nameWithM_}Callbacks, \"{variable.Name}\", callback, param, &newUid);\n  }}");
+                    builder.AppendLine("  if (initialNotify) {");
+                    builder.AppendLine("    // We know that the callback is not null because of earlier null check");
+                    builder.AppendLine($"    HAL_Value value = {propChangedMaker}Get{variable.Name}());");
+                    builder.AppendLine($"    callback(\"{variable.Name}\", param, &value);\n  }}");
+
                     builder.AppendLine("  return newUid;\n}\n");
 
 
                     builder.AppendLine(
                         $"void {dataFile.Name}::Cancel{variable.Name}Callback(int32_t uid) {{");
-                    builder.AppendLine($"  m_activeCallbacks = CancelCallback({nameWithM_}Callbacks, uid);\n}}\n");
+                    builder.AppendLine($"  {nameWithM_}Callbacks = CancelCallback({nameWithM_}Callbacks, uid);\n}}\n");
 
                     builder.AppendLine(
-                        $"void {dataFile.Name}::Invoke{variable.Name}Callback(const HAL_Value* value) {{");
-                    builder.AppendLine($"  InvokeCallback({nameWithM_}Callbacks, \"{variable.Name}\", value);\n}}\n");
+                        $"void {dataFile.Name}::Invoke{variable.Name}Callback(HAL_Value value) {{");
+                    builder.AppendLine($"  InvokeCallback({nameWithM_}Callbacks, \"{variable.Name}\", &value);\n}}\n");
 
                     builder.AppendLine($"{variable.RetType} {dataFile.Name}::Get{variable.Name}() {{");
                     builder.AppendLine($"  return {nameWithM_};");
@@ -102,23 +105,26 @@ namespace SimulatorGenerator
 
                 builder.AppendLine("extern \"C\" {");
 
+                builder.AppendLine($"void HALSIM_Reset{nameWithoutData}Data(int32_t index) {{");
+                builder.AppendLine($"  Sim{dataFile.Name}[index].ResetData();\n}}\n");
+
                 foreach (var variable in dataFile.Variables)
                 {
                     string nameWithLowerCase = variable.Name[0].ToString().ToLower() + variable.Name.Substring(1);
                     builder.AppendLine(
                         $"int32_t HALSIM_Register{nameWithoutData}{variable.Name}Callback(int32_t index, HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {{");
                     builder.AppendLine(
-                        $"  return Sim{dataFile.Name}[index]->Register{variable.Name}Callback(callback, param, initialNotify);");
+                        $"  return Sim{dataFile.Name}[index].Register{variable.Name}Callback(callback, param, initialNotify);");
                     builder.AppendLine("}\n");
 
                     builder.AppendLine(
                         $"void HALSIM_Cancel{nameWithoutData}{variable.Name}Callback(int32_t index, int32_t uid) {{");
                     builder.AppendLine(
-                        $"  Sim{dataFile.Name}[index]->Cancel{variable.Name}Callback(uid);");
+                        $"  Sim{dataFile.Name}[index].Cancel{variable.Name}Callback(uid);");
                     builder.AppendLine("}\n");
 
                     builder.AppendLine($"{variable.RetType} HALSIM_Get{nameWithoutData}{variable.Name}(int32_t index) {{");
-                    builder.AppendLine($"  return Sim{dataFile.Name}[index]->Get{variable.Name}();");
+                    builder.AppendLine($"  return Sim{dataFile.Name}[index].Get{variable.Name}();");
                     builder.AppendLine("}\n");
 
 
@@ -127,7 +133,7 @@ namespace SimulatorGenerator
                     {
                         builder.AppendLine(
                             $"void HALSIM_Set{nameWithoutData}{variable.Name}(int32_t index, {variable.RetType} {nameWithLowerCase}) {{");
-                        builder.AppendLine($"  Sim{dataFile.Name}[index]->Set{variable.Name}({nameWithLowerCase});");
+                        builder.AppendLine($"  Sim{dataFile.Name}[index].Set{variable.Name}({nameWithLowerCase});");
                         builder.AppendLine("}\n");
                     }
                 }

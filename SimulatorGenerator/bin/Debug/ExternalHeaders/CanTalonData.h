@@ -7,6 +7,7 @@
 extern "C" {
 #endif
 
+void HALSIM_ResetCanTalonData(int32_t index);
 int32_t HALSIM_RegisterCanTalonProfileParamSlot0_PCallback(int32_t index, HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify);
 void HALSIM_CancelCanTalonProfileParamSlot0_PCallback(int32_t index, int32_t uid);
 double HALSIM_GetCanTalonProfileParamSlot0_P(int32_t index);

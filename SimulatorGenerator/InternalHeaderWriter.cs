@@ -35,7 +35,7 @@ namespace SimulatorGenerator
                     string nameWithLowerCase = variable.Name[0].ToString().ToLower() + variable.Name.Substring(1);
                     builder.AppendLine($"  int32_t Register{variable.Name}Callback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify);");
                     builder.AppendLine($"  void Cancel{variable.Name}Callback(int32_t uid);");
-                    builder.AppendLine($"  void Invoke{variable.Name}Callback(const HAL_Value* value);");
+                    builder.AppendLine($"  void Invoke{variable.Name}Callback(HAL_Value value);");
 
                     builder.AppendLine($"  {variable.RetType} Get{variable.Name}();");
                     builder.AppendLine($"  void Set{variable.Name}({variable.RetType} {nameWithLowerCase});");
@@ -45,6 +45,7 @@ namespace SimulatorGenerator
                 builder.AppendLine("  virtual void ResetData();");
 
                 builder.AppendLine(" private:");
+                builder.AppendLine("  std::mutex m_registerMutex;");
 
                 foreach (var variable in dataFile.Variables)
                 {
@@ -56,7 +57,8 @@ namespace SimulatorGenerator
 
                 builder.AppendLine("};");
 
-                builder.AppendLine($"extern std::unique_ptr<std::shared_ptr<{dataFile.Name}>[]> Sim{dataFile.Name};");
+                //builder.AppendLine($"extern std::unique_ptr<std::shared_ptr<{dataFile.Name}>[]> Sim{dataFile.Name};");
+                builder.AppendLine($"extern {dataFile.Name} Sim{dataFile.Name}[];");
 
                 builder.AppendLine("}");
                 File.WriteAllText($"{folder}{Path.DirectorySeparatorChar}{dataFile.Name}Internal.h", builder.ToString());

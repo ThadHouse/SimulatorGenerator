@@ -7,6 +7,7 @@
 extern "C" {
 #endif
 
+void HALSIM_ResetDigitalPWMData(int32_t index);
 int32_t HALSIM_RegisterDigitalPWMInitializedCallback(int32_t index, HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify);
 void HALSIM_CancelDigitalPWMInitializedCallback(int32_t index, int32_t uid);
 HAL_Bool HALSIM_GetDigitalPWMInitialized(int32_t index);

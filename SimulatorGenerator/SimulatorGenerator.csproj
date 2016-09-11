@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataFile.cs" />
+    <Compile Include="DefFileWriter.cs" />
     <Compile Include="ExternalHeaderWriter.cs" />
     <Compile Include="InternalHeaderWriter.cs" />
     <Compile Include="Program.cs" />
