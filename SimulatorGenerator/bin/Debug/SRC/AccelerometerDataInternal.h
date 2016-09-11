@@ -43,7 +43,7 @@ class AccelerometerData {
  private:
   std::atomic<HAL_Bool> m_active = false;
   std::shared_ptr<NotifyListenerVector> m_activeCallbacks = nullptr;
-  std::atomic<HAL_AccelerometerRange> m_range = (HAL_AccelerometerRange)0;
+  std::atomic<HAL_AccelerometerRange> m_range = static_cast<HAL_AccelerometerRange>(0);
   std::shared_ptr<NotifyListenerVector> m_rangeCallbacks = nullptr;
   std::atomic<double> m_x = 0.0;
   std::shared_ptr<NotifyListenerVector> m_xCallbacks = nullptr;
