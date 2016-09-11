@@ -1,0 +1,17 @@
+RoboRioData
+DataBase
+HAL_Bool FPGAButton in false
+double VInVoltage in 0.0
+double VInCurrent in 0.0
+double UserVoltage6V in 6.0
+double UserCurrent6V in 0.0
+HAL_Bool UserActive6V in false
+double UserVoltage5V in 5.0
+double UserCurrent5V in 0.0
+HAL_Bool UserActive5V in false
+double UserVoltage3V3 in 3.3
+double UserCurrent3V3 in 0.0
+HAL_Bool UserActive3V3 in false
+int32_t UserFaults6V in 0
+int32_t UserFaults5V in 0
+int32_t UserFaults3V3 in 0

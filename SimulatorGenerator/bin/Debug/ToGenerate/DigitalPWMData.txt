@@ -1,0 +1,5 @@
+DigitalPWMData
+DataBase
+HAL_Bool Initialized out false
+double DutyCycle out false
+int32_t Pin out 0

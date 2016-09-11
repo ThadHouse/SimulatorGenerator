@@ -1,0 +1,7 @@
+DIOData
+NotifyDataBase
+HAL_Bool Initialized out false
+HAL_Bool Value in true
+double PulseLength out 0.0
+HAL_Bool IsInput out true
+int32_t FilterIndex out -1

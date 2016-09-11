@@ -1,0 +1,10 @@
+EncoderData
+NotifyDataBase
+HAL_Bool Initialized out false
+int32_t Count in 0
+double Period in std::numeric_limits<double>::max()
+HAL_Bool Reset out false
+double MaxPeriod out 0
+HAL_Bool Direction in false
+HAL_Bool ReverseDirection out false
+int32_t SamplesToAverage out 0

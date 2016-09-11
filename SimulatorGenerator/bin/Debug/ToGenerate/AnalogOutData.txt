@@ -1,0 +1,4 @@
+AnalogOutData
+NotifyDataBase
+double Voltage out 0.0
+HAL_Bool Initialized out 0.0

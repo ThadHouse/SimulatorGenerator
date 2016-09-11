@@ -1,0 +1,11 @@
+AnalogInData
+NotifyDataBase
+HAL_Bool Initialized out false
+int32_t AverageBits out 7
+int32_t OversampleBits out 0
+double Voltage in 0.0
+HAL_Bool AccumulatorInitialized out false
+int64_t AccumulatorValue in 0
+int64_t AccumulatorCount in 0
+int32_t AccumlatorCenter out 0
+int32_t AccumlatorDeadband out 0

@@ -1,0 +1,5 @@
+AnalogGyroData
+NotifyDataBase
+double Angle in 0.0
+double Rate in 0.0
+HAL_Bool Initialized out false

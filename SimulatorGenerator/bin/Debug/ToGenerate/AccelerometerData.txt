@@ -1,0 +1,7 @@
+AccelerometerData
+DataBase
+HAL_Bool Active out false
+HAL_AccelerometerRange Range out (HAL_AccelerometerRange)0 
+double X in 0.0
+double Y in 0.0
+double Z in 0.0

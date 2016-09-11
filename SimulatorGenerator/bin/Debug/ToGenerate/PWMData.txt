@@ -1,0 +1,8 @@
+PWMData
+NotifyDataBase
+bool Initialized out false
+int RawValue in 0
+double Speed in 0
+double Position in 0
+int PeriodScale out 0
+bool ZeroLatch out false
