@@ -1,8 +1,9 @@
 PWMData
 NotifyDataBase
-bool Initialized out false
-int RawValue in 0
+kNumPWMChannels
+HAL_Bool Initialized out false
+int32_t RawValue in 0
 double Speed in 0
 double Position in 0
-int PeriodScale out 0
-bool ZeroLatch out false
+int32_t PeriodScale out 0
+HAL_Bool ZeroLatch out false

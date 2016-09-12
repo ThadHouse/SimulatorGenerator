@@ -1,5 +1,6 @@
 AccelerometerData
 DataBase
+1
 HAL_Bool Active out false
 HAL_AccelerometerRange Range out static_cast<HAL_AccelerometerRange>(0)
 double X in 0.0

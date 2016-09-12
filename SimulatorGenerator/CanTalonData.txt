@@ -1,5 +1,6 @@
 CanTalonData
 NotifyDataBase
+kNumCanTalons
 double ProfileParamSlot0_P in 0.0
 double ProfileParamSlot0_I in 0.0
 double ProfileParamSlot0_D in 0.0

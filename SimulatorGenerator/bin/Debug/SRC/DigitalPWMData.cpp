@@ -5,7 +5,7 @@
 
 using namespace hal;
 
-DigitalPWMData hal::SimDigitalPWMData[SIZEINHERE];
+DigitalPWMData hal::SimDigitalPWMData[kNumDigitalPWMOutputs];
 void DigitalPWMData::ResetData() {
   m_initialized = false;
   m_initializedCallbacks = nullptr;

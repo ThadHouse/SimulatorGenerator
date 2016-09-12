@@ -5,7 +5,7 @@
 
 using namespace hal;
 
-AnalogInData hal::SimAnalogInData[SIZEINHERE];
+AnalogInData hal::SimAnalogInData[kNumAnalogInputs];
 void AnalogInData::ResetData() {
   m_initialized = false;
   m_initializedCallbacks = nullptr;

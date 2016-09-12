@@ -5,7 +5,7 @@
 
 using namespace hal;
 
-RelayData hal::SimRelayData[SIZEINHERE];
+RelayData hal::SimRelayData[kNumRelayHeaders];
 void RelayData::ResetData() {
   m_initialized = false;
   m_initializedCallbacks = nullptr;

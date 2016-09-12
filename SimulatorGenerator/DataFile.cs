@@ -20,6 +20,7 @@ namespace SimulatorGenerator
     {
         public string Base { get; private set; }
         public string Name { get; private set; }
+        public string NumInstances { get; private set; }
 
         public List<Variable> Variables { get; } = new List<Variable>();
 
@@ -28,8 +29,9 @@ namespace SimulatorGenerator
             string[] data = File.ReadAllLines(fileName);
             Base = data[1].Trim();
             Name = data[0].Trim();
+            NumInstances = data[2].Trim();
 
-            for (int i = 2; i < data.Length; i++)
+            for (int i = 3; i < data.Length; i++)
             {
                 if (string.IsNullOrWhiteSpace(data[i])) break;
                 string[] split = data[i].Split(' ');

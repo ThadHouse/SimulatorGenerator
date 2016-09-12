@@ -5,7 +5,7 @@
 
 using namespace hal;
 
-SPIAccelerometerData hal::SimSPIAccelerometerData[SIZEINHERE];
+SPIAccelerometerData hal::SimSPIAccelerometerData[5];
 void SPIAccelerometerData::ResetData() {
   m_active = false;
   m_activeCallbacks = nullptr;
@@ -64,7 +64,7 @@ int32_t SPIAccelerometerData::RegisterRangeCallback(HAL_NotifyCallback callback,
   }
   if (initialNotify) {
     // We know that the callback is not null because of earlier null check
-    HAL_Value value = MakeEnum(GetRange());
+    HAL_Value value = MakeInt(GetRange());
     callback("Range", param, &value);
   }
   return newUid;
@@ -78,14 +78,14 @@ void SPIAccelerometerData::InvokeRangeCallback(HAL_Value value) {
   InvokeCallback(m_rangeCallbacks, "Range", &value);
 }
 
-uint32_t8_t SPIAccelerometerData::GetRange() {
+int32_t SPIAccelerometerData::GetRange() {
   return m_range;
 }
 
-void SPIAccelerometerData::SetRange(uint32_t8_t range) {
-  uint32_t8_t oldValue = m_range.exchange(range);
+void SPIAccelerometerData::SetRange(int32_t range) {
+  int32_t oldValue = m_range.exchange(range);
   if (oldValue != range) {
-    InvokeRangeCallback(MakeEnum(range));
+    InvokeRangeCallback(MakeInt(range));
   }
 }
 
@@ -219,7 +219,7 @@ void HALSIM_CancelSPIAccelerometerRangeCallback(int32_t index, int32_t uid) {
   SimSPIAccelerometerData[index].CancelRangeCallback(uid);
 }
 
-uint32_t8_t HALSIM_GetSPIAccelerometerRange(int32_t index) {
+int32_t HALSIM_GetSPIAccelerometerRange(int32_t index) {
   return SimSPIAccelerometerData[index].GetRange();
 }
 

@@ -1,5 +1,6 @@
 DigitalPWMData
 DataBase
+kNumDigitalPWMOutputs
 HAL_Bool Initialized out false
 double DutyCycle out false
 int32_t Pin out 0

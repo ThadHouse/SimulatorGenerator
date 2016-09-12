@@ -37,7 +37,7 @@ namespace SimulatorGenerator
                 builder.AppendLine("using namespace hal;\n");
 
 
-                builder.AppendLine($"{dataFile.Name} hal::Sim{dataFile.Name}[SIZEINHERE];");
+                builder.AppendLine($"{dataFile.Name} hal::Sim{dataFile.Name}[{dataFile.NumInstances}];");
                 //builder.AppendLine($"std::unique_ptr<std::shared_ptr<{dataFile.Name}>[]> hal::Sim{dataFile.Name} = std::make_unique<std::shared_ptr<{dataFile.Name}>[]>(SIZEINHERE);");
 
                 builder.AppendLine($"void {dataFile.Name}::ResetData() {{");

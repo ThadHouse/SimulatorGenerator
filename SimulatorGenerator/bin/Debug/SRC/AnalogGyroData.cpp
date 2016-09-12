@@ -5,7 +5,7 @@
 
 using namespace hal;
 
-AnalogGyroData hal::SimAnalogGyroData[SIZEINHERE];
+AnalogGyroData hal::SimAnalogGyroData[kNumAccumulators];
 void AnalogGyroData::ResetData() {
   m_angle = 0.0;
   m_angleCallbacks = nullptr;

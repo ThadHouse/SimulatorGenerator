@@ -1,0 +1,6 @@
+AnalogTriggerData
+NotifyDataBase
+kNumAnalogTriggers
+HAL_Bool Initialized out 0
+double TriggerLowerBound out 0
+double TriggerUpperBound out 0

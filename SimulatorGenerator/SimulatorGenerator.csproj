@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CSharpClassGenerator.cs" />
     <Compile Include="DataFile.cs" />
     <Compile Include="DefFileWriter.cs" />
     <Compile Include="ExternalHeaderWriter.cs" />

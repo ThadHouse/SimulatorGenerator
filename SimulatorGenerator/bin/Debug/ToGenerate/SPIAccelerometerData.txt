@@ -1,7 +1,8 @@
 SPIAccelerometerData
 DataBase
+5
 HAL_Bool Active out false
-uint32_t8_t Range out 0
+int32_t Range out 0
 double X in 0.0
 double Y in 0.0
 double Z in 0.0

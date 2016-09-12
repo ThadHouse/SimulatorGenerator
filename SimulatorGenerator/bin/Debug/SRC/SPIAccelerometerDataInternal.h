@@ -18,8 +18,8 @@ class SPIAccelerometerData {
   int32_t RegisterRangeCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify);
   void CancelRangeCallback(int32_t uid);
   void InvokeRangeCallback(HAL_Value value);
-  uint32_t8_t GetRange();
-  void SetRange(uint32_t8_t range);
+  int32_t GetRange();
+  void SetRange(int32_t range);
 
   int32_t RegisterXCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify);
   void CancelXCallback(int32_t uid);
@@ -44,7 +44,7 @@ class SPIAccelerometerData {
   std::mutex m_registerMutex;
   std::atomic<HAL_Bool> m_active = false;
   std::shared_ptr<NotifyListenerVector> m_activeCallbacks = nullptr;
-  std::atomic<uint32_t8_t> m_range = 0;
+  std::atomic<int32_t> m_range = 0;
   std::shared_ptr<NotifyListenerVector> m_rangeCallbacks = nullptr;
   std::atomic<double> m_x = 0.0;
   std::shared_ptr<NotifyListenerVector> m_xCallbacks = nullptr;

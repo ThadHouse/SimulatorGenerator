@@ -5,11 +5,11 @@
 
 using namespace hal;
 
-AnalogOutData hal::SimAnalogOutData[SIZEINHERE];
+AnalogOutData hal::SimAnalogOutData[kNumAnalogOutputs];
 void AnalogOutData::ResetData() {
   m_voltage = 0.0;
   m_voltageCallbacks = nullptr;
-  m_initialized = 0.0;
+  m_initialized = 0;
   m_initializedCallbacks = nullptr;
 }
 

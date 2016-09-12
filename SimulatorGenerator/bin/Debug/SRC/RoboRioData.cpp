@@ -5,7 +5,7 @@
 
 using namespace hal;
 
-RoboRioData hal::SimRoboRioData[SIZEINHERE];
+RoboRioData hal::SimRoboRioData[1];
 void RoboRioData::ResetData() {
   m_fPGAButton = false;
   m_fPGAButtonCallbacks = nullptr;

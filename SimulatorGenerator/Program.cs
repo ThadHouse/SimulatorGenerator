@@ -23,6 +23,8 @@ namespace SimulatorGenerator
             InternalHeaderWriter.Write(files);
             SrcFileWriter.Write(files);
             DefFileWriter.Write(files);
+
+            CSharpClassGenerator.Write(files);
         }
     }
 }

@@ -14,7 +14,7 @@ HAL_Bool HALSIM_GetSPIAccelerometerActive(int32_t index);
 
 int32_t HALSIM_RegisterSPIAccelerometerRangeCallback(int32_t index, HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify);
 void HALSIM_CancelSPIAccelerometerRangeCallback(int32_t index, int32_t uid);
-uint32_t8_t HALSIM_GetSPIAccelerometerRange(int32_t index);
+int32_t HALSIM_GetSPIAccelerometerRange(int32_t index);
 
 int32_t HALSIM_RegisterSPIAccelerometerXCallback(int32_t index, HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify);
 void HALSIM_CancelSPIAccelerometerXCallback(int32_t index, int32_t uid);

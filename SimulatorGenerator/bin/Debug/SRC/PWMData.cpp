@@ -5,7 +5,7 @@
 
 using namespace hal;
 
-PWMData hal::SimPWMData[SIZEINHERE];
+PWMData hal::SimPWMData[kNumPWMPins];
 void PWMData::ResetData() {
   m_initialized = false;
   m_initializedCallbacks = nullptr;
@@ -31,7 +31,7 @@ int32_t PWMData::RegisterInitializedCallback(HAL_NotifyCallback callback, void* 
   }
   if (initialNotify) {
     // We know that the callback is not null because of earlier null check
-    HAL_Value value = MakeEnum(GetInitialized());
+    HAL_Value value = MakeBoolean(GetInitialized());
     callback("Initialized", param, &value);
   }
   return newUid;
@@ -45,14 +45,14 @@ void PWMData::InvokeInitializedCallback(HAL_Value value) {
   InvokeCallback(m_initializedCallbacks, "Initialized", &value);
 }
 
-bool PWMData::GetInitialized() {
+HAL_Bool PWMData::GetInitialized() {
   return m_initialized;
 }
 
-void PWMData::SetInitialized(bool initialized) {
-  bool oldValue = m_initialized.exchange(initialized);
+void PWMData::SetInitialized(HAL_Bool initialized) {
+  HAL_Bool oldValue = m_initialized.exchange(initialized);
   if (oldValue != initialized) {
-    InvokeInitializedCallback(MakeEnum(initialized));
+    InvokeInitializedCallback(MakeBoolean(initialized));
   }
 }
 
@@ -66,7 +66,7 @@ int32_t PWMData::RegisterRawValueCallback(HAL_NotifyCallback callback, void* par
   }
   if (initialNotify) {
     // We know that the callback is not null because of earlier null check
-    HAL_Value value = MakeEnum(GetRawValue());
+    HAL_Value value = MakeInt(GetRawValue());
     callback("RawValue", param, &value);
   }
   return newUid;
@@ -80,14 +80,14 @@ void PWMData::InvokeRawValueCallback(HAL_Value value) {
   InvokeCallback(m_rawValueCallbacks, "RawValue", &value);
 }
 
-int PWMData::GetRawValue() {
+int32_t PWMData::GetRawValue() {
   return m_rawValue;
 }
 
-void PWMData::SetRawValue(int rawValue) {
-  int oldValue = m_rawValue.exchange(rawValue);
+void PWMData::SetRawValue(int32_t rawValue) {
+  int32_t oldValue = m_rawValue.exchange(rawValue);
   if (oldValue != rawValue) {
-    InvokeRawValueCallback(MakeEnum(rawValue));
+    InvokeRawValueCallback(MakeInt(rawValue));
   }
 }
 
@@ -171,7 +171,7 @@ int32_t PWMData::RegisterPeriodScaleCallback(HAL_NotifyCallback callback, void* 
   }
   if (initialNotify) {
     // We know that the callback is not null because of earlier null check
-    HAL_Value value = MakeEnum(GetPeriodScale());
+    HAL_Value value = MakeInt(GetPeriodScale());
     callback("PeriodScale", param, &value);
   }
   return newUid;
@@ -185,14 +185,14 @@ void PWMData::InvokePeriodScaleCallback(HAL_Value value) {
   InvokeCallback(m_periodScaleCallbacks, "PeriodScale", &value);
 }
 
-int PWMData::GetPeriodScale() {
+int32_t PWMData::GetPeriodScale() {
   return m_periodScale;
 }
 
-void PWMData::SetPeriodScale(int periodScale) {
-  int oldValue = m_periodScale.exchange(periodScale);
+void PWMData::SetPeriodScale(int32_t periodScale) {
+  int32_t oldValue = m_periodScale.exchange(periodScale);
   if (oldValue != periodScale) {
-    InvokePeriodScaleCallback(MakeEnum(periodScale));
+    InvokePeriodScaleCallback(MakeInt(periodScale));
   }
 }
 
@@ -206,7 +206,7 @@ int32_t PWMData::RegisterZeroLatchCallback(HAL_NotifyCallback callback, void* pa
   }
   if (initialNotify) {
     // We know that the callback is not null because of earlier null check
-    HAL_Value value = MakeEnum(GetZeroLatch());
+    HAL_Value value = MakeBoolean(GetZeroLatch());
     callback("ZeroLatch", param, &value);
   }
   return newUid;
@@ -220,14 +220,14 @@ void PWMData::InvokeZeroLatchCallback(HAL_Value value) {
   InvokeCallback(m_zeroLatchCallbacks, "ZeroLatch", &value);
 }
 
-bool PWMData::GetZeroLatch() {
+HAL_Bool PWMData::GetZeroLatch() {
   return m_zeroLatch;
 }
 
-void PWMData::SetZeroLatch(bool zeroLatch) {
-  bool oldValue = m_zeroLatch.exchange(zeroLatch);
+void PWMData::SetZeroLatch(HAL_Bool zeroLatch) {
+  HAL_Bool oldValue = m_zeroLatch.exchange(zeroLatch);
   if (oldValue != zeroLatch) {
-    InvokeZeroLatchCallback(MakeEnum(zeroLatch));
+    InvokeZeroLatchCallback(MakeBoolean(zeroLatch));
   }
 }
 
@@ -244,7 +244,7 @@ void HALSIM_CancelPWMInitializedCallback(int32_t index, int32_t uid) {
   SimPWMData[index].CancelInitializedCallback(uid);
 }
 
-bool HALSIM_GetPWMInitialized(int32_t index) {
+HAL_Bool HALSIM_GetPWMInitialized(int32_t index) {
   return SimPWMData[index].GetInitialized();
 }
 
@@ -256,11 +256,11 @@ void HALSIM_CancelPWMRawValueCallback(int32_t index, int32_t uid) {
   SimPWMData[index].CancelRawValueCallback(uid);
 }
 
-int HALSIM_GetPWMRawValue(int32_t index) {
+int32_t HALSIM_GetPWMRawValue(int32_t index) {
   return SimPWMData[index].GetRawValue();
 }
 
-void HALSIM_SetPWMRawValue(int32_t index, int rawValue) {
+void HALSIM_SetPWMRawValue(int32_t index, int32_t rawValue) {
   SimPWMData[index].SetRawValue(rawValue);
 }
 
@@ -304,7 +304,7 @@ void HALSIM_CancelPWMPeriodScaleCallback(int32_t index, int32_t uid) {
   SimPWMData[index].CancelPeriodScaleCallback(uid);
 }
 
-int HALSIM_GetPWMPeriodScale(int32_t index) {
+int32_t HALSIM_GetPWMPeriodScale(int32_t index) {
   return SimPWMData[index].GetPeriodScale();
 }
 
@@ -316,7 +316,7 @@ void HALSIM_CancelPWMZeroLatchCallback(int32_t index, int32_t uid) {
   SimPWMData[index].CancelZeroLatchCallback(uid);
 }
 
-bool HALSIM_GetPWMZeroLatch(int32_t index) {
+HAL_Bool HALSIM_GetPWMZeroLatch(int32_t index) {
   return SimPWMData[index].GetZeroLatch();
 }
 

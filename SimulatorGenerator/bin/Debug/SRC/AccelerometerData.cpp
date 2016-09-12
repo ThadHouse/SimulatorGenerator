@@ -5,7 +5,7 @@
 
 using namespace hal;
 
-AccelerometerData hal::SimAccelerometerData[SIZEINHERE];
+AccelerometerData hal::SimAccelerometerData[1];
 void AccelerometerData::ResetData() {
   m_active = false;
   m_activeCallbacks = nullptr;

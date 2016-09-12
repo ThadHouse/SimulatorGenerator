@@ -1,5 +1,6 @@
 AnalogInData
 NotifyDataBase
+kNumAnalogInputs
 HAL_Bool Initialized out false
 int32_t AverageBits out 7
 int32_t OversampleBits out 0

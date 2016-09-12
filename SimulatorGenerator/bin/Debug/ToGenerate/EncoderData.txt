@@ -1,5 +1,6 @@
 EncoderData
 NotifyDataBase
+kNumEncoders
 HAL_Bool Initialized out false
 int32_t Count in 0
 double Period in std::numeric_limits<double>::max()
