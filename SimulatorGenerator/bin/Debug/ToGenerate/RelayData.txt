@@ -1,6 +1,7 @@
 RelayData
 NotifyDataBase
 kNumRelayHeaders
-HAL_Bool Initialized out false
+HAL_Bool InitializedForward out false
+HAL_Bool InitializedReverse out false
 HAL_Bool Forward out false
 HAL_Bool Reverse out false
