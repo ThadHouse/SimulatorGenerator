@@ -51,7 +51,7 @@ namespace SimulatorGenerator
                 {
 
                     string nameWithLowerCase = "m_" + variable.Name[0].ToString().ToLower() + variable.Name.Substring(1);
-                    builder.AppendLine($"  std::atomic<{variable.RetType}> {nameWithLowerCase} = {variable.DefaultValue};");
+                    builder.AppendLine($"  std::atomic<{variable.RetType}> {nameWithLowerCase} {{{variable.DefaultValue}}};");
                     builder.AppendLine($"  std::shared_ptr<NotifyListenerVector> {nameWithLowerCase}Callbacks = nullptr;");
                 }
 
