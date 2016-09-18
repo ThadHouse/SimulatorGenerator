@@ -11,6 +11,38 @@ namespace SimulatorGenerator
     {
         static void Main(string[] args)
         {
+            var fileLines = File.ReadAllLines("ntcore.def");
+
+            var missingLines = File.ReadAllLines("MissingHALSymbols.txt");
+
+            List<string> newLines = new List<string>();
+
+            foreach (var newLine in fileLines)
+            {
+                bool foundMissingLine = false;
+                foreach (var missingLine in missingLines)
+                {
+                    if (newLine.Contains(missingLine))
+                    {
+                        foundMissingLine = true;
+                        break;
+                    }
+                }
+                if (!foundMissingLine) newLines.Add(newLine);
+            }
+
+            newLines.Add("\n\n;Missing Symbols\n");
+
+            foreach (var missingLine in missingLines)
+            {
+                newLines.Add(";" + missingLine);
+            }
+
+
+            File.WriteAllLines("newntcore.def", newLines);
+
+            return;
+
 
             List<DataFile> files = new List<DataFile>();
 

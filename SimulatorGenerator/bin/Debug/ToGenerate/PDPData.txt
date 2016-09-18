@@ -1,0 +1,7 @@
+PDPData
+DataBase
+1
+HAL_Bool Initialized out false
+double Temperature in 0.0
+double Voltage in 12.0
+double Current in 0.0
