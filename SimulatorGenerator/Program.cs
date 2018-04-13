@@ -11,6 +11,7 @@ namespace SimulatorGenerator
     {
         static void Main(string[] args)
         {
+            /*
             var fileLines = File.ReadAllLines("ntcore.def");
 
             var missingLines = File.ReadAllLines("MissingHALSymbols.txt");
@@ -41,7 +42,8 @@ namespace SimulatorGenerator
 
             File.WriteAllLines("newntcore.def", newLines);
 
-            return;
+            //return;
+            */
 
 
             List<DataFile> files = new List<DataFile>();
@@ -55,6 +57,8 @@ namespace SimulatorGenerator
             InternalHeaderWriter.Write(files);
             SrcFileWriter.Write(files);
             DefFileWriter.Write(files);
+            JavaClassGen.Write(files);
+            JniGen.Write(files);
 
             CSharpClassGenerator.Write(files);
         }
