@@ -1,0 +1,9 @@
+CanData
+DataBase
+1
+double CanSendMessage out 0.0
+double CanReceiveMessage out 0.0
+double CanOpenStream out 0.0
+double CanCloseStream out 0.0
+double CanReadStream out 0.0
+double CanGetCanStatus out 0.0

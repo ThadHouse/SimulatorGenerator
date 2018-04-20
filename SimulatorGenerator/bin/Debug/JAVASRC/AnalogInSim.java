@@ -38,15 +38,15 @@ public class AnalogInSim extends JNIWrapper {
   public static native long getAccumulatorCount(int index);
   public static native void setAccumulatorCount(int index, long accumulatorCount);
 
-  public static native int registerAccumlatorCenterCallback(int index, NotifyCallback callback, boolean initialNotify);
-  public static native void cancelAccumlatorCenterCallback(int index, int uid);
-  public static native int getAccumlatorCenter(int index);
-  public static native void setAccumlatorCenter(int index, int accumlatorCenter);
+  public static native int registerAccumulatorCenterCallback(int index, NotifyCallback callback, boolean initialNotify);
+  public static native void cancelAccumulatorCenterCallback(int index, int uid);
+  public static native int getAccumulatorCenter(int index);
+  public static native void setAccumulatorCenter(int index, int accumulatorCenter);
 
-  public static native int registerAccumlatorDeadbandCallback(int index, NotifyCallback callback, boolean initialNotify);
-  public static native void cancelAccumlatorDeadbandCallback(int index, int uid);
-  public static native int getAccumlatorDeadband(int index);
-  public static native void setAccumlatorDeadband(int index, int accumlatorDeadband);
+  public static native int registerAccumulatorDeadbandCallback(int index, NotifyCallback callback, boolean initialNotify);
+  public static native void cancelAccumulatorDeadbandCallback(int index, int uid);
+  public static native int getAccumulatorDeadband(int index);
+  public static native void setAccumulatorDeadband(int index, int accumulatorDeadband);
 
   public static native void resetData(int index);
 }

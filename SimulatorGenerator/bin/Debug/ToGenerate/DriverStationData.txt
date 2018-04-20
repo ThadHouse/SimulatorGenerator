@@ -1,0 +1,12 @@
+DriverStationData
+DataBase
+1
+HAL_Bool Enabled out false
+HAL_Bool Autonomous out false
+HAL_Bool Test out false
+HAL_Bool EStop out false
+HAL_Bool FmsAttached out false
+HAL_Bool DsAttached out false
+
+HAL_AllianceStationID AllianceStationId out 0
+double MatchTime out 0.0

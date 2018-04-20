@@ -1,0 +1,11 @@
+PCMData
+DataBase
+1
+HAL_Bool SolenoidInitialized out false
+HAL_Bool SolenoidOutput out false
+HAL_Bool CompressorInitialized out false
+HAL_Bool CompressorOn out false
+HAL_Bool ClosedLoopEnabled out false
+HAL_Bool PressureSwitch out false
+double CompressorCurrent out 0.0
+
