@@ -30,10 +30,10 @@ namespace SimulatorGenerator
 
             foreach (var dataFile in files)
             {
-                string nameWithSim = dataFile.Name.Replace("Data", "Sim");
+                string nameWithSim = dataFile.Name.Replace("Data", "DataJNI");
 
                 StringBuilder builder = new StringBuilder();
-                builder.AppendLine("package edu.wpi.first.hal.sim;");
+                builder.AppendLine("package edu.wpi.first.hal.sim.mockdata;");
                 builder.AppendLine();
                 builder.AppendLine("import edu.wpi.first.wpilibj.hal.JNIWrapper;");
 

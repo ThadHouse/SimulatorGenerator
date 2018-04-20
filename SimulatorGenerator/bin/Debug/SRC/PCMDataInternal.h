@@ -33,11 +33,11 @@ class PCMData {
   HAL_Bool GetCompressorOn();
   void SetCompressorOn(HAL_Bool compressorOn);
 
-  int32_t RegisterCloseLoopEnabledCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify);
-  void CancelCloseLoopEnabledCallback(int32_t uid);
-  void InvokeCloseLoopEnabledCallback(HAL_Value value);
-  HAL_Bool GetCloseLoopEnabled();
-  void SetCloseLoopEnabled(HAL_Bool closeLoopEnabled);
+  int32_t RegisterClosedLoopEnabledCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify);
+  void CancelClosedLoopEnabledCallback(int32_t uid);
+  void InvokeClosedLoopEnabledCallback(HAL_Value value);
+  HAL_Bool GetClosedLoopEnabled();
+  void SetClosedLoopEnabled(HAL_Bool closedLoopEnabled);
 
   int32_t RegisterPressureSwitchCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify);
   void CancelPressureSwitchCallback(int32_t uid);
@@ -62,8 +62,8 @@ class PCMData {
   std::shared_ptr<NotifyListenerVector> m_compressorInitializedCallbacks = nullptr;
   std::atomic<HAL_Bool> m_compressorOn {false};
   std::shared_ptr<NotifyListenerVector> m_compressorOnCallbacks = nullptr;
-  std::atomic<HAL_Bool> m_closeLoopEnabled {false};
-  std::shared_ptr<NotifyListenerVector> m_closeLoopEnabledCallbacks = nullptr;
+  std::atomic<HAL_Bool> m_closedLoopEnabled {false};
+  std::shared_ptr<NotifyListenerVector> m_closedLoopEnabledCallbacks = nullptr;
   std::atomic<HAL_Bool> m_pressureSwitch {false};
   std::shared_ptr<NotifyListenerVector> m_pressureSwitchCallbacks = nullptr;
   std::atomic<double> m_compressorCurrent {0.0};

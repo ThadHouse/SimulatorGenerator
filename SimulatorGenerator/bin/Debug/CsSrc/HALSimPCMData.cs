@@ -27,7 +27,7 @@ m_solenoidInitializedCallbacks.Clear();
 m_solenoidOutputCallbacks.Clear();
 m_compressorInitializedCallbacks.Clear();
 m_compressorOnCallbacks.Clear();
-m_closeLoopEnabledCallbacks.Clear();
+m_closedLoopEnabledCallbacks.Clear();
 m_pressureSwitchCallbacks.Clear();
 m_compressorCurrentCallbacks.Clear();
 HALSIM_ResetPCMData(Index);
@@ -173,40 +173,40 @@ m_compressorOnCallbacks.TryRemove(uid, out cb);
 }
 public bool GetCompressorOn() => HALSIM_GetPCMCompressorOn(Index);
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-internal delegate int HALSIM_RegisterPCMCloseLoopEnabledCallbackDelegate(int index, HAL_NotifyCallback callback, IntPtr param, bool initialNotify);
+internal delegate int HALSIM_RegisterPCMClosedLoopEnabledCallbackDelegate(int index, HAL_NotifyCallback callback, IntPtr param, bool initialNotify);
 [NativeDelegate]
-internal static HALSIM_RegisterPCMCloseLoopEnabledCallbackDelegate HALSIM_RegisterPCMCloseLoopEnabledCallback;
+internal static HALSIM_RegisterPCMClosedLoopEnabledCallbackDelegate HALSIM_RegisterPCMClosedLoopEnabledCallback;
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-internal delegate void HALSIM_CancelPCMCloseLoopEnabledCallbackDelegate(int index, int uid);
+internal delegate void HALSIM_CancelPCMClosedLoopEnabledCallbackDelegate(int index, int uid);
 [NativeDelegate]
-internal static HALSIM_CancelPCMCloseLoopEnabledCallbackDelegate HALSIM_CancelPCMCloseLoopEnabledCallback;
+internal static HALSIM_CancelPCMClosedLoopEnabledCallbackDelegate HALSIM_CancelPCMClosedLoopEnabledCallback;
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-internal delegate bool HALSIM_GetPCMCloseLoopEnabledDelegate(int index);
+internal delegate bool HALSIM_GetPCMClosedLoopEnabledDelegate(int index);
 [NativeDelegate]
-internal static HALSIM_GetPCMCloseLoopEnabledDelegate HALSIM_GetPCMCloseLoopEnabled;
-private readonly ConcurrentDictionary<int, HAL_NotifyCallback> m_closeLoopEnabledCallbacks = new ConcurrentDictionary<int, HAL_NotifyCallback>();
-public int RegisterPCMCloseLoopEnabledCallback(NotifyCallback callback, bool initialNotify)
+internal static HALSIM_GetPCMClosedLoopEnabledDelegate HALSIM_GetPCMClosedLoopEnabled;
+private readonly ConcurrentDictionary<int, HAL_NotifyCallback> m_closedLoopEnabledCallbacks = new ConcurrentDictionary<int, HAL_NotifyCallback>();
+public int RegisterPCMClosedLoopEnabledCallback(NotifyCallback callback, bool initialNotify)
 {
 HAL_NotifyCallback modCallback = (IntPtr namePtr, IntPtr param, ref HAL_Value value) =>
 {
 string varName = ReadUTF8String(namePtr);
 callback?.Invoke(varName, ref value);
 };
-int uid = HALSIM_RegisterPCMCloseLoopEnabledCallback(Index, modCallback, IntPtr.Zero, initialNotify);
-if (!m_closeLoopEnabledCallbacks.TryAdd(uid, modCallback))
+int uid = HALSIM_RegisterPCMClosedLoopEnabledCallback(Index, modCallback, IntPtr.Zero, initialNotify);
+if (!m_closedLoopEnabledCallbacks.TryAdd(uid, modCallback))
 {
-HALSIM_CancelPCMCloseLoopEnabledCallback(Index, uid);
+HALSIM_CancelPCMClosedLoopEnabledCallback(Index, uid);
 throw new ArgumentException("Key cannot be added multiple times to the dictionary");
 }
 return uid;
 }
-public void CancelPCMCloseLoopEnabledCallback(int uid)
+public void CancelPCMClosedLoopEnabledCallback(int uid)
 {
-HALSIM_CancelPCMCloseLoopEnabledCallback(Index, uid);
+HALSIM_CancelPCMClosedLoopEnabledCallback(Index, uid);
 HAL_NotifyCallback cb = null;
-m_closeLoopEnabledCallbacks.TryRemove(uid, out cb);
+m_closedLoopEnabledCallbacks.TryRemove(uid, out cb);
 }
-public bool GetCloseLoopEnabled() => HALSIM_GetPCMCloseLoopEnabled(Index);
+public bool GetClosedLoopEnabled() => HALSIM_GetPCMClosedLoopEnabled(Index);
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 internal delegate int HALSIM_RegisterPCMPressureSwitchCallbackDelegate(int index, HAL_NotifyCallback callback, IntPtr param, bool initialNotify);
 [NativeDelegate]

@@ -15,8 +15,8 @@ void PCMData::ResetData() {
   m_compressorInitializedCallbacks = nullptr;
   m_compressorOn = false;
   m_compressorOnCallbacks = nullptr;
-  m_closeLoopEnabled = false;
-  m_closeLoopEnabledCallbacks = nullptr;
+  m_closedLoopEnabled = false;
+  m_closedLoopEnabledCallbacks = nullptr;
   m_pressureSwitch = false;
   m_pressureSwitchCallbacks = nullptr;
   m_compressorCurrent = 0.0;
@@ -163,38 +163,38 @@ void PCMData::SetCompressorOn(HAL_Bool compressorOn) {
   }
 }
 
-int32_t PCMData::RegisterCloseLoopEnabledCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
+int32_t PCMData::RegisterClosedLoopEnabledCallback(HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
   // Must return -1 on a null callback for error handling
   if (callback == nullptr) return -1;
   int32_t newUid = 0;
  {
     std::lock_guard<std::mutex> lock(m_registerMutex);
-    m_closeLoopEnabledCallbacks = RegisterCallback(m_closeLoopEnabledCallbacks, "CloseLoopEnabled", callback, param, &newUid);
+    m_closedLoopEnabledCallbacks = RegisterCallback(m_closedLoopEnabledCallbacks, "ClosedLoopEnabled", callback, param, &newUid);
   }
   if (initialNotify) {
     // We know that the callback is not null because of earlier null check
-    HAL_Value value = MakeBoolean(GetCloseLoopEnabled());
-    callback("CloseLoopEnabled", param, &value);
+    HAL_Value value = MakeBoolean(GetClosedLoopEnabled());
+    callback("ClosedLoopEnabled", param, &value);
   }
   return newUid;
 }
 
-void PCMData::CancelCloseLoopEnabledCallback(int32_t uid) {
-  m_closeLoopEnabledCallbacks = CancelCallback(m_closeLoopEnabledCallbacks, uid);
+void PCMData::CancelClosedLoopEnabledCallback(int32_t uid) {
+  m_closedLoopEnabledCallbacks = CancelCallback(m_closedLoopEnabledCallbacks, uid);
 }
 
-void PCMData::InvokeCloseLoopEnabledCallback(HAL_Value value) {
-  InvokeCallback(m_closeLoopEnabledCallbacks, "CloseLoopEnabled", &value);
+void PCMData::InvokeClosedLoopEnabledCallback(HAL_Value value) {
+  InvokeCallback(m_closedLoopEnabledCallbacks, "ClosedLoopEnabled", &value);
 }
 
-HAL_Bool PCMData::GetCloseLoopEnabled() {
-  return m_closeLoopEnabled;
+HAL_Bool PCMData::GetClosedLoopEnabled() {
+  return m_closedLoopEnabled;
 }
 
-void PCMData::SetCloseLoopEnabled(HAL_Bool closeLoopEnabled) {
-  HAL_Bool oldValue = m_closeLoopEnabled.exchange(closeLoopEnabled);
-  if (oldValue != closeLoopEnabled) {
-    InvokeCloseLoopEnabledCallback(MakeBoolean(closeLoopEnabled));
+void PCMData::SetClosedLoopEnabled(HAL_Bool closedLoopEnabled) {
+  HAL_Bool oldValue = m_closedLoopEnabled.exchange(closedLoopEnabled);
+  if (oldValue != closedLoopEnabled) {
+    InvokeClosedLoopEnabledCallback(MakeBoolean(closedLoopEnabled));
   }
 }
 
@@ -321,16 +321,16 @@ HAL_Bool HALSIM_GetPCMCompressorOn(int32_t index) {
   return SimPCMData[index].GetCompressorOn();
 }
 
-int32_t HALSIM_RegisterPCMCloseLoopEnabledCallback(int32_t index, HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
-  return SimPCMData[index].RegisterCloseLoopEnabledCallback(callback, param, initialNotify);
+int32_t HALSIM_RegisterPCMClosedLoopEnabledCallback(int32_t index, HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {
+  return SimPCMData[index].RegisterClosedLoopEnabledCallback(callback, param, initialNotify);
 }
 
-void HALSIM_CancelPCMCloseLoopEnabledCallback(int32_t index, int32_t uid) {
-  SimPCMData[index].CancelCloseLoopEnabledCallback(uid);
+void HALSIM_CancelPCMClosedLoopEnabledCallback(int32_t index, int32_t uid) {
+  SimPCMData[index].CancelClosedLoopEnabledCallback(uid);
 }
 
-HAL_Bool HALSIM_GetPCMCloseLoopEnabled(int32_t index) {
-  return SimPCMData[index].GetCloseLoopEnabled();
+HAL_Bool HALSIM_GetPCMClosedLoopEnabled(int32_t index) {
+  return SimPCMData[index].GetClosedLoopEnabled();
 }
 
 int32_t HALSIM_RegisterPCMPressureSwitchCallback(int32_t index, HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify) {

@@ -24,9 +24,9 @@ int32_t HALSIM_RegisterPCMCompressorOnCallback(int32_t index, HAL_NotifyCallback
 void HALSIM_CancelPCMCompressorOnCallback(int32_t index, int32_t uid);
 HAL_Bool HALSIM_GetPCMCompressorOn(int32_t index);
 
-int32_t HALSIM_RegisterPCMCloseLoopEnabledCallback(int32_t index, HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify);
-void HALSIM_CancelPCMCloseLoopEnabledCallback(int32_t index, int32_t uid);
-HAL_Bool HALSIM_GetPCMCloseLoopEnabled(int32_t index);
+int32_t HALSIM_RegisterPCMClosedLoopEnabledCallback(int32_t index, HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify);
+void HALSIM_CancelPCMClosedLoopEnabledCallback(int32_t index, int32_t uid);
+HAL_Bool HALSIM_GetPCMClosedLoopEnabled(int32_t index);
 
 int32_t HALSIM_RegisterPCMPressureSwitchCallback(int32_t index, HAL_NotifyCallback callback, void* param, HAL_Bool initialNotify);
 void HALSIM_CancelPCMPressureSwitchCallback(int32_t index, int32_t uid);

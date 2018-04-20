@@ -59,6 +59,8 @@ namespace SimulatorGenerator
             DefFileWriter.Write(files);
             JavaClassGen.Write(files);
             JniGen.Write(files);
+            JavaOoClassGen.Write(files);
+            CppOoGen.Write(files);
 
             CSharpClassGenerator.Write(files);
         }

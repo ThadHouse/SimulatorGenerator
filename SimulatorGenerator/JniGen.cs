@@ -30,11 +30,11 @@ namespace SimulatorGenerator
 
             foreach (var dataFile in files)
             {
-                string nameWithSim = dataFile.Name.Replace("Data", "Sim");
+                string nameWithSim = dataFile.Name.Replace("Data", "DataJNI");
                 string nameWithoutData = dataFile.Name.Replace("Data", "");
 
                 StringBuilder builder = new StringBuilder();
-                builder.AppendLine($"#include \"edu_wpi_first_hal_sim_{nameWithSim}.h\"");
+                builder.AppendLine($"#include \"edu_wpi_first_hal_sim_mockdata_{nameWithSim}.h\"");
                 builder.AppendLine($"#include \"MockData/{dataFile.Name}.h\"");
                 builder.AppendLine("#include <jni.h>");
                 builder.AppendLine("#include \"CallbackStore.h\"");
@@ -52,32 +52,32 @@ namespace SimulatorGenerator
                     {
                         ret = make[variable.RetType];
                     }
-                    builder.AppendLine($"JNIEXPORT jint JNICALL Java_edu_wpi_first_hal_sim_{nameWithSim}_register{variable.Name}Callback");
+                    builder.AppendLine($"JNIEXPORT jint JNICALL Java_edu_wpi_first_hal_sim_mockdata_{nameWithSim}_register{variable.Name}Callback");
                     builder.AppendLine("  (JNIEnv * env, jclass, jint index, jobject callback, jboolean initialNotify) {");
                     builder.AppendLine($"  return sim::AllocateCallback(env, index, callback, initialNotify, &HALSIM_Register{nameWithoutData}{variable.Name}Callback);");
                     builder.AppendLine("}");
                     builder.AppendLine();
 
-                    builder.AppendLine($"JNIEXPORT void JNICALL Java_edu_wpi_first_hal_sim_{nameWithSim}_cancel{variable.Name}Callback");
+                    builder.AppendLine($"JNIEXPORT void JNICALL Java_edu_wpi_first_hal_sim_mockdata_{nameWithSim}_cancel{variable.Name}Callback");
                     builder.AppendLine("  (JNIEnv * env, jclass, jint index, jint handle) {");
                     builder.AppendLine($"  return sim::FreeCallback(env, handle, index, &HALSIM_Cancel{nameWithoutData}{variable.Name}Callback);");
                     builder.AppendLine("}");
                     builder.AppendLine();
 
-                    builder.AppendLine($"JNIEXPORT {ret} JNICALL Java_edu_wpi_first_hal_sim_{nameWithSim}_get{variable.Name}");
+                    builder.AppendLine($"JNIEXPORT {ret} JNICALL Java_edu_wpi_first_hal_sim_mockdata_{nameWithSim}_get{variable.Name}");
                     builder.AppendLine("  (JNIEnv *, jclass, jint index) {");
                     builder.AppendLine($"  return HALSIM_Get{nameWithoutData}{variable.Name}(index);");
                     builder.AppendLine("}");
                     builder.AppendLine();
 
-                    builder.AppendLine($"JNIEXPORT void JNICALL Java_edu_wpi_first_hal_sim_{nameWithSim}_set{variable.Name}");
+                    builder.AppendLine($"JNIEXPORT void JNICALL Java_edu_wpi_first_hal_sim_mockdata_{nameWithSim}_set{variable.Name}");
                     builder.AppendLine($"  (JNIEnv *, jclass, jint index, {ret} value) {{");
                     builder.AppendLine($"  HALSIM_Set{nameWithoutData}{variable.Name}(index, value);");
                     builder.AppendLine("}");
                     builder.AppendLine();
                 }
 
-                builder.AppendLine($"JNIEXPORT void JNICALL Java_edu_wpi_first_hal_sim_{nameWithSim}_resetData");
+                builder.AppendLine($"JNIEXPORT void JNICALL Java_edu_wpi_first_hal_sim_mockdata_{nameWithSim}_resetData");
                 builder.AppendLine("  (JNIEnv*, jclass, jint index) {");
                 builder.AppendLine($"  HALSIM_Reset{dataFile.Name.Replace("Data", "")}Data(index);");
                 builder.AppendLine("}");
