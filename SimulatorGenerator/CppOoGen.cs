@@ -39,6 +39,7 @@ namespace SimulatorGenerator
                 builder.AppendLine("#ifndef __FRC_ROBORIO__");
                 builder.AppendLine();
                 builder.AppendLine($"#include \"MockData/{dataFile.Name}.h\"");
+                builder.AppendLine("#include <memory>");
                 builder.AppendLine("#include \"CallbackStore.h\"");
 
 
@@ -57,9 +58,9 @@ namespace SimulatorGenerator
                 foreach (var variable in dataFile.Variables)
                 {
                     string nameWithLowerCase = variable.Name[0].ToString().ToLower() + variable.Name.Substring(1);
-                    builder.AppendLine($"  CallbackUniquePtr Register{variable.Name}Callback(NotifyCallback callback, bool initialNotify) {{");
-                    builder.AppendLine($"    CallbackUniquePtr store(new CallbackStore<CancelCallbackFunc>(m_index, -1, callback, &HALSIM_Cancel{nameWithoutData}{variable.Name}Callback), &CallbackStoreCancel);");
-                    builder.AppendLine($"    store->uid = HALSIM_Register{nameWithoutData}{variable.Name}Callback(m_index, &CallbackStoreThunk, store.get(), initialNotify);");
+                    builder.AppendLine($"  std::unique_ptr<CallbackStore> Register{variable.Name}Callback(NotifyCallback callback, bool initialNotify) {{");
+                    builder.AppendLine($"    auto store = std::make_unique<CallbackStore>(m_index, -1, callback, &HALSIM_Cancel{nameWithoutData}{variable.Name}Callback);");
+                    builder.AppendLine($"    store->setUid(HALSIM_Register{nameWithoutData}{variable.Name}Callback(m_index, &CallbackStoreThunk, store.get(), initialNotify));");
                     builder.AppendLine($"    return std::move(store);");
                     builder.AppendLine("  }");
                     //builder.AppendLine($"  int Register{variable.Name}Callback(HAL_NotifyCallback callback, void* param, bool initialNotify) {{");

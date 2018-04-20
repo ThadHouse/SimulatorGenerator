@@ -34,7 +34,7 @@ namespace SimulatorGenerator
                 string nameWithDataJNI = dataFile.Name.Replace("Data", "DataJNI");
 
                 StringBuilder builder = new StringBuilder();
-                builder.AppendLine("package edu.wpi.first.hal.sim;");
+                builder.AppendLine("package edu.wpi.first.wpilibj.sim;");
                 builder.AppendLine();
                 builder.AppendLine($"import edu.wpi.first.hal.sim.mockdata.{nameWithDataJNI};");
 
@@ -52,10 +52,10 @@ namespace SimulatorGenerator
                 foreach (var variable in dataFile.Variables)
                 {
                     string nameWithLowerCase = variable.Name[0].ToString().ToLower() + variable.Name.Substring(1);
-                    builder.AppendLine($"  public CallbackStore ")
-                    //builder.AppendLine($"  public int register{variable.Name}Callback(NotifyCallback callback, boolean initialNotify) {{");
-                    //builder.AppendLine($"    return {nameWithDataJNI}.register{variable.Name}Callback(m_index, callback, initialNotify);");
-                    //builder.AppendLine("  }");
+                    builder.AppendLine($"  public CallbackStore register{variable.Name}Callback(NotifyCallback callback, boolean initialNotify) {{");
+                    builder.AppendLine($"    int uid = {nameWithDataJNI}.register{variable.Name}Callback(m_index, callback, initialNotify);");
+                    builder.AppendLine($"    return new CallbackStore(m_index, uid, callback, {nameWithDataJNI}::cancel{variable.Name}Callback);");
+                    builder.AppendLine("  }");
 
 
                     //builder.AppendLine($"  public void cancel{variable.Name}Callback(int uid) {{");

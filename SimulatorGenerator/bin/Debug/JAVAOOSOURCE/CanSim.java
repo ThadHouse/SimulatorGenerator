@@ -1,6 +1,5 @@
-package edu.wpi.first.hal.sim;
+package edu.wpi.first.wpilibj.sim;
 
-import edu.wpi.first.hal.sim.NotifyCallback;
 import edu.wpi.first.hal.sim.mockdata.CanDataJNI;
 
 public class CanSim {
@@ -10,11 +9,9 @@ public class CanSim {
     m_index = index;
   }
 
-  public int registerCanSendMessageCallback(NotifyCallback callback, boolean initialNotify) {
-    return CanDataJNI.registerCanSendMessageCallback(m_index, callback, initialNotify);
-  }
-  public void cancelCanSendMessageCallback(int uid) {
-    CanDataJNI.cancelCanSendMessageCallback(m_index, uid);
+  public CallbackStore registerCanSendMessageCallback(NotifyCallback callback, boolean initialNotify) {
+    int uid = CanDataJNI.registerCanSendMessageCallback(m_index, callback, initialNotify);
+    return new CallbackStore(m_index, uid, callback, CanDataJNI::cancelCanSendMessageCallback);
   }
   public double getCanSendMessage() {
     return CanDataJNI.getCanSendMessage(m_index);
@@ -23,11 +20,9 @@ public class CanSim {
     CanDataJNI.setCanSendMessage(m_index, canSendMessage);
   }
 
-  public int registerCanReceiveMessageCallback(NotifyCallback callback, boolean initialNotify) {
-    return CanDataJNI.registerCanReceiveMessageCallback(m_index, callback, initialNotify);
-  }
-  public void cancelCanReceiveMessageCallback(int uid) {
-    CanDataJNI.cancelCanReceiveMessageCallback(m_index, uid);
+  public CallbackStore registerCanReceiveMessageCallback(NotifyCallback callback, boolean initialNotify) {
+    int uid = CanDataJNI.registerCanReceiveMessageCallback(m_index, callback, initialNotify);
+    return new CallbackStore(m_index, uid, callback, CanDataJNI::cancelCanReceiveMessageCallback);
   }
   public double getCanReceiveMessage() {
     return CanDataJNI.getCanReceiveMessage(m_index);
@@ -36,11 +31,9 @@ public class CanSim {
     CanDataJNI.setCanReceiveMessage(m_index, canReceiveMessage);
   }
 
-  public int registerCanOpenStreamCallback(NotifyCallback callback, boolean initialNotify) {
-    return CanDataJNI.registerCanOpenStreamCallback(m_index, callback, initialNotify);
-  }
-  public void cancelCanOpenStreamCallback(int uid) {
-    CanDataJNI.cancelCanOpenStreamCallback(m_index, uid);
+  public CallbackStore registerCanOpenStreamCallback(NotifyCallback callback, boolean initialNotify) {
+    int uid = CanDataJNI.registerCanOpenStreamCallback(m_index, callback, initialNotify);
+    return new CallbackStore(m_index, uid, callback, CanDataJNI::cancelCanOpenStreamCallback);
   }
   public double getCanOpenStream() {
     return CanDataJNI.getCanOpenStream(m_index);
@@ -49,11 +42,9 @@ public class CanSim {
     CanDataJNI.setCanOpenStream(m_index, canOpenStream);
   }
 
-  public int registerCanCloseStreamCallback(NotifyCallback callback, boolean initialNotify) {
-    return CanDataJNI.registerCanCloseStreamCallback(m_index, callback, initialNotify);
-  }
-  public void cancelCanCloseStreamCallback(int uid) {
-    CanDataJNI.cancelCanCloseStreamCallback(m_index, uid);
+  public CallbackStore registerCanCloseStreamCallback(NotifyCallback callback, boolean initialNotify) {
+    int uid = CanDataJNI.registerCanCloseStreamCallback(m_index, callback, initialNotify);
+    return new CallbackStore(m_index, uid, callback, CanDataJNI::cancelCanCloseStreamCallback);
   }
   public double getCanCloseStream() {
     return CanDataJNI.getCanCloseStream(m_index);
@@ -62,11 +53,9 @@ public class CanSim {
     CanDataJNI.setCanCloseStream(m_index, canCloseStream);
   }
 
-  public int registerCanReadStreamCallback(NotifyCallback callback, boolean initialNotify) {
-    return CanDataJNI.registerCanReadStreamCallback(m_index, callback, initialNotify);
-  }
-  public void cancelCanReadStreamCallback(int uid) {
-    CanDataJNI.cancelCanReadStreamCallback(m_index, uid);
+  public CallbackStore registerCanReadStreamCallback(NotifyCallback callback, boolean initialNotify) {
+    int uid = CanDataJNI.registerCanReadStreamCallback(m_index, callback, initialNotify);
+    return new CallbackStore(m_index, uid, callback, CanDataJNI::cancelCanReadStreamCallback);
   }
   public double getCanReadStream() {
     return CanDataJNI.getCanReadStream(m_index);
@@ -75,11 +64,9 @@ public class CanSim {
     CanDataJNI.setCanReadStream(m_index, canReadStream);
   }
 
-  public int registerCanGetCanStatusCallback(NotifyCallback callback, boolean initialNotify) {
-    return CanDataJNI.registerCanGetCanStatusCallback(m_index, callback, initialNotify);
-  }
-  public void cancelCanGetCanStatusCallback(int uid) {
-    CanDataJNI.cancelCanGetCanStatusCallback(m_index, uid);
+  public CallbackStore registerCanGetCanStatusCallback(NotifyCallback callback, boolean initialNotify) {
+    int uid = CanDataJNI.registerCanGetCanStatusCallback(m_index, callback, initialNotify);
+    return new CallbackStore(m_index, uid, callback, CanDataJNI::cancelCanGetCanStatusCallback);
   }
   public double getCanGetCanStatus() {
     return CanDataJNI.getCanGetCanStatus(m_index);
