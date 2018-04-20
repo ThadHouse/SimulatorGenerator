@@ -36,7 +36,6 @@ namespace SimulatorGenerator
                 StringBuilder builder = new StringBuilder();
                 builder.AppendLine("package edu.wpi.first.hal.sim;");
                 builder.AppendLine();
-                builder.AppendLine("import edu.wpi.first.hal.sim.NotifyCallback;");
                 builder.AppendLine($"import edu.wpi.first.hal.sim.mockdata.{nameWithDataJNI};");
 
                 builder.AppendLine();
@@ -53,14 +52,15 @@ namespace SimulatorGenerator
                 foreach (var variable in dataFile.Variables)
                 {
                     string nameWithLowerCase = variable.Name[0].ToString().ToLower() + variable.Name.Substring(1);
-                    builder.AppendLine($"  public int register{variable.Name}Callback(NotifyCallback callback, boolean initialNotify) {{");
-                    builder.AppendLine($"    return {nameWithDataJNI}.register{variable.Name}Callback(m_index, callback, initialNotify);");
-                    builder.AppendLine("  }");
+                    builder.AppendLine($"  public CallbackStore ")
+                    //builder.AppendLine($"  public int register{variable.Name}Callback(NotifyCallback callback, boolean initialNotify) {{");
+                    //builder.AppendLine($"    return {nameWithDataJNI}.register{variable.Name}Callback(m_index, callback, initialNotify);");
+                    //builder.AppendLine("  }");
 
 
-                    builder.AppendLine($"  public void cancel{variable.Name}Callback(int uid) {{");
-                    builder.AppendLine($"    {nameWithDataJNI}.cancel{variable.Name}Callback(m_index, uid);");
-                    builder.AppendLine("  }");
+                    //builder.AppendLine($"  public void cancel{variable.Name}Callback(int uid) {{");
+                    //builder.AppendLine($"    {nameWithDataJNI}.cancel{variable.Name}Callback(m_index, uid);");
+                    //builder.AppendLine("  }");
 
                     string ret = variable.RetType;
 

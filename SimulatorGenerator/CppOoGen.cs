@@ -36,7 +36,10 @@ namespace SimulatorGenerator
                 StringBuilder builder = new StringBuilder();
                 builder.AppendLine("#pragma once");
                 builder.AppendLine();
+                builder.AppendLine("#ifndef __FRC_ROBORIO__");
+                builder.AppendLine();
                 builder.AppendLine($"#include \"MockData/{dataFile.Name}.h\"");
+                builder.AppendLine("#include \"CallbackStore.h\"");
 
 
                 builder.AppendLine();
@@ -54,14 +57,19 @@ namespace SimulatorGenerator
                 foreach (var variable in dataFile.Variables)
                 {
                     string nameWithLowerCase = variable.Name[0].ToString().ToLower() + variable.Name.Substring(1);
-                    builder.AppendLine($"  int Register{variable.Name}Callback(HAL_NotifyCallback callback, void* param, bool initialNotify) {{");
-                    builder.AppendLine($"    return HALSIM_Register{nameWithoutData}{variable.Name}Callback(m_index, callback, param, initialNotify);");
+                    builder.AppendLine($"  CallbackUniquePtr Register{variable.Name}Callback(NotifyCallback callback, bool initialNotify) {{");
+                    builder.AppendLine($"    CallbackUniquePtr store(new CallbackStore<CancelCallbackFunc>(m_index, -1, callback, &HALSIM_Cancel{nameWithoutData}{variable.Name}Callback), &CallbackStoreCancel);");
+                    builder.AppendLine($"    store->uid = HALSIM_Register{nameWithoutData}{variable.Name}Callback(m_index, &CallbackStoreThunk, store.get(), initialNotify);");
+                    builder.AppendLine($"    return std::move(store);");
                     builder.AppendLine("  }");
+                    //builder.AppendLine($"  int Register{variable.Name}Callback(HAL_NotifyCallback callback, void* param, bool initialNotify) {{");
+                    //builder.AppendLine($"    return HALSIM_Register{nameWithoutData}{variable.Name}Callback(m_index, callback, param, initialNotify);");
+                    //builder.AppendLine("  }");
 
 
-                    builder.AppendLine($"  void Cancel{variable.Name}Callback(int uid) {{");
-                    builder.AppendLine($"    HALSIM_Cancel{nameWithoutData}{variable.Name}Callback(m_index, uid);");
-                    builder.AppendLine("  }");
+                    //builder.AppendLine($"  void Cancel{variable.Name}Callback(int uid) {{");
+                    //builder.AppendLine($"    HALSIM_Cancel{nameWithoutData}{variable.Name}Callback(m_index, uid);");
+                    //builder.AppendLine("  }");
 
                     string ret = variable.RetType;
 
@@ -87,8 +95,9 @@ namespace SimulatorGenerator
                 builder.AppendLine("  int m_index;");
                 builder.AppendLine("};");
 
-                builder.AppendLine("}");
-                builder.AppendLine("}");
+                builder.AppendLine("} // namespace sim");
+                builder.AppendLine("} // namespace frc");
+                builder.AppendLine("#endif // __FRC_ROBORIO__");
 
 
                 ;
